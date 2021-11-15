@@ -28,11 +28,9 @@ public class DrawProgram {
 					break;
 				}
 				//사각형 or 타원을 그리고 배열에 저장하는 메소드
-//				shape = drawMenu(shape, sc, cnt);
 				drawMenu(shape, sc, cnt);
 				//현재까지 배열에 등록된 길이만큼의 cnt를 구하는 메소드
 				cnt = shapeCnt(shape);
-//				System.out.println("배열에 등록된 도형의 개수 : "+cnt);
 				break;
 				
 				
@@ -80,6 +78,8 @@ public class DrawProgram {
 	public static void drawMenu(ExaShape[] shape, Scanner sc, int cnt) {
 		//현재 가리키고 있는 cnt번지의 배열칸이 null인지 확인
 		//(!null)인 경우, 실행취소하고 아직 지워지지 않은 도형이 남아있다는 것이므로 청소싹싹 해줘야함
+		
+		//강사님코멘트)cnt번지에는 어차피 내가 새로 그린게 들어갈것이므로 cnt+1번지부터 저장하는게 좀 더 효율적일 수 있다.
 		if(shape[cnt]!=null) {
 			System.out.println("뒷부분이 null이 아닙니다!!!");
 			//null이 아니라면 cnt 다음 번지부터 끝까지 null인지 아닌지 확인하면서 전부 null으로 변환해줌
