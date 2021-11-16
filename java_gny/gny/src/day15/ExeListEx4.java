@@ -17,7 +17,7 @@ public class ExeListEx4 {
 			String todo = sc.nextLine();
 //			ExeToDo todoObj = new ExeToDo(time, todo);
 //			todoList2.add(todoObj);
-			todoList2.add(new ExeToDo(time, todo))
+			todoList2.add(new ExeToDo(time, todo));
 			
 //			todoList2.add(new ExeToDo(sc.nextLine(), sc.nextLine()));//내가원래했던건데....time이 추가될줄 몰랏엇어 ㅎ
 		}
