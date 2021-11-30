@@ -8,7 +8,7 @@
 	2년차 사원 홍길동의 월급은? 220만원
 */
 
-
+create database company;
 CREATE TABLE `company`.`employee` (
   `em_num` INT NOT NULL,
   `em_reg_num` CHAR(14) NOT NULL,
@@ -20,6 +20,23 @@ CREATE TABLE `company`.`employee` (
   PRIMARY KEY (`em_num`),
   UNIQUE INDEX `em_reg_num_UNIQUE` (`em_reg_num` ASC) VISIBLE);
 -- 생성시에 외래키 설정 빠짐(아직 다른 테이블을 안 만들었으므로)
+
+
+CREATE TABLE `company`.`department` (
+  `de_department` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`de_department`));
+
+
+CREATE TABLE `company`.`salary` (
+  `sa_level` CHAR(4) NOT NULL,
+  `sa_base_salary` INT NOT NULL,
+  `sa_add_salary` INT NOT NULL,
+  PRIMARY KEY (`sa_level`));
+
+
+
+
+
 
 -- em_sa_level 이 클릭으로 안돼서 이렇게함... 강사님꺼랑 비교해보기
 ALTER TABLE `company`.`employee` 
@@ -38,14 +55,3 @@ ADD CONSTRAINT `em_de_department`
   ON DELETE SET NULL
   ON UPDATE SET NULL;
 
-
-CREATE TABLE `company`.`department` (
-  `de_department` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`de_department`));
-
-
-CREATE TABLE `company`.`salary` (
-  `sa_level` CHAR(4) NOT NULL,
-  `sa_base_salary` INT NOT NULL,
-  `sa_add_salary` INT NOT NULL,
-  PRIMARY KEY (`sa_level`));
