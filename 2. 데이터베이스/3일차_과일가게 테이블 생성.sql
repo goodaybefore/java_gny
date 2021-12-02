@@ -1,4 +1,3 @@
-drop database fruit_store;
 CREATE DATABASE fruit_ny;
 use fruit_ny;
 
