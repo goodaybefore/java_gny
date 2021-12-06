@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>absolute 예제</title>
+</head>
+<style>
+	header{
+		height: 60px;
+		background : gray;
+	}
+	main{
+		height: 1000px;
+		background : yellow;
+	}
+	footer{
+		height: 100px;
+		background : whitesmoke;
+	}
+	.logo{
+		width: 80px;
+		height: 50px;
+		background : #0f0;
+		position: absolute; top: 0; left: 0;
+	}
+	.box{
+		background: red;
+		/* 위에처럼 이렇게만 적으면 box에 내용이 없으면 화면에 암것도 안나타남 */
+
+		position: absolute; bottom: 100px; top: 100px; left: 50px; right: 50px;
+		/* width/height 지정 없이 top bottom left right로 크기 지정하기 */
+	}
+	/* body{
+		position: relative;
+	} */
+</style>
+<body>
+	<header>헤더</header>
+	<main>메인</main>
+	<footer>푸터</footer>
+	<div class="logo">로고</div>
+	<div class="box"></div>
+</body>
+</html>

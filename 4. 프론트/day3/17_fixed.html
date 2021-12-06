@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>위로가기 예제</title>
+	<style>
+		body{
+			height: 1000px;
+		}
+		#up{
+			width: 50px;
+			height: 50px;
+			background: green;
+			box-sizing: border-box;
+			border-radius: 25px;
+			text-align: center; 
+			position: fixed; bottom: 10px; right: 10px;
+
+			/* 강사님 */
+			width: 50px; height: 50px; background: green; display: inline-block;
+			border-radius: 25px; color: white; font-weight: bold;
+			text-align: center; text-decoration: none;
+			line-height: 50px; position: fixed; bottom: 10px; right: 10px;
+		}
+	</style>
+</head>
+<body id="top">
+	맨위 입니다
+	<!-- <div class="up"><a href="#body" class="up_text">UP</a></div> -->
+	<a href="#top" id="up" style="display: inline-block;">UP</a>
+	<!-- body태그의 높이를 1000px로 잡고, 위로가기 버튼을 만드세요
+			 위로가기 버튼은 브라우저 하단 오른쪽에서 10px, 아래에서 10px지점에 배치
+			 버튼을 클릭하면 위로 가도록 작성해보세요 
+			 버튼크기는 가로 세로 50px, green 색상, 원모양-->
+	
+	
+</body>
+</html>
