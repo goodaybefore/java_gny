@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear 예제</title>
+    <style>
+        .box{   border: 3px solid black;    }
+        .left-box{
+            background: yellow; width: 200px; height: 100px;
+            float: left;
+        }
+        .right-box{
+            background: green; width: 200px; height: 150px;
+            float: right;
+        }
+
+        /* clear : left
+            => float으로 된 요소 중 왼쪽을 기준으로 부모의 높이를 잡음 
+            clear : right
+            => float으로 된 요소 중 오른쪽을 기준으로 부모의 높이를 잡음 
+            clear : both
+            => float으로 된 요소 중 가장 아래를 기준으로 부모의 높이를 잡음 
+            */
+        
+
+
+        /* 왼쪽을기준으로 뉴스내용이 나옴 */
+        /* .box::after{
+            clear: left; content: ''; display: block;
+        } */
+
+        /* 오른쪽을 기준으로 나옴 */
+        /* .box::after{
+            clear: right; content: ''; display: block;
+        } */
+
+        /* 양쪽 중 가장 아래쪽을 기준으로 출력 */
+        .box::after{
+            clear: both; content: ''; display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="left-box"></div>
+        <div class="right-box"></div>
+    </div>
+    <div>
+        손흥민의 소속팀 토트넘에서 코로나19 확진자가 발생했다는 보도가 전해졌다.
+ 
+영국 풋볼런던은 7일(한국시간) "토트넘 선수와 코칭스태프 중 여러 명이 코로나19 양성 반응을 보였다"고 전했다. 토트넘 구단은 이와 관련해 아직 공식 발표를 하진 않았다.
+ 
+프리미어리그 사무국이 발표한 검사 결과도 전해졌다. 11월 29일부터 12월 5일 사이 진행된 검사에서 12명이 양성 판정을 받았다. 프리미어리그 사무국은 구단과 선수에 대한 내용은 발표하지 않는다. 하지만 영국 언론들은 그 중 6명이 토트넘 소속이라고 보도했다.
+
+ 
+3일 브렌트포드전과 5일 노리치시티전을 소화한 토트넘은 10일 렌(프랑스)과 유럽축구연맹(UEFA) 유로파 콘퍼런스리그 조별리그를 앞두고 있다. 이어 12일에는 브라이턴 앤드 호브 앨비언, 17일에는 레스터 시티와 잉글랜드 프리미어리그(EPL) 경기를 치르는 등 1월에만 9경기를 하는 강행군 중이다.
+ 
+풋볼런던은 "경기 연기에 대한 결정에 앞서 코로나19 양성 반응을 보인 이들이 PCR(유전자증폭) 검사를 추가로 받게 될 것"이라고 했다. 토트넘은 지난 10월에도 두 명의 선수가 검사 오류로 코로나19 양성 반응을 보였다. 당시 영국 언론들은 손흥민을 코로나19 확진자로 언급했으나, 추가 분석결과 PCR 검사 과정의 오류임이 확인됐다.
+
+    </div>
+</body>
+</html>

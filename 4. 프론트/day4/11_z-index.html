@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>z-index 예제</title>
+    <style>
+        .box{
+            height: 100px; background: yellow; z-index: 10;
+            /* position: relative; */
+        }
+        .logo{
+            height: 50px; white-space: 150px; background: green;
+            position: absolute; top: 33px; left: 33px;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- z-index가 놓아도  position이 static이면 postion이 absolute인 요소 아래에 배치됨 -->
+    <!-- 이 때 position이 static인 요소를 위로 올리고싶으면 position을 relative로 수정함 -->
+    <div class="box"></div>
+    <div class="logo">LOGO</div>
+
+</body>
+</html>

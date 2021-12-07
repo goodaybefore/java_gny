@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테이블 관련 속성 예제</title>
+    <style>
+        table{ border-collapse: collapse; width: 100%;}
+        td, th{
+            
+            width: calc(100% / 3);
+            height: 40px;
+            /*border: 1px solid black; border-right: none; border-left: none; */
+        }
+        tr{
+            border-top: 1px solid black; border-bottom: 1px solid black;
+        }
+        /* table, td, th{
+            border-right-color: #00ff0000;
+            border-left-color: #00ff0000;
+        } */
+        tbody>tr:hover{
+            background: yellow;
+        }
+
+        /* 이건thead 설정 안했을때 ㅇㅅㅇ */
+        /* tr:nth-child(1):hover{
+            background: transparent;
+        } */
+        
+        
+    </style>
+</head>
+<body> 
+    <table>
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>과목</th>
+                <th>성적</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>홍길동</td>
+                <td>HTML</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>임꺽정</td>
+                <td>HTML</td>
+                <td>90</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

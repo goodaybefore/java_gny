@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예제</title>
+    <style>
+        .box1{
+            border: 3px solid red;
+            position: relative;
+            padding: 10px 10px 10px 10px;
+            box-sizing: border-box;
+        }
+        .box1-1, .box1-2{
+            height: 300px;
+            border: 3px solid skyblue;
+            box-sizing: border-box;
+        }
+        .box1-2{
+            border-color: green; margin-top: 10px;
+
+        }
+        /* .box1-2{
+            height: 300px;
+            border: 3px solid green;
+        } */
+        .box2-1, .box2-2{
+            height: 300px;
+            border: 3px solid skyblue;
+            box-sizing: border-box;
+        }
+        .box2-2, .box2-1 :nth-child(1){
+            border-color: green; margin-top: 10px;
+
+        }
+    </style>
+</head>
+<body>
+    <!-- 클래스 이름을 다르게해서 배치 -->
+    <!-- <div class="box1">
+        <div class="box1-1"></div>
+        <div class="box1-2"></div>
+    </div> -->
+    <!-- 클래스이름을 같게해서 배치 -->
+    <div class="box2">
+        <div class="box2-1" ></div>
+        <div class="box2-2"></div>
+    </div>
+</body>
+</html>
