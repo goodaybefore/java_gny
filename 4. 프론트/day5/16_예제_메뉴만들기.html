@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>메뉴만들기 예제</title>
+	<style>
+		ul{ list-style: none;	padding: 0;}
+		.menu-link{	text-decoration: none;	color: red; font-weight: bold; font-size: 25px;}
+		.menu-item{
+			border: 3px solid red;
+			box-sizing: border-box;
+			width: 150px; height: 100px;
+			text-align: center; line-height: calc(100px - 6px);
+			/* display: block; */
+			border-bottom: none;
+		}
+		.menu-item:last-child{
+			border-bottom: 3px solid red;
+		}
+
+	</style>
+</head>
+<body>
+	<ul>
+		<li class="menu-item"><a href="#" class="menu-link">메뉴1</a></li>
+		<li class="menu-item"><a href="#" class="menu-link">메뉴2</a></li>
+		<li class="menu-item"><a href="#" class="menu-link">메뉴3</a></li>
+
+	</ul>
+	
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>input 입력창 예제</title>
+</head>
+<style>
+	/* body{	float:left;} */
+	/* 내가한거(쪼꼼모자람ㅎㅎ) */
+	/* *{box-sizing: border-box;}
+	.box1{
+			border: 3px solid red;
+			float: left;
+			text-align: center;
+			box-sizing: border-box;
+			width: 100%;
+		}
+		.box2{
+			border: 3px solid blue;
+			box-sizing: border-box;
+			float: right;
+			margin: 0;
+			height: 70px;
+		}
+		input[type=text]{
+			border: 3px solid skyblue;
+			height: 50px;
+			font-size: 20px;
+			margin: 10px;
+			float: left;
+		}
+		button{
+			height: 100%;
+		} */
+
+		/* 강사님 */
+		.form-search{
+			height: 50px;
+			/* input과 btn을 absolute로 지정하려고 form을 relative로 설정해줌 */
+			position: relative;
+			/* line-height: 50px; */
+		}
+		.box-search{
+			height: 50px;
+			box-sizing: border-box;
+			border: 3px solid red;
+			
+		}
+		.input-search{
+			height: 30px; font-size: 28px;
+			position: absolute; border: none;
+			top: calc(50% - 15px - 2px); left: 10px; right: 20px;
+			width: calc(100% - 70px);
+			
+		}
+		.input-search:focus{	outline: none;		}
+		.btn-search{
+			width: 50px; height: 50px; box-sizing: border-box; border: 2px solid blue; 
+			position: absolute;
+			right: 0; top: 0;
+			background: blue; color: white; font-weight: bold;
+
+
+		}
+</style>
+<body>
+	<!-- 내가한것 쪼꼼모자름 -->
+	<!-- <div class="box1">
+		<input type="text">
+		<div class="box2">
+			<button>검색</button>
+		</div>
+	</div> -->
+	<form action="" class="form-search">
+		<div class="box-search">
+			<input type="text" class="input-search" >
+			<button class="btn-search">검색</button>
+		</div>
+	</form>
+	
+	
+</body>
+</html>

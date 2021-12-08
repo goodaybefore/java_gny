@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>display : flext 예제</title>
+	<style>
+		.box{
+			display: flex;
+			/* display: flex;만 하면 디게 짝게 나란히 합쳐짐
+				 inner box의 크기를 지정해줘야함 => width:100%를 추가해줌 */
+
+		}
+		.inner-box, .inner-box2{
+			height: 50px; border: 1px solid black; line-height: 50px; text-align: center;
+			width: 100%;
+		}
+		.inner-box:first-child{
+			width: 200%;
+		}
+		.inner-box2{
+			width: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="inner-box">1</div>
+		<div class="inner-box">2</div>
+		<div class="inner-box">3</div>
+	</div>
+	<div class="box">
+		<div class="inner-box2">1</div>
+		<div class="inner-box2">2</div>
+		<div class="inner-box2">3</div>
+	</div>
+</body>
+</html>

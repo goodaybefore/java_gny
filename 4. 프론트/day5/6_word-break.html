@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>word-break 예제</title>
+	<style>
+		div{	border: 2px solid black; font-size: 40px; margin-bottom: 10px;}
+		.box1{	word-break: normal;	}
+		.box2{	word-break: break-all;	}
+		.box3{	word-break: keep-all;	}
+	</style>
+</head>
+<body>
+	<div class="box1">
+		normal
+		abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz
+		가나다 라마바사 아자차카 타파하 가나다 라마바사 아자차카 타파하
+	</div>
+	<div class="box2">
+		break-all
+		abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz
+		가나다 라마바사 아자차카 타파하 가나다 라마바사 아자차카 타파하
+	</div>
+	<div class="box3">
+		keep-all
+		abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz
+		가나다 라마바사 아자차카 타파하 가나다 라마바사 아자차카 타파하
+	</div>
+
+</body>
+</html>
