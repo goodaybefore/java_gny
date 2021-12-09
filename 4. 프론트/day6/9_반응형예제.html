@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응형 화면 구성</title>
+    <style>
+        *{padding: 0; margin: 0;}
+        a{  color: black; text-decoration: none;}
+        .menu{list-style: none;}
+        .menu-link{ width: 100%; height: 100%; display: block;}
+        /* .menu-item{
+            border: 3px solid black;
+            box-sizing: border-box;
+            width: calc(100% / 3); height: 70px;
+            float: left; border-left: none;
+            text-align: center; line-height: 64px; font-weight: bold; font-size: 25px;
+        }
+        
+        .menu-item:first-child{ border-left: 3px solid black;   }
+        @media screen and (max-width : 800px) {
+            .menu-item{
+                float: none;
+                height: 70px;
+                line-height: 64px;
+                border: 3px solid black;
+                border-top : none;
+            }
+            .menu-item:first-child{border-top: 3px solid black;}
+        } */
+        
+
+        /*  강사님 */
+        .menu-link{
+                width: 100%; height: 100%; text-align: center; display: block; line-height: 64px;
+            }
+        @media screen and (max-width : 800px){
+            .menu{display: flex;}
+            .menu-item{ 
+                width: 100%; height: 70px; box-sizing: border-box; overflow: hidden;
+                border: 3px solid red; border-right: none;
+            }
+            .menu-item:last-child{  border-right: 3px solid red;}
+            .contents-box{
+                border: 3px solid skyblue;
+                height: 700px;
+            }
+            
+        }
+        @media screen and (min-width : 800px) {
+            .menu{  width: 300px; float: left;}
+            .menu-item{
+                height: 70px; box-sizing: border-box; overflow: hidden;
+                border: 3px solid red; border-bottom: none;
+            }
+            .menu-item:last-child{  border-bottom: 3px solid red;}
+            .contents-box{
+                border: 3px solid skyblue;
+                height: 700px;
+                float: right;
+                margin-left: 10px; margin-right: 10px;
+                width: calc(100% - 320px); box-sizing: border-box;
+
+            }
+        }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li class="menu-item"><a href="#" class="menu-link">메뉴1</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">메뉴2</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">메뉴3</a></li>
+    </ul>
+    <div class="contents-box"></div>
+    
+</body>
+</html>

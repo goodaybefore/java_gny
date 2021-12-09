@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박스 배치 예제</title>
+    <style>
+        /* 내가한것 : box1과 2 사이에 애매한 여백말곤 잘 됨 */
+        /* body{   text-align: center;}
+        .box1{  
+            width: 1190px;  border: 3px solid red; height: 50px;
+            box-sizing: border-box;
+            display: inline-block;
+        }
+        .box2{  width: 100%; height : 50px; border: 3px solid black; box-sizing: border-box;    }
+        .box3{
+            border: 3px solid red;
+            text-align: center;
+            box-sizing: border-box;
+            display: inline-block;
+        }
+        .box3-1, .box3-2{   
+            border: 3px solid skyblue; height: 500px; box-sizing: border-box;
+            display: inline-block;
+            margin: 20px 30px;
+        }
+        .box3-1{
+            width: 750px;
+            border: 3px solid green;
+            margin-right: 0;
+        }
+        .box3-2{
+            width: 350px;
+            margin-left: 20px;
+        } */
+
+        /* 강사님 */
+        *{  padding: 0; margin: 0;}
+        .box1{
+            width: 1190px; height: 50px; background: red;
+            box-sizing: border-box;
+            /* 가운데정렬 */
+            margin : 0 auto;
+        }
+        .box2{
+            min-width: 1190px; height: 50px; background: blue;
+            box-sizing: border-box;
+        }
+        .box3{
+            width: 1190px;  background:  green;
+            box-sizing: border-box;
+            /* 가운데정렬 */
+            margin : 0 auto;
+            padding: 20px 30px;
+        }
+        .box3-left{
+            width: 750px; height: 500px;
+            background: yellow;
+            float: left;
+        }
+        .box3-right{
+            width: 350px; height: 500px;
+            background: lightgreen;
+            float: right;
+        }
+        .box3::after{
+            clear: both; content: ''; display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3">
+        <div class="box3-1"></div>
+        <div class="box3-2"></div>
+    </div> -->
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3">
+        <div class="box3-left"></div>
+        <div class="box3-right"></div>
+    </div>
+</body>
+</html>

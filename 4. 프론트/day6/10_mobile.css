@@ -1,0 +1,14 @@
+@charset "utf-8";
+@media screen and (max-width : 800px){
+    .menu{display: flex;}
+    .menu-item{ 
+        width: 100%; height: 70px; box-sizing: border-box; overflow: hidden;
+        border: 3px solid red; border-right: none;
+    }
+    .menu-item:last-child{  border-right: 3px solid red;}
+    .contents-box{
+        border: 3px solid skyblue;
+        height: 700px;
+    }
+    
+}
