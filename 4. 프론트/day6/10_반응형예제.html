@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응형 화면 구성 - css 파일 따로 빼기</title>
+    <link rel="stylesheet" href="10_mobile.css" media="screen and (max-width : 800px)">
+    <link rel="stylesheet" href="10_pc.css" media="screen and (min-width : 800px)">
+    <style>
+        *{padding: 0; margin: 0;}
+        a{  color: black; text-decoration: none;}
+        .menu{list-style: none;}
+        .menu-link{ width: 100%; height: 100%; display: block;}
+        
+        /*  강사님 */
+        .menu-link{
+                width: 100%; height: 100%; text-align: center; display: block; line-height: 64px;
+            }
+        
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li class="menu-item"><a href="#" class="menu-link">메뉴1</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">메뉴2</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">메뉴3</a></li>
+    </ul>
+    <div class="contents-box"></div>
+    
+</body>
+</html>
