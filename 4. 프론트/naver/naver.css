@@ -26,37 +26,227 @@
     background-position: 0 -158px;
 }
 .search-input-box{
-    width: 586px; height: 56px; display: block; border: 2px solid #19ce60;
-    position: absolute; top: calc(50% - 26px); left: 268px; overflow: hidden;
+    width: 586px; height: 56px; display: block;
+    position: absolute; top: calc(50% - 26px); left: 268px;
 }
-.search-input-box2{
-    border: 2px solid purple;
-    width: 444px; height: 24px;
-    float: left;
+.search-input-container-box{
+    width: 100%; height: 100%; box-sizing: border-box; border: 2px solid #19ce60;
+}
+.search-btn{
+    width: 56px; height: 56px; box-sizing: border-box; border: none; background: #19ce60;
+    cursor: pointer; position: absolute; right: 0; top: 0;
+}
+.search-input-container{
+    /* height => 부모의 padding과 border를 제외한 100% 
+       꼭 그런건 아니지만 암튼 지금 이 구조에선 그럼*/
+    height: 100%; width: 474px; padding: 14px 15px;
+    box-sizing: border-box;
 }
 .search-input{
-    position: absolute; top: calc(50% - 14px); 
+    /* 52-24 = 28px => 위아래 14px 좌우 15px padding */
+    height: 100%; width: 100%;
+    font-size: 24px; border: none;
 }
-.search-button{
-    background: blue;
-    width: 56px; height: 56px;
-    float: right;
+.search-input:focus{
+    outline: none;
 }
-.fa-search{
-    /* color: gray; */
-    position: absolute;
-}
-
 /* 중간메뉴 박스 */
 .menu-box{
-    min-width: 1190px; height: 52px; background: lightgreen ;
+    min-width: 1190px; height: 52px; border-top: 1px solid #e4e8eb;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%);
+    /* border: 2px solid black; */
 }
-/* 컨텐츠박스 */
-        
-.contents-box{ 
-    /* background: lightskyblue;  */
-    min-height: 1000px;}
+.menu-container-box{
+    height: 100%;
+    /* border: 2px solid blue; */
+    /* background: #19ce60; */
+    /* position: relative; */
+}
 
+.main-menu{
+    /* border: 3px solid blueviolet; */
+    position: relative;
+}
+.menu-box>.menu-container-box>.main-menu>.main-green-menu,
+.menu-box>.menu-container-box>.main-menu>.main-black-menu{
+    /* border: 2px solid red; */
+    list-style: none; display: flex;
+    line-height: 50px;
+    float: left;
+    font-weight: bold;
+}
+
+.menu-box>.menu-container-box>.main-menu>ul>li{
+    /* background: seagreen; */
+    margin-right: 10px;
+}
+.menu-box>.menu-container-box>.main-menu>ul>li:first-child{
+    margin-left: 10px;
+}
+
+.item-link1{
+    width: 100%; height: 100%; display: block;
+    color: #19ce60;
+}
+.item-link2{
+    width: 100%; height: 100%; display: block;
+    /* color: white; */
+}
+
+.menu-box .icon-mail{
+    display: inline-block; width: 21px; height: 21px;
+    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+    background-size: 444px 439px; background-position: -420px -279px;
+    margin: 14px 9px 0 0 ; vertical-align: top;
+}
+
+.menu-box .icon-shopping, .menu-box .icon-shopping-live{
+    display: inline-block; width: 24px; height: 20px;
+    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+    background-size: 444px 439px; background-position: -420px -232px;
+    margin-top: 14px;
+}
+.menu-box .icon-shopping-live{
+    width: 54px; background-position: -202px -306px;
+}
+
+.menu-box .icon-tv{
+    display: inline-block; width: 12px; height: 14px;
+    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+    background-size: 444px 439px; background-position: -256px -212px;
+    margin: 17px 2px 0 0 ; vertical-align: top;
+}
+
+/* 더보기 
+    망함 모르겠음 하 ㅡㅡ 존나 싫어 프론트*/
+
+.menu-box .more-view .btn-more{    
+    display: inline-block; line-height: 50px; margin-left: 17px; font-size: 13px; color: #202020;
+}
+
+.menu-box .btn-more::after{
+    display: inline-block; width: 11px; height: 7px; margin-left: 7px;
+    vertical-align: 2px;
+    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+    background-size: 444px 439px; background-position: -83px -296px;
+    content: '';
+}
+
+.menu-box .btn-more:hover{
+    text-decoration: underline;
+}
+
+
+.more-view{
+    /* border: 1px solid blueviolet; */
+    font-size: 14px;
+    margin-left: 10px;
+    /* display : inline-block; line-height: 50px; */
+    float: left; margin-top: 17px;    
+}
+
+
+/* 컨텐츠박스 */
+.contents-box{ 
+    background: lightskyblue; 
+    min-height: 1000px;
+    padding: 20px 30px;
+    /* position: relative; */
+}
+
+/* 내가한것 */
+.contents-box-left{
+    background: sandybrown;
+    width: 750px; height: calc(100% - 20px);
+    position: absolute; left: 30px; top: 20px;
+}
+.contents-box-right{
+    background: sienna;
+    width: 350px; height: calc(100% - 20px);
+    position: absolute; right: 30px; top: 20px;
+}
+/* 강사님 */
+.contents-box::after{
+    clear: both; content: ''; display: block;
+}
+.contents-l-box{
+    width: 750px; height: 1000px; background: yellow; float: left;
+}
+.contents-r-box{
+    width: 350px; height: 1000px; background: yellow; float: right;
+}
+
+.l-box-1{
+    background: lightsalmon;
+    width: 100%;
+    height: 135px;
+}
+.l-box-2{
+    background: lime;
+    width: 100%; height: 367px; margin-top: 12px;
+}
+
+/* 오른쪽 첫번째 컨텐츠 */
+.r-box-1{
+    background: white;
+    width: calc(100% - 16px - 17px); height: 135px; margin-bottom: 12px;
+    padding: 16px 16px 12px 17px; box-sizing: bo;
+    /* text-align: center; */
+}
+.r-box-1>.login-box>.sign-text{
+    background: wheat;
+    display: block;
+    width: 100%; height: 16px; font-size: 12px; color: gray;
+}
+.r-box-1>.login-box>.login-btn{
+    background: #19ce60;
+    display:block; margin-top: 12px; height: 48px; 
+    /* line-height: 48px; */
+    text-align: center; padding-top: 12px; font-weight: bold;
+}
+.login-text-NAVER{   font-size: 20px; color: #fff;  }
+.login-text-LOGIN{  font-size: 16px;  color: #fff; vertical-align: 1px; }
+
+.r-box-2{
+    background: maroon;
+    width: 100%; height: 49px; margin-top: 12px;
+    position: relative;
+}
+.r-box-2>.btn-box{
+    width: 47px; height: 24px;  background: white;
+    position: absolute; top: 11px; right: 10px;
+}
+.r-box-2>.btn-box>.prev-btn, .r-box-2>.btn-box>.next-btn{
+    width: 24px; height: 24px; box-sizing: border-box;
+    /* border: 1px solid #e4e8eb; */
+    border: 1px solid red;
+    display: block; float: left; text-align: center;
+}
+.r-box-2>.btn-box>.next-btn{
+    margin-left: -1px;
+}
+
+.r-box-2>.btn-box{
+    font-size: 20px; color: gray; line-height: 23px;
+}
+
+.r-box-2> .btn-box>.prev-btn:hover i,
+.r-box-2> .btn-box>.next-btn:hover i{
+    color: red;
+}
+
+/* .btn-rbox2-1{
+    width: 23.5px; height: 24px;
+    background: white;
+    border: none; margin: 0; padding: 0;
+    float: right;
+}
+.btn-rbox2-2{
+    width: 23.5px; height: 24px;
+    background: white;
+    border: none; margin: 0; padding: 0;
+    float: right;
+} */
 .footer{
     width: 1190px; height: 423px; 
     background: lightpink; margin: 0 auto;
