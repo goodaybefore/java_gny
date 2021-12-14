@@ -1,279 +1,614 @@
 @charset "utf-8";
-* {  padding: 0; margin: 0;  list-style: none; text-decoration: none; color: #000;}
+body{font-size: 12px;}
+*{ 
+	padding: 0; margin: 0; list-style: none; text-decoration: none; color: #000;
+}
 /* 공통 */
 .container{
-    width: 1190px; margin: 0 auto;
-    padding: 0, 30px; box-sizing: border-box;
+	width: 1190px; margin: 0 auto; padding: 0 30px; box-sizing: border-box;
+} 
+.container-fluid{
+	min-width: 1190px;
 }
-/* 네이버웨일 박스 */
-.whale-box{
-    background: lightgray;  min-width: 1190px; height: 49px;
+.menu-container::after,
+.contents-l-box2 .group-issue::after,
+.after::after{
+	content: ''; clear: both; display: block;
+}
+
+/* 네이버 웨일 박스 */
+.whale-box{ 
+	height: 49px; background: #f3f1ff;
 }
 /* 네이버 검색창 박스 */
 .search-box{
-    height: 160px;
-    position: relative;
-
+	height: 160px; position: relative; 
 }
-.logo-box{  
-    width: 222px; height: 52px; text-align: center; line-height: 46px;;
-    position: absolute; top: calc(50% - 26px);
+.logo-box{
+	width: 222px; height: 52px; 
+	position: absolute; top: calc(50% - 32px); overflow: hidden; left: 21px;
 }
 .logo{
-    display: block; width: 100%; height: 100%;
-    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
-    background-size: 444px 439px;
-    background-position: 0 -158px;
+	display: block; width: 100%; height: 100%;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px;
+	background-position: 0 -158px;
 }
 .search-input-box{
-    width: 586px; height: 56px; display: block;
-    position: absolute; top: calc(50% - 26px); left: 268px;
+	width: 586px; height: 56px; 
+	position: absolute; top: calc(50% - 28px); left: 268px;
 }
 .search-input-container-box{
-    width: 100%; height: 100%; box-sizing: border-box; border: 2px solid #19ce60;
+	width: 100%; height: 100%; box-sizing: border-box; border: 2px solid #19ce60;
 }
 .search-btn{
-    width: 56px; height: 56px; box-sizing: border-box; border: none; background: #19ce60;
-    cursor: pointer; position: absolute; right: 0; top: 0;
+	width: 56px; height: 56px; background: #19ce60; border: none;
+	cursor: pointer; position: absolute; right: 0; top: 0;
 }
 .search-input-container{
-    /* height => 부모의 padding과 border를 제외한 100% 
-       꼭 그런건 아니지만 암튼 지금 이 구조에선 그럼*/
-    height: 100%; width: 474px; padding: 14px 15px;
-    box-sizing: border-box;
+	height: 100%; width: 474px; padding: 14px 15px;
+	box-sizing: border-box;
 }
 .search-input{
-    /* 52-24 = 28px => 위아래 14px 좌우 15px padding */
-    height: 100%; width: 100%;
-    font-size: 24px; border: none;
+	height: 100%; width: 100%; border: none; font-size: 24px;
 }
 .search-input:focus{
-    outline: none;
+	outline: none;
 }
-/* 중간메뉴 박스 */
+
+/* 중간 메뉴 박스 */
 .menu-box{
-    min-width: 1190px; height: 52px; border-top: 1px solid #e4e8eb;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%);
-    /* border: 2px solid black; */
+	height: 52px; border-top: 1px solid #e4e8eb;
+	box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%);
 }
 .menu-container-box{
-    height: 100%;
-    /* border: 2px solid blue; */
-    /* background: #19ce60; */
-    /* position: relative; */
+	height: 100%;
+}
+.menu-container{
+	padding: 11px 0; float: left; height: 100%; box-sizing: border-box;
+}
+.menu-container .green-menu-box,
+.menu-container .black-menu-box{
+	float: left;
 }
 
-.main-menu{
-    /* border: 3px solid blueviolet; */
-    position: relative;
+.menu-container .green-menu-box .menu-item,
+.menu-container .black-menu-box .menu-item{
+	float: left; margin-left: 12px;
 }
-.menu-box>.menu-container-box>.main-menu>.main-green-menu,
-.menu-box>.menu-container-box>.main-menu>.main-black-menu{
-    /* border: 2px solid red; */
-    list-style: none; display: flex;
-    line-height: 50px;
-    float: left;
-    font-weight: bold;
+.menu-container .green-menu-box .menu-item:first-child{
+	margin-left: 0;
 }
-
-.menu-box>.menu-container-box>.main-menu>ul>li{
-    /* background: seagreen; */
-    margin-right: 10px;
+.menu-container .green-menu-box .menu-link,
+.menu-container .black-menu-box .menu-link{
+	color: #03c75a; font-weight: bold; font-size: 15px; line-height: 30px;
 }
-.menu-box>.menu-container-box>.main-menu>ul>li:first-child{
-    margin-left: 10px;
+.menu-container .black-menu-box .menu-link{
+	color: #000;
 }
-
-.item-link1{
-    width: 100%; height: 100%; display: block;
-    color: #19ce60;
+.menu-container .icon-mail{
+	display: inline-block; width: 21px; height: 21px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -420px -279px;
+	margin: 3px 9px 0 0; vertical-align: top;
 }
-.item-link2{
-    width: 100%; height: 100%; display: block;
-    /* color: white; */
+.menu-container .icon-shopping,
+.menu-container .icon-shopping-live{
+	display: block; width: 24px; height: 20px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -420px -232px;
+	margin-top: 5px;
 }
-
-.menu-box .icon-mail{
-    display: inline-block; width: 21px; height: 21px;
-    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
-    background-size: 444px 439px; background-position: -420px -279px;
-    margin: 14px 9px 0 0 ; vertical-align: top;
+.menu-container .icon-shopping-live{
+	width: 54px; background-position: -202px -306px;
 }
-
-.menu-box .icon-shopping, .menu-box .icon-shopping-live{
-    display: inline-block; width: 24px; height: 20px;
-    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
-    background-size: 444px 439px; background-position: -420px -232px;
-    margin-top: 14px;
-}
-.menu-box .icon-shopping-live{
-    width: 54px; background-position: -202px -306px;
+.menu-container .icon-tv{
+	display: inline-block; width: 12px; height: 14px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -256px -212px;
+	margin: 9px 2px 0 0; vertical-align: top;
 }
 
-.menu-box .icon-tv{
-    display: inline-block; width: 12px; height: 14px;
-    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
-    background-size: 444px 439px; background-position: -256px -212px;
-    margin: 17px 2px 0 0 ; vertical-align: top;
+.menu-container .btn-more{
+	float: left; line-height: 30px; margin-left: 17px; font-size: 13px;
+	color: #202020;
+}
+.menu-container .btn-more::after{
+	display: inline-block; width: 11px; height: 7px; margin-left: 7px;
+	vertical-align: 2px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -83px -296px;
+	content: '';
+}
+.menu-container .btn-more:hover{
+	text-decoration: underline;
 }
 
-/* 더보기 
-    망함 모르겠음 하 ㅡㅡ 존나 싫어 프론트*/
-
-.menu-box .more-view .btn-more{    
-    display: inline-block; line-height: 50px; margin-left: 17px; font-size: 13px; color: #202020;
+/* 컨텐츠 박스 */
+.contents-box{
+	min-height: 1000px; padding: 20px 30px;
 }
-
-.menu-box .btn-more::after{
-    display: inline-block; width: 11px; height: 7px; margin-left: 7px;
-    vertical-align: 2px;
-    background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
-    background-size: 444px 439px; background-position: -83px -296px;
-    content: '';
-}
-
-.menu-box .btn-more:hover{
-    text-decoration: underline;
-}
-
-
-.more-view{
-    /* border: 1px solid blueviolet; */
-    font-size: 14px;
-    margin-left: 10px;
-    /* display : inline-block; line-height: 50px; */
-    float: left; margin-top: 17px;    
-}
-
-
-/* 컨텐츠박스 */
-.contents-box{ 
-    background: lightskyblue; 
-    min-height: 1000px;
-    padding: 20px 30px;
-    /* position: relative; */
-}
-
-/* 내가한것 */
-.contents-box-left{
-    background: sandybrown;
-    width: 750px; height: calc(100% - 20px);
-    position: absolute; left: 30px; top: 20px;
-}
-.contents-box-right{
-    background: sienna;
-    width: 350px; height: calc(100% - 20px);
-    position: absolute; right: 30px; top: 20px;
-}
-/* 강사님 */
 .contents-box::after{
-    clear: both; content: ''; display: block;
+	clear: both; content: ''; display: block;
 }
 .contents-l-box{
-    width: 750px; height: 1000px; background: yellow; float: left;
+	width: 750px; height: 1000px;  float: left;
+}
+.contents-l-box1{
+	height: 135px; margin-bottom: 12px; background: whitesmoke;
+}
+.contents-l-box2{
+	height: 367px;
+}
+/* 왼쪽 두번째 컨텐츠 박스 */
+.contents-l-box2 .group-issue{ 
+	padding : 12px 15px 11px 15px; border: 1px solid #dae1e6; background: #f7f9fa;
+	line-height: 24px; height: 24px; 
 }
 .contents-r-box{
-    width: 350px; height: 1000px; background: yellow; float: right;
+	width: 350px; height: 1000px;  float: right;
+}
+.contents-l-box2 .issue-area{
+	float: left; height: 24px; overflow: hidden;
+}
+.contents-l-box2 .direct-area{
+	float: right; font-weight: bold;
+}
+.contents-l-box2 .link-media{
+	float: left; font-size: 13px; font-weight: bold;
+}
+.contents-l-box2 .link-media::after{
+	content: ''; display: inline-block; 
+	clear: both; width: 6px; height: 10px;
+	background: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -64px -396px;
+	margin: auto 4px;
+}
+.contents-l-box2 .link-issue{
+	float: left; font-size: 13px; width: 310px; overflow: hidden;
+	white-space: nowrap; text-overflow: ellipsis;
+}
+.contents-l-box2 .link-news{
+	float: left; font-size: 13px;
+	color: #3565c9;
+}
+.contents-l-box2 .link-enter,
+.contents-l-box2 .link-sports,
+.contents-l-box2 .link-economy{
+	float: left;
+	font-size: 13px;
+	color: #202020;
+	margin: 0 4px 0 7px;
+}
+.contents-l-box2 .link-news::after{
+	content: ''; display: inline-block; width: 3px; height: 3px;
+	border-radius: 50%; margin-left: 8px; vertical-align: 3px;
+	background: #c8ccd1;
+}
+.contents-l-box2 .group-title{
+	padding: 22px 0 16px;
+	font-size: 14px; line-height: 18px;
+}
+.contents-l-box2 .group-title-left{ 
+	float: left;
 }
 
-/* 왼쪽 박스1 */
-.l-box-1{
-    background: lightsalmon;
-    width: 100%;
-    height: 135px;
-}
-.ad-img{
-    width: 750px; height: 135px;
-}
-.news_header{
-    padding: 12px 15px 11px 15px;
-    background: #f7f9fa;
-    border: 1px solid #dae1e6;
-}
-.link-media{
-    white-space: nowrap;
-    float: left;
-    position: relative;
-    padding-right: 12px;
-    margin-left: 7px;
-    font-size: 13px;
-    color: #000;
-    text-decoration: none;
-    letter-spacing: -.3px;
-}
-.media-rolling{
-    float: left;
-    width: 310px; height: 24px;
-}
-/* 왼쪽박스2 */
-.l-box-2{
-    background: lime;
-    width: 100%; height: 367px; margin-top: 12px;
+.contents-l-box2 .link-newsstand::before{
+	content: ''; display: inline-block; width: 27px; height: 24px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: 0 -396px;
+	margin : -6px 1px 0 0; vertical-align: top;
 }
 
+.contents-l-box2 .link-newsstand::after{
+	content: ''; display: inline-block; width: 7px; height: 11px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -410px -213px;
+	margin-left: 6px; vertical-align: -1px;
+}
+
+.contents-l-box2 .btn-sort{
+	color: #505050; 
+}
+.contents-l-box2 .btn-sort .sort-on{
+	color: #000; font-weight: bold;
+}
+.contents-l-box2 .group-title-l>*{
+	float: left;
+}
+
+.contents-l-box2 .group-title-right{
+	float: right;
+}
+#mySort{
+	margin-left: 20px;
+}
+#allSort::before{
+	content: ''; display: inline-block; width: 4px; height: 4px;
+	border-radius: 50%; background: #c7ccd1;
+	margin: 0 8px 0 6px; vertical-align: 3px;
+
+}
+.contents-l-box2 .link-icon{
+	padding: 0 9px; float: left;
+}
+
+/* link-icon에 hover 했을때 i의 opacity=1해줌 */
+.contents-l-box2 .link-icon:hover i{
+	opacity: 1;
+}
+
+.contents-l-box2 .icon-list{
+	display: inline-block; width: 14px; height: 13px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -154px -337px;
+	opacity: 0.7;
+}
+.contents-l-box2 .on .icon-list {
+	background-position: -138px -337px; opacity: 1;
+
+}
+.contents-l-box2 .on .icon-thumb {
+	background-position: -170px -337px; opacity: 1;
+
+}
+.contents-l-box2 .icon-thumb{
+	display: inline-block; width: 13px; height: 13px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -185px -337px;
+	opacity: 0.7;
+}
+.contents-l-box2 .icon-set{
+	display: inline-block; width: 15px; height: 15px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -47px -396px;
+	opacity: 0.7;
+	margin: -1px 0 1px;
+}
+
+
+.contents-l-box2 .group-news{
+	border: 1px solid #dae1e6;
+	height: 260px; box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
+}
+.contents-l-box2 .group-news .row{
+	/* n등분을 균일하게 하기위해서 flex */
+	display: flex;
+}
+
+.contents-l-box2 .group-news .row .thumb-box{
+	height: 65px; width: 100%; position: relative;
+}
+.contents-l-box2 .group-news .row .thumb-box .thumb{
+	padding: 23px 0 22px; display: block; text-align: center;
+}
+
+.contents-l-box2 .group-news .line{
+	position: absolute; background: #e4e8eb; z-index: 2;
+}
+.contents-l-box2 .group-news .row .thumb-box .popup-wrap{
+	position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+	background: #f7f9fa; font-size: 0;
+	padding: 19px 0 18px; text-align: center;
+	display: none;
+}
+.contents-l-box2 .group-news .row .thumb-box:hover .popup-wrap{
+	display: block;
+}
+.contents-l-box2 .group-news .row .thumb-box .popup-wrap .btn-popup{
+	display: inline-block; padding: 7px 8px 5px; background: white;
+	border: 1px solid #dae1e6;
+	/* border: 1px solid red; */
+	font-size: 12px; line-height: 16px; color: #505050;
+}
+
+.contents-l-box2 .group-news .row .thumb-box .popup-wrap .btn-popup:last-child{
+	margin-left: -1px;
+}
+
+.contents-l-box2 .group-news .to-bottom1,
+.contents-l-box2 .group-news .to-bottom2,
+.contents-l-box2 .group-news .to-bottom3,
+.contents-l-box2 .group-news .to-bottom4,
+.contents-l-box2 .group-news .to-bottom5{
+	top: 0; bottom: 0; width: 1px;
+}
+.contents-l-box2 .group-news .to-bottom1{	left: 124px;}
+.contents-l-box2 .group-news .to-bottom2{	left: 248px;}
+.contents-l-box2 .group-news .to-bottom3{	left: 373px;}
+.contents-l-box2 .group-news .to-bottom4{	left: 498px;}
+.contents-l-box2 .group-news .to-bottom5{	left: 622px;}
+
+
+.contents-l-box2 .group-news .to-right1,
+.contents-l-box2 .group-news .to-right2,
+.contents-l-box2 .group-news .to-right3,
+.contents-l-box2 .group-news .to-right4,
+.contents-l-box2 .group-news .to-right5{
+	left: 0; right: 0; height: 1px;
+}
+
+.contents-l-box2 .group-news .to-right1{	top: 65px;	}
+.contents-l-box2 .group-news .to-right2{	top: 130px;	}
+.contents-l-box2 .group-news .to-right3{	top: 195px;	}
+
+
+
+
+/* 왼쪽 3번째 박스 */
+
+.contents-l-box3{
+	margin: 35px 0 27px;
+	letter-spacing: -.25px;
+	min-height: 50px;
+	/* background: yellow; */
+}
+h2{	font-size: inherit; line-height: inherit;}
+.contents-l-box3 .blind{
+	position: absolute;
+	width: 1px; height: 1px; margin: -1px; overflow: hidden;
+}
+.contents-l-box3 .group-title .group-title-l{
+	float: left;
+}
+.contents-l-box3 .title{
+	font-size: 14px; color: #000;
+}
+.contents-l-box3 .group-title .group-title-l .dsc{
+	margin-left: 8px;
+	color: grey;
+	font-size: 12px;
+	line-height: 16px;
+}
+.contents-l-box3 .group-title{
+	line-height: 17px;
+	padding-bottom: 17px;
+	/* background: grey; */
+}
+.contents-l-box3 .group-title .group-title-r{
+	float: right;
+}
+.contents-l-box3 .group-title .group-title-r .new{
+	color: #000;
+}
+.contents-l-box3 .group-title .group-title-r .info{
+	color: #000;
+	line-height: 16px;
+}
+strong{	font-weight: bold;	}
+.contents-l-box3 .group-title-r .btn_set{
+	position: relative; margin-left: 14px; color: #505050;
+}
+.contents-l-box3 .group-title-r .btn_set::before{
+	display: inline-block;
+	width: 11px; height: 11px;
+	background-position: -213px -337px;
+	background-repeat: no-repeat;
+	content: '';
+	margin-right: 4px; vertical-align: -1px;
+	opacity: .7;
+}
+.contents-l-box3 .group-title-r .btn_set::after{
+	position: absolute; top: 2px; left: -8px; content: '';
+	width: 1px; height: 12px;
+	background: #e4e8eb;
+}
+.contents-l-box3 .group-title-r .btn_set:hover{
+	text-decoration: underline;
+}
+.contents-l-box3 .group-title-r .btn_set::before{
+	content: ''; display: inline-block; width: 11px; height: 11px;
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px; background-position: -213px -337px;
+	background-repeat: none; margin-right: 4px; vertical-align: -1px; opacity: .7;
+}
+
+
+
+
+.contents-l-box3 .group-category{
+	width: 750px; overflow: hidden;
+	/* background: pink; */
+}
+.contents-l-box3 .main-category{
+	width: 400%;
+	/* background: yellow;  */
+}
+.contents-l-box3 .group-category{
+	width: 750px; float: left;
+	/* background: blue; */
+}
+.contents-l-box3 .category-list{
+	width: 750px; float: left;
+	display: flex; position: relative;
+}
+/* before or after하려면 위의 태그에 relative 해줘야함?? */
+.contents-l-box3 .category-list::before{
+	content: ''; height: 1px; position: absolute;
+	left: 0; right: 0;
+	background: #dae1e6;
+	/* background: red; */
+	top: 0;
+}
+.contents-l-box3 .category-list::after{
+	content: ''; height: 1px; position: absolute;
+	left: 0; right: 0;
+	background: #dae1e6;
+	/* background: red; */
+	bottom: 0;
+}
+.contents-l-box3 .category-item{
+	width: 100%; box-sizing: border-box; border-right: 1px solid #dae1e6 ;
+	/* border-right: red; */
+	z-index: 1;
+}
+
+.contents-l-box3 .category-link .enter:hover{	color : #e65da0;	}
+.contents-l-box3 .category-link .sports:hover{	color : #0147b5;	}
+.contents-l-box3 .category-link .car:hover{	color : #4a94e1;	}
+.contents-l-box3 .category-link .webtoon:hover{	color : #66c971;	}
+.contents-l-box3 .category-link .economy:hover{	color : #35ae5e;	}
+.contents-l-box3 .category-link .recipe:hover{	color : #ebaa00;	}
+.contents-l-box3 .category-link .game:hover{	color : #5bb8e1;	}
+.contents-l-box3 .category-link .movie:hover{	color : #1a2f63;	}
+
+.contents-l-box3 .category-link .sel{	color: white !important; margin: 0 -1px;	}
+.contents-l-box3 .category-link .enter .sel{	background-color : #e65da0;	}
+.contents-l-box3 .category-link .sports .sel{	background-color : #0147b5;	}
+.contents-l-box3 .category-link .car .sel{	background-color : #4a94e1;	}
+.contents-l-box3 .category-link .webtoon .sel{	background-color : #66c971;	}
+.contents-l-box3 .category-link .economy .sel{	background-color : #35ae5e;	}
+.contents-l-box3 .category-link .recipe .sel{	background-color : #ebaa00;	}
+.contents-l-box3 .category-link .game .sel{	background-color : #5bb8e1;	}
+.contents-l-box3 .category-link .movie .sel{	background-color : #1a2f63;	}
+
+.contents-l-box3 .category-link{
+	display: block; line-height: 49px; text-align: center;
+	font-weight: bold; font-size: 13px; 
+}
+
+.contents-l-box3 .category-list .category-item:first-child{
+	border-left: 1px solid #dae1e6;
+	/* border-left: 1px solid red; */
+}
+
+
+.contents-l-box3 .group-container .pm_btn_prev{
+	top: 6px;
+	left: -23px;
+	position: absolute;
+	z-index: 10;
+}
+.contents-l-box3 .group-container .pm_btn_next{
+	top: 6px;
+	right: -18px;
+	position: absolute;
+	z-index: 10;
+}
+
+
+.pm_btn_prev .ico_btn{
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px;
+	font-style: normal;
+	display: inline-block; width: 40px; height: 40px;
+	background-position: -128px -352px;
+	background-repeat: repeat;
+	vertical-align: top;
+}
+.pm_btn_next .ico_btn{
+	background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_5f355c.png);
+	background-size: 444px 439px;
+	font-style: normal;
+	display: inline-block; width: 40px; height: 40px;
+	background-position: -86px -352px;
+	background-repeat: no-repeat;
+	vertical-align: top;
+}
 
 /* 오른쪽 첫번째 컨텐츠 */
-.r-box-1{
-    background: white;
-    width: calc(100% - 16px - 17px); height: 135px; margin-bottom: 12px;
-    padding: 16px 16px 12px 17px; box-sizing: bo;
-    /* text-align: center; */
+.contents-r-box1{
+	height: 135px; margin-bottom: 12px; background: whitesmoke;
+	padding: 16px 16px 12px 17px; box-sizing: border-box;
 }
-.r-box-1>.login-box>.sign-text{
-    background: wheat;
-    display: block;
-    width: 100%; height: 16px; font-size: 12px; color: gray;
+.contents-r-box1 .title{
+	height: 16px; margin-bottom: 11px; background-color: red;
+	font-size: 12px; line-height: 16px;
 }
-.r-box-1>.login-box>.login-btn{
-    background: #19ce60;
-    display:block; margin-top: 12px; height: 48px; 
-    /* line-height: 48px; */
-    text-align: center; padding-top: 12px; font-weight: bold;
+.contents-r-box1 .login-link{
+	height: 48px; background-color: #19ce60; display: block; text-align: center;
+	padding-top: 12px;  font-weight: bold;
 }
-.login-text-NAVER{   font-size: 20px; color: #fff;  }
-.login-text-LOGIN{  font-size: 16px;  color: #fff; vertical-align: 1px; }
-
-.r-box-2{
-    background: maroon;
-    width: 100%; height: 49px; margin-top: 12px;
-    position: relative;
+.contents-r-box1 .login-link .naver{
+	font-size: 20px; color: #fff;
 }
-.r-box-2>.btn-box{
-    width: 47px; height: 24px;  background: white;
-    position: absolute; top: 11px; right: 10px;
-}
-.r-box-2>.btn-box>.prev-btn, .r-box-2>.btn-box>.next-btn{
-    width: 24px; height: 24px; box-sizing: border-box;
-    /* border: 1px solid #e4e8eb; */
-    border: 1px solid red;
-    display: block; float: left; text-align: center;
-}
-.r-box-2>.btn-box>.next-btn{
-    margin-left: -1px;
+.contents-r-box1 .login-link .login{
+	font-size: 16px; vertical-align: 1px; color: #fff;
 }
 
-.r-box-2>.btn-box{
-    font-size: 20px; color: gray; line-height: 23px;
+
+.contents-r-box2{
+	height: 49px; background: whitesmoke; position: relative;
+}
+.contents-r-box2 > .btn-box{
+	width: 47px;	height: 24px; 
+	position: absolute; top: 11px; right: 10px;
+}
+.contents-r-box2 > .btn-box > .prev-btn,
+.contents-r-box2 > .btn-box > .next-btn{
+	width: 24px; height: 24px; box-sizing: border-box; border: 1px solid #e4e8eb;
+	border: 1px solid red;
+	display: block; float: left; text-align: center; 
+}
+.contents-r-box2 > .btn-box > .next-btn{
+	margin-left: -1px;
+}
+.contents-r-box2 > .btn-box i{
+	font-size: 20px; color: gray; line-height: 23px;
+}
+.contents-r-box2 > .btn-box > .prev-btn:hover i,
+.contents-r-box2 > .btn-box > .next-btn:hover i{
+	color: red;
 }
 
-.r-box-2> .btn-box>.prev-btn:hover i,
-.r-box-2> .btn-box>.next-btn:hover i{
-    color: red;
+.contents-r-box2 .contents-list{
+	width: 100%; height: 100%;
+	/* border: 3px solid black; */
+	height: 47px;
+	position: relative;
+	-webkit-user-drag: none;
+	/* overflow: hidden; */
 }
 
-/* .btn-rbox2-1{
-    width: 23.5px; height: 24px;
-    background: white;
-    border: none; margin: 0; padding: 0;
-    float: right;
+.contents-r-box2 .contents-view{
+	width: 281px; height: 100%; overflow: hidden;
+	padding: 14px 0 13px 16px;
 }
-.btn-rbox2-2{
-    width: 23.5px; height: 24px;
-    background: white;
-    border: none; margin: 0; padding: 0;
-    float: right;
-} */
-.footer{
-    width: 1190px; height: 423px; 
-    background: lightpink; margin: 0 auto;
-    }
+.contents-r-box2 .contents-list{
+	width: 500%; height: 100%;
+}
+.contents-r-box2 .contents-item{
+	width: 281px; height: 100%; float: left; 
+}
+.contents-r-box2 .contents-link{
+	width: 100%; height: 100%; display: block;
+	font-size: 13px;
+}
+.contents-r-box2 .contents-link:hover{
+	text-decoration: underline;
+}
+
+/* float:left 하면 자동으로 display:block함 */
+.contents-r-box2 .news_badge{
+	font-style: normal;
+	float: left; height: 18px;
+	padding: 0px 7px;
+	margin-right: 8px;
+	border: 1px solid rgb(32, 32, 32);;
+	border-radius: 10px;
+	font-size: 11px;
+	line-height: 18px;
+	color: rgb(32, 32, 32);
+	font-weight: 700;
+	vertical-align: top;
+}
+/* news_badge는 display : block하고 news는 안함 왜?
+overflow, text-overflow, white-space => 가로를 지정해야함 => display:blcok(float:left) 해줌 */
+.contents-r-box2 .news{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: block;
+	font-size: 13px;
+	line-height: 20px;
+	color: rgb(64, 64, 64);
+}
+
+
+
+/* 푸터 박스 */
+.footer-box{
+	height: 423px; background: plum;
+}
