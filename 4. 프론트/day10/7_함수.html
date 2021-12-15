@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>함수</title>
+</head>
+<body>
+    <script>
+        // console.log(num1);//에러발생. 밑에꺼도 다 작동안됨
+
+        // 함수 선언식 - 추천!
+        printHello1();
+        function printHello1(){
+            console.log('안녕');
+        }
+        printHello1();
+
+
+        // 함수 표현식
+        // printHello2(); //에러발생
+        var printHello2 = function(){
+            console.log('hi');
+        }
+        printHello2();
+
+
+        function sum(a,b){
+            return a+b;
+        }
+        console.log('1 + 2 = '+sum(1,2));
+
+        //리턴타입이 있든 없든 일단 실행. 리턴타입 없는 경우 뒤에 undefined 출력함
+        console.log(printHello1());
+        console.log(num);
+    </script>
+    
+</body>
+</html>

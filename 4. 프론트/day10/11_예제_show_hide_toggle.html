@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>show hide toggle 예제</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .box{
+            height: 50px; background: green; display: none;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">ㅂㅌ</button>
+    <button id="btn2">ㅂㅌ2</button>
+    <div class="box"></div>
+    <div>테스트</div>
+
+    <script>
+        //버튼을 클릭하면 상자가 천천히 나타났다 바로 천천히 사라지도록 코드를 작성
+        // $('#btn').click(function(){
+        //     console.log("show");
+        //     $('.box').show(2000);
+        //     $('.box').hide(2000);
+        // })
+
+        //강사님
+        //실행순서 : click하면 show하고 hide는 기다림
+        //동일한 요소에 이벤트를 여러개 줘서 대기하게 만든긋
+        $('#btn').on('click', function(){
+            $('.box').show(5000);
+            $('.box').hide(3000);
+            console.log('방법1 종료');
+        });
+
+        //click->하면 show하고, show끝나는순간 hide가 실행됨
+        //해당하는 이벤트가 다 끝난 다음에 이후의 이벤트를 실행하게함
+        $('#btn2').on('click',function(){
+            $('.box').show(3000,function(){
+                $('.box').hide(3000);
+                console.log('방법2 종료');
+            })
+        })
+
+
+    </script>
+    
+</body>
+</html>

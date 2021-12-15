@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메뉴 예제</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        *{  padding: 0; margin: 0;  }
+        li{ list-style: none;}
+        a{  text-decoration: none;  color: black; display:block; width: 100%;}
+        .main-menu{
+            margin: 10px; display: flex; text-align: center;
+        }
+        .main-item{
+            width: 100%;
+        }
+        .main-item:last-child{
+            border-right: none;
+        }
+        .sub-menu{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <ul class="main-menu">
+        <li class="main-item" id="main1">
+            <a href="#">메인1</a>
+            <ul class="sub-menu" id="sub1">
+                <li class="sub-item"><a href="#">서브1-1</a></li>
+                <li class="sub-item"><a href="#">서브1-2</a></li>
+                <li class="sub-item"><a href="#">서브1-3</a></li>
+            </ul>
+        </li>
+        <li class="main-item" id="main2">
+            <a href="#">메인2</a>
+            <ul class="sub-menu" id="sub2">
+                <li class="sub-item"><a href="#">서브2-1</a></li>
+                <li class="sub-item"><a href="#">서브2-2</a></li>
+                <li class="sub-item"><a href="#">서브2-3</a></li>
+            </ul>
+        </li>
+        <li class="main-item" id="main3">
+            <a href="#">메인3</a>
+            <ul class="sub-menu" id="sub3">
+                <li class="sub-item"><a href="#">서브3-1</a></li>
+                <li class="sub-item"><a href="#">서브3-2</a></li>
+                <li class="sub-item"><a href="#">서브3-3</a></li>
+            </ul>
+        </li>
+    </ul>
+    <script>
+        $('#main1').click(function(){
+            console.log('main1클릭');
+            $('#sub1').toggle();
+        });
+        $('#main2').click(function(){
+            console.log('main2클릭');
+            $('#sub2').toggle();
+        });
+        $('#main3').click(function(){
+            console.log('main3클릭');
+            $('#sub3').toggle();
+        });
+    </script>
+</body>
+</html>

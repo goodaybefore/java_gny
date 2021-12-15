@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반복문</title>
+</head>
+<body>
+    <script>
+        var arr = [1,4,7,'안녕',3.14];
+        console.log('for of 문');
+        //배열 또는 객체의 값을 가져와서 활용하는 반복문. java의 향상된 for문과 비슷
+        for(var tmp of arr){
+            console.log(tmp);
+        }
+
+        var obj = {name : 'hong', age : 19, address:'cheongju'}
+        console.log('for in 문');
+        //배열의 번지 또는 객체의 멤버변수명을 가져와서 활용하는 반복문
+        for(var tmp in obj){
+            console.log(tmp);
+        }
+    </script>
+    
+</body>
+</html>
