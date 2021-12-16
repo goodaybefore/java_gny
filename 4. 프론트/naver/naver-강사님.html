@@ -457,7 +457,16 @@
 	<footer class="footer-box container"></footer>
 	<script>
 		$('.menu-box .btn-more').on('click', function(){
+			let get_text = $('.btn-more').text();
+			if(get_text=='더보기'){
+				$('.btn-more').html('접기')
+			}else if(get_text =='접기'){
+				$('.btn-more').html('더보기')
+			}
 			$('.service-box').toggle();
+			
+			
+
 		});
 	</script>
 </body>
