@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>햄버거메뉴 예제</title>
+	<script src="../js/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<style>
+		#body{height: 1000px; padding: 0; margin:0 ;}
+		.nav-bar{width: 100%; height: 50px; background: darkslategray; float: left;}
+		.nav-bar .icon-box{
+			/* background: red; */
+			float: right; margin-right: 20px;
+			width: 50px; height: 50px; text-align: center;
+		}
+		.nav-bar .icon-box .icon-link{
+			width: 100%; height: 100%; display: block;
+		}
+		.icon-box .fa-bars{color: white; font-size: 26px; line-height: 50px;}
+		.icon-box::after{
+			content: ''; clear: both; display: block;
+		}
+		.menu-box{
+			height: 100%; min-width: 250px; position: fixed; right: 0; background: lightgray;
+			float: left;
+			display: none;
+		}
+		.btn-box-close{
+			width: 50px; height: 50px;
+			/* background: green; */
+			text-align: center; float: right;
+			margin: 10px; margin-right: 20px;
+		}
+		.btn-close{
+			text-decoration: none; color: darkslategray; font-weight: bold;
+			width: 100%; height: 100%; display: block;
+		}
+		.fa-times{
+			font-size: 26px; line-height: 50px;
+		}
+	</style>
+</head>
+<body id="body">
+	<div class="nav-bar">
+		<div class="icon-box">
+			<a href="#" class="icon-link"><i class="fas fa-bars"></i></a>
+		</div>
+	</div>
+	<div class="menu-box">
+		<div class="btn-box-close">
+			<a href="#" class="btn-close"><i class="fas fa-times"></i></a>
+		</div>
+	</div>
+	<script>
+		$('.icon-link').on('click', function(){
+			$('.menu-box').show();
+		})
+		$('.btn-close').on('click', function(){
+			$('.menu-box').hide();
+		})
+	</script>
+</body>
+</html>

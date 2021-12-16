@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>html 메소드</title>
+	<script src="../js/jquery.min.js"></script>
+</head>
+<body>
+	<button class="btn">click</button>
+	<div class="container"></div>
+
+	<script>
+		// button 클릭으로 생성된 버튼을 클릭하면 (같은 클래스를 넣엉주더라도) console이 동작하지 않음.
+		//	이유) 코드는 위에서부터 아래로 내려옴.
+		//btn생성-> container생성->이벤트등록 ==> 여기서 '이벤트등록' 때 새 버튼이 만들어졌으므로 새 버튼에는 console 출력 기능이 안들어가있다.
+
+		//클릭이벤트는 btn개수에 따라 이벤트의 개수가 정해짐
+		/*$('.btn').click(function(){
+			$('.container').html('<button class="btn">클릭</button>');
+			console.log('버튼생성');
+		})*/
+
+
+		//버튼 무한생성해버리기
+		//$(document) : 문서 전체에 대해 이벤트를 등록함
+		//요소가 나중에 추가되어도 동일하게 실행됨
+			//	==> 버튼을 
+		$(document).on('click', '.btn', function(){
+			$('.container').html('<button class="btn">클릭</button>');
+			console.log('버튼생성');
+		})
+	</script>
+</body>
+</html>

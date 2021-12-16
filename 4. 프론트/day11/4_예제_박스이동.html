@@ -1,0 +1,29 @@
+<!--내가한것. 무한대로 이동함 ㅠ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>예제 animate</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		.box{
+			width: 100px; height: 100px; background: red;;
+		}
+	</style>
+</head>
+<body>
+	<button class="btn-resize">가로크기변경</button>
+	<div class="box"></div>
+
+	
+	<script>
+		$('.btn-resize').click(function(){
+			$('.box').animate({
+				'margin-left':'+=100px'
+			})
+		})
+	</script>
+</body>
+</html>

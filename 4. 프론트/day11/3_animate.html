@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>animate</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		.box{
+			width: 100px; height: 100px; background: red;;
+		}
+	</style>
+</head>
+<body>
+	<button class="btn-resize">가로크기변경</button>
+	<div class="box">1</div>
+
+	
+	<script>
+		$('.btn-resize').click(function(){
+			$('.box').animate({
+				// width:'200px',
+				width:'+=100px',//기존 가로에서 100px 더함
+				// 'font-size' : '30px', //fontSize도 ㄱㅊ!
+				fontSize : '30px'
+			}, function(){
+				alert('애니매이션 종료');
+			})
+		})
+	</script>
+</body>
+</html>
