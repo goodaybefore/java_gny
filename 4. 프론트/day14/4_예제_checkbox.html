@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkbox</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .box{
+            width: 150px; height: 50px; border: 1px solid red;
+            float: left; margin-left: 10px;
+        }
+        .box-container::after{
+            clear: both; content: ''; display: block;
+        }
+        /* .container-box{
+            display: block;
+        } */
+        .box.checked{
+            border: none; width: auto; line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box-container">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+    <div class="container-checkbox">
+        <div class="check-box">
+            <label>
+                <input type="checkbox" class="checkbox" name="fruit" value="사과">사과
+            </label>
+        </div>
+        <div class="check-box">
+            <label>
+                <input type="checkbox" class="checkbox" name="fruit" value="배">배
+            </label>
+        </div>
+        <div class="check-box">
+            <label>
+                <input type="checkbox" class="checkbox" name="fruit" value="바나나">바나나
+            </label>
+        </div>
+        <div class="check-box">
+            <label>
+                <input type="checkbox" class="checkbox" name="fruit" value="키위">키위
+            </label>
+        </div>
+        <div class="check-box">
+            <label>
+                <input type="checkbox" class="checkbox" name="fruit" value="딸기">딸기
+            </label>
+        </div>
+
+        
+    </div>
+    <script>
+        let arr = new Array();
+        $('input[type=checkbox]').click(function(){
+
+            //모든 box의 글자를 제거하고, checked 클래스 제거
+            $('.box').removeClass('checked').text('');
+            
+            let value = $(this).val();
+            //클릭한 체크박스가 체크된 상태이면 배열에 값을 추가
+            if($(this).prop('checked')){
+                arr.push(value);
+            }
+            //클릭한 체크박스가 체크 해제된 상태명 배열에서 값을 제거
+            else{
+                let index = arr.indexOf(value);
+                arr.splice(index, 1);
+            }
+
+
+            
+            
+
+            //배열에 있는 글자들을 순서에 맞게 box에 채워넣고 checked클래스 추가
+            for(var i in arr){
+                $('.box').eq(i).addClass('checked').text(arr[i]);
+            }
+            // for(let i = 0;i<arr.length;i++){}//위에 for문이랑 같음
+        })
+
+    </script>
+    
+</body>
+</html>

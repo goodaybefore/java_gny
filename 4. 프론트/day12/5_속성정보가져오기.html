@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>속성정보 가져오기</title>
+    <script src="../js/jquery.min.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+    <input type="text" class="id">
+    <div class="box">1</div>
+    <input type="checkbox" name="food" value="짜장면">짜장면<br>
+    <img src="../img/day1_2_cat.png" alt="cat">
+    <script>
+        let imgSource1 = $('img').attr('src');
+        let imgSource2 = $('img').prop('src');
+        console.log('attr : '+imgSource1);
+        console.log('prop : '+imgSource2);
+        let isChecked1 = $('[name=food]').attr('checked');
+        let isChecked2 = $('[name=food]').prop('checked');
+        console.log('attr : '+isChecked1);
+        console.log('prop : '+isChecked2);
+        let className1 = $('.id').attr('class');
+        let className2 = $('.id').prop('class');
+        console.log('attr : '+className1);
+        console.log('prop : '+className2);
+    </script>
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!-- 내가해본것(안됨) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>메뉴 이동</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		*{padding: 0; margin: 0; 
+			text-decoration: none;}
+		.menu{
+			list-style: none; display: flex; text-align: center; line-height: 70px;
+			width: 500px; height: 70px; box-sizing: border-box;
+			background: green;
+			margin-right: 30px; margin-left: 30px;
+
+		}
+		.menu-item{
+			width: 100%;
+			border: 2px solid red;
+			border-right: none;
+		}
+		.menu-item:last-child{
+			border-right : 2px solid red;
+			
+		}
+		.menu-link{
+			text-decoration: none; color: gold; font-weight: bold;
+			width: 100%; height: 100%; display: block;
+		}
+		.btn-container{
+			position: relative;
+		}
+		.btn-container a{
+			background: darkred;
+			width: 50px; height: 50px;
+			border-radius: 50%; box-sizing: border-box;
+			position: absolute;
+			top: 10px;
+			text-align: center;
+			line-height: 50px;
+			color: gold; font-weight: bold;
+			
+		}
+		.btn-container .next-btn{
+
+			left: 510px;
+		}
+		.sel-menu{
+			background: white; color: darkgreen;
+		}
+	</style>
+</head>
+<body>
+	<div class="list-box">
+		<div class="btn-container">
+			<a href="#" class="next-btn">next</a>
+			<a href="#" class="prev-btn">prev</a>
+		</div>
+		
+		<ul class="menu">
+			<li class="menu-item">
+				<a href="#" class="menu-link sel-menu">item1</a>
+			</li>
+			<li class="menu-item">
+				<a href="#" class="menu-link">item2</a>
+			</li>
+			<li class="menu-item">
+				<a href="#" class="menu-link">item3</a>
+			</li>
+			<li class="menu-item">
+				<a href="#" class="menu-link">item4</a>
+			</li>
+			<li class="menu-item">
+				<a href="#" class="menu-link">item5</a>
+			</li>
+			<li class="menu-item">
+				<a href="#" class="menu-link">item6</a>
+			</li>
+		</ul>
+	</div>
+	<script>
+		$('.next-btn').click(function(){
+			$('.menu-link').removeClass('sel-menu');
+			$('.menu-link').next().addClass('sel-menu');
+			console.log('next');
+		})
+		$('.prev-btn').click(function(){
+			$('.menu-link').removeClass('sel-menu');
+			$('.menu-link').prev().addClass('sel-menu');
+			console.log('prev');
+		})
+	</script>
+</body>
+</html>

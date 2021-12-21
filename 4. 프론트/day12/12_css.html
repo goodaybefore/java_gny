@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .box{
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <button class="btn">click</button>
+    <div class="box">hi thier</div>
+    <script>
+        $('.btn').click(function(){
+            // console.log($('.box').css('height'));
+            $('.box').css('height','500px');//단일속성
+            $('.box').css({//여러속성=>{}필수
+                fontSize : '20px',
+                fontWeight : 'bold'
+            })
+        });
+    </script>
+</body>
+</html>

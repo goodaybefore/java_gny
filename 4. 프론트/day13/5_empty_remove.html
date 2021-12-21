@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>remove empty</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		.box-container1, .box-container2{
+			background: yellow; margin-top: 20px; min-height: 100px;
+		}
+	</style>
+</head>
+<body>
+	1
+	<div class="box-container1">
+		<div class="box">
+			<p>hi hello</p>
+		</div>
+		<button>button</button>
+	</div>
+	2
+	<div class="box-container2">
+		<div class="box">
+			<p>hi hello2</p>
+		</div>
+		<button>button2</button>
+	</div>
+	3
+	<div class="box-container3">
+		<div class="box">
+			<p>hi hello3</p>
+		</div>
+	<button>button3</button>
+	</div>
+
+
+	
+
+
+	<script>
+		$('.box-container2').remove();
+		$('.box-container1').empty();
+		$('.box-container3').html('');//empty와 가틍ㅁ
+	</script>
+</body>
+</html>

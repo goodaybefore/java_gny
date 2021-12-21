@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        *{padding: 0; margin: 0;}
+        .menu{list-style: none; display: flex;}
+        .menu-item{
+            width: 100%; height: 50px;
+            
+        }
+        .menu-link{
+            display: block; width: 100%; height: 100%;
+            border: 2px solid red; box-sizing: border-box;
+            margin-left: -2px;
+            text-align: center;
+            line-height: 46px; color: black;
+            font-size: 20px; font-weight: bold; text-decoration: none;
+        }
+        .menu-item:first-child .menu-link{  margin-left: 0; }
+         .selected{
+             background: yellow;
+         }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="menu">
+            <li class="menu-item"><a href="#" class="menu-link selected">메뉴1</a></li>
+            <li class="menu-item"><a href="#" class="menu-link">메뉴2</a></li>
+            <li class="menu-item"><a href="#" class="menu-link">메뉴3</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        $('.menu-link').click(function(e){
+            e.preventDefault();//이거 안하면 아래쪽에 메뉴가 잉쓸 시 맨위로 올라감
+            $('.menu-link').removeClass('selected');
+            $(this).addClass('selected');
+        })
+    </script>
+    
+</body>
+</html>

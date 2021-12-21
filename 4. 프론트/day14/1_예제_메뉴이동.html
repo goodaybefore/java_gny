@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>메뉴이동</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		*{padding: 0; margin: 0;}
+		ul{	list-style: none; }
+		a{	text-decoration: none; color: black;	}
+		.nav{	width: 80%; position: relative; margin: 0 auto;   }
+		.container{
+			width: 100%; height: 100%; box-sizing: border-box;
+			border: 2px solid red;
+			overflow: hidden;
+		}
+		.container-menu{
+			width: 200%; height: 100%; 
+		}
+		.container-menu::after{
+			clear: both; content: ''; display: block;
+		}
+		.menu-list{ 
+			display: flex;  box-sizing: border-box;
+			height: 50px; float: left;
+			width: 50%;
+		}
+		
+		.menu-item{
+			width: 100%; height: 100%; box-sizing: border-box; border-right: 2px solid red;
+		}
+
+		.menu-item:last-child{border-right: none;}
+		.menu-link{
+			width: 100%; height: 100%; line-height: 46px; text-align: center;
+			display: block; font-size: 20px; font-weight: bold;
+		}
+		.menu-item.sel .menu-link{
+			/* menu-itme sel 이면 menu-link에 색깔들어감*/
+			background: darkgreen;
+			color: gold;
+		}
+		.btn-box>.btn-prev,
+		.btn-box>.btn-next{
+			width: 30px; height: 30px;
+			background: darkred; color:white; font-size: 25px; font-weight: bold;
+			position: absolute; text-align : center; line-height: 26px;
+			border-radius: 50%;
+			top: 10px; left: -16px;
+		}
+		.btn-box>.btn-next{
+			left: auto; right: -16px;
+		}
+		.contents-box>div{
+			width: 80%; box-sizing: border-box; height: 300px; border: 2px solid red;
+			margin: 20px auto 0;
+			display: none;
+		}
+		.contents-box>.sel{
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<div class="nav">
+		
+		<div class="btn-box">
+			<a href="#" class="btn-prev"><</a>
+			<a href="#" class="btn-next">></a>
+		</div>
+		<div class="container">
+			<div class="container-menu">
+				<ul class="menu-list" >
+					<li class="menu-item" data-target="#contents1">
+						<a href="#" class="menu-link">메뉴1</a>
+					</li>
+					<li class="menu-item" data-target="#contents2">
+						<a href="#" class="menu-link" >메뉴2</a>
+					</li>
+					<li class="menu-item" data-target="#contents3">
+						<a href="#" class="menu-link" >메뉴3</a>
+					</li>
+					<li class="menu-item" data-target="#contents4">
+						<a href="#" class="menu-link" >메뉴4</a>
+					</li>
+					<li class="menu-item" data-target="#contents5">
+						<a href="#" class="menu-link" >메뉴5</a>
+					</li>
+				</ul>
+				<ul class="menu-list">
+					<li class="menu-item" data-target="#contents6">
+						<a href="#" class="menu-link" >메뉴6</a>
+					</li>
+					<li class="menu-item" data-target="#contents7">
+						<a href="#" class="menu-link" >메뉴7</a>
+					</li>
+					<li class="menu-item" data-target="#contents8">
+						<a href="#" class="menu-link" >메뉴8</a>
+					</li>
+					<li class="menu-item" data-target="#contents9">
+						<a href="#" class="menu-link" >메뉴9</a>
+					</li>
+					<li class="menu-item" data-target="#contents10">
+						<a href="#" class="menu-link" >메뉴10</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		</div>
+
+		<div class="contents-box">
+			<div id="contents1">1</div>
+			<div id="contents2">2</div>
+			<div id="contents3">3</div>
+			<div id="contents4">4</div>
+			<div id="contents5">5</div>
+			<div id="contents6">6</div>
+			<div id="contents7">7</div>
+			<div id="contents8">8</div>
+			<div id="contents9">9</div>
+			<div id="contents10">10</div>
+	</div>
+	<script>
+
+		//메뉴클릭
+		$('.menu-item').click(function(e){
+			e.preventDefault();
+			$('.menu-item').removeClass('sel');
+			$(this).addClass('sel');
+
+			//contents-box표시
+			// let target = $(this).children().data('target'); //target-data="contents~"를 menu-link에 저장했을때
+			let target = $(this).data('target');
+			$('.contents-box>div').removeClass('sel');
+			// console.log(target);
+			$(target).addClass('sel');
+			// console.log("현재 : "+($('.menu-item.sel').prev().length));
+			// console.log("부모 : "+($('.menu-item.sel').parent().prev().length));
+			//이전,다음버튼 처리
+			 $('.btn-prev').show();
+			 $('.btn-next').show();
+			//메뉴1이 클릭된경우 => 이전 메뉴가 없기 때문에 이전 버튼을 감춤
+			if($('.menu-item.sel').prev().length == 0 && $('.menu-item.sel').parent().prev().length==0){
+				$('.btn-prev').hide();
+			}
+			if($('.menu-item.sel').next().length == 0 && $('.menu-item.sel').parent().next().length==0){
+				$('.btn-next').hide();
+			}
+		})
+
+		//이전버튼
+		$('.btn-prev').click(function(e){
+			e.preventDefault();
+
+			//이전버튼 클릭시 같은 화면에서 이전 요소가 있는 경우
+			//메뉴 2~5, 메뉴 7~10
+			if($('.menu-item.sel').prev().length == 1){
+				$('.menu-item.sel').prev().click();
+			}
+			//이전버튼 클릭시 같은 화면에서 이전 요소가 없는 경우
+			//메뉴 1, 메뉴 6
+			else{
+				//메뉴6인 경우
+				//현재 선택된 메뉴의 부모요소의 앞 요소가 있는 경우
+					//현재 선택된 메뉴의 부모 요소의 앞 요소를 선택한 후, 마지막 메뉴를 선택하여 클릭
+				if($('.menu-item.sel').parent().prev().length==1){
+					$('.menu-item.sel').parent().prev().children().last().click();
+					$('.container-menu').animate({'margin-left':'0px'},500);
+				}
+				//메뉴1인 경우
+				//현재 선택된 메뉴의 부모요소의 앞 요소가 없는 경우
+				//아무것도 안해도됨
+
+			}
+		})
+
+		//다음버튼
+		$('.btn-next').click(function(e){
+			e.preventDefault();
+			if($('.menu-item.sel').next().length == 1){
+				$('.menu-item.sel').next().click();
+			}
+			else{
+				if($('.menu-item.sel').parent().next().length==1){
+					$('.menu-item.sel').parent().next().children().first().click();
+					let width = $('.menu-item.sel').parent().width()
+					$('.container-menu').animate({'margin-left':'-'+width+'px'},500);
+				}
+			}
+			
+		})
+
+		$('.menu-list:first-of-type .menu-item:first-child').click();
+
+		let min = 0, max = 5;
+		let num = min;
+
+		$('.nav .btn-box .btn').click(function(){
+			if($(this).hasClass('btn-prev')){
+				num = --num < min ? min : num;
+			}else{
+				num = ++num > max ? max : num;
+			}
+			$('.nav .container .container-menu').animate({marginLeft:-410 * num});
+		});
+
+	</script>
+</body>
+</html>

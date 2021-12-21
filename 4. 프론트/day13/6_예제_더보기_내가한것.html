@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>예제_더보기</title>
+	<script src="../js/jquery.min.js"></script>
+</head>
+
+<body>
+	<div class="box-container">
+		<div class="box-img">
+			<img src="../img/day1_2_cat.png" alt="cat">
+		</div>
+		<button class="append">더보기</button>
+	</div>
+	
+	<script>
+		$('.append').click(function(){
+			let html = '><img src="../img/day1_2_cat.png" alt="cat">'
+			$('.box-img').append(html)
+			console.log('실행');
+		});
+
+
+		// $('.btn2').click(function(){
+		// 	++num;
+		// 	//추가할 html코드를 뒤에 이어붙임
+		// 	var html = '<div class="box box'+num+'">'+num+'</div>';
+		// 	//요소 안 마지막에 append를 이용하여 추가
+		// 	$('.box-container').append(html);
+		// });
+	</script>
+</body>
+</html>

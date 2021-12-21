@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>버튼추가예제</title>
+	<script src="../js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="btn-container">
+		<button class="btn">button</button>
+	</div>
+
+	<script>
+		let num = 1;
+		// 안되는코드
+		// $('.btn').click(function(){
+		// 	let addHtml = '<button class="btn">button</button>'
+		// 	$('.btn-container').append(addHtml);
+		// });
+		$(document).on('click', '.btn', function(){
+			$('.btn-container').append('<button class="btn">'+ ++num +'button</button>');
+		})
+	</script>
+	 
+</body>
+</html>

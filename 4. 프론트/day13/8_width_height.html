@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>width height</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		.box{
+			width: 300px; height: 300px;
+			padding: 20px 30px;
+			border: 3px solid red;
+			margin: 40px 50px;
+			box-sizing: border-box;
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="result"></div>
+	<script>
+		// $('.box').width(200);
+		
+		//contents + padding을 200으로 설정 => 200 - (padding값) = contents 크기 
+		//=> 200 - 60 = 140
+		// $('.box').innerWidth(200);
+
+		//contents + padding + border을 200으로 설정 => 200 - (padding값) - (border값) = contents 크기
+		// = >200 - 60 - 6 = 134
+		// $('.box').outerWidth(200);
+
+		//contents + padding + border + margin을 200으로 설정
+		//=> 200 - (padding값) - (border값) - (margin값)= contents 크기
+		$('.box').outerWidth(200, true);
+
+		let str='';
+		str += 'contents width : ' + $('.box').width();
+		str += '<br>contents + padding width : ' + $('.box').innerWidth();
+		str += '<br>contents + padding + border width : ' + $('.box').outerWidth();
+		str += '<br>contents + padding + border + margin width : ' + $('.box').outerWidth(true);
+		console.log(str)
+		$('.result').html(str);
+	</script>
+</body>
+</html>

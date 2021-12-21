@@ -7,6 +7,7 @@
 	<title>NAVER</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 	<link rel="stylesheet" href="naver.css">
+	<script src="../js/jquery.min.js"></script>
 </head>
 <body>
 	<div class="whale-box container-fluid"></div>
@@ -24,6 +25,7 @@
 		</div>
 	</div>
 	<div class="menu-box container-fluid">
+		<div class="service-box"></div>
 		<div class="menu-container-box container">
 			<!-- 메일~ 더보기전까지 메뉴 -->
 			<div class="menu-container">
@@ -86,8 +88,8 @@
 	<div class="contents-box container">
 		<div class="contents-l-box">
 			<div class="contents-l-box1">
-				<a href="#" class="ad" target="_blank">
-					<img width=750px height=auto src="https://ssl.pstatic.net/tveta/libs/1360/1360990/1e561ba05c0c51b31720_20211210114107418.jpg" alt="none">
+				<a href="https://apply.iscu.ac.kr/" class="ad" target="_blank">
+					<img width="750" height="auto" src="https://ssl.pstatic.net/tveta/libs/1360/1360990/1e561ba05c0c51b31720_20211210114107418.jpg" alt="광고">
 				</a>
 			</div>
 			<div class="contents-l-box2">
@@ -95,11 +97,15 @@
 					<ul class="issue-area">
 						<li class="after">
 							<div class="link-media">머니투데이</div>
-							<a href="#" class="link-issue"> [3043명 일간조사]  윤 45.2% - 이 39.7%... 더 좁혀진 격차, 당선가능성은 오차범위 [여론조사]</a>
+							<a href="#" class="link-issue">[2021 부동산]① 비주류까지 다 오른 상반기, 돈줄 죄기에 얼어붙은 하반기</a>
 						</li>
 						<li class="after">
 							<div class="link-media">머니투데이</div>
-							<a href="#" class="link-issue"> [3043명 일간조사]  윤 45.2% - 이 39.7%... 더 좁혀진 격차, 당선가능성은 오차범위 [여론조사]</a>
+							<a href="#" class="link-issue">[2021 부동산]① 비주류까지 다 오른 상반기, 돈줄 죄기에 얼어붙은 하반기</a>
+						</li>
+						<li class="after">
+							<div class="link-media">머니투데이</div>
+							<a href="#" class="link-issue">[2021 부동산]① 비주류까지 다 오른 상반기, 돈줄 죄기에 얼어붙은 하반기</a>
 						</li>
 					</ul>
 					<div class="direct-area">
@@ -111,18 +117,18 @@
 				</div>
 				<div class="group-title after">
 					<div class="group-title-left">
-						<a href="#" class="link-newsstand" target="_blank">뉴스스탠드</a>
+						<a href="#" class="link-newsstand">뉴스스탠드</a>
 						<a href="#" class="btn-sort" id="mySort">구독한 언론사</a>
-						<a href="#" class="btn-sort sort-on" id="allSort">전체 언론사</a>
+						<a href="#" class="btn-sort sort-on" id="allSort">전체언론사</a>
 					</div>
 					<div class="group-title-right">
-						<a href="#" class="link-icon on"><i class="icon-list"></i></a>
-						<a href="#" class="link-icon"><i class="icon-thumb"></i></a>
+						<a href="#" class="link-icon"><i class="icon-list"></i></a>
+						<a href="#" class="link-icon on"><i class="icon-thumb"></i></a>
 						<a href="#" class="link-icon"><i class="icon-set"></i></a>
 					</div>
 				</div>
 				<div class="group-news">
-					<div class="frame-box">
+					<div class="fram-box">
 						<div class="line to-right1"></div>
 						<div class="line to-right2"></div>
 						<div class="line to-right3"></div>
@@ -135,7 +141,7 @@
 					<div class="row">
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -144,7 +150,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -153,7 +159,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -162,7 +168,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -171,7 +177,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -180,7 +186,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -191,7 +197,7 @@
 					<div class="row">
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -200,7 +206,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -209,7 +215,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -218,7 +224,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -227,7 +233,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -236,7 +242,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -247,7 +253,7 @@
 					<div class="row">
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -256,7 +262,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -265,7 +271,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -274,7 +280,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -283,7 +289,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -292,7 +298,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -303,7 +309,7 @@
 					<div class="row">
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -312,7 +318,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -321,7 +327,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -330,7 +336,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -339,7 +345,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -348,7 +354,7 @@
 						</div>
 						<div class="thumb-box">
 							<a href="#" class="thumb">
-								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/028.png" alt="언론사명">
+								<img height="20" src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png" alt="언론사명">
 							</a>
 							<div class="popup-wrap">
 								<a href="#" class="btn-popup">구독</a>
@@ -356,36 +362,64 @@
 							</div>
 						</div>
 					</div>
-					
 				</div>
-
 			</div>
 			<div class="contents-l-box3">
-				<h2 class="blind">주제별 캐스트</h2>
 				<div class="theme-head">
 					<div class="group-title after">
 						<div class="group-title-l">
-							<strong class="title">오늘 읽을만한 글</strong>
+							<span class="title">오늘 읽을만한 글</span>
 							<span class="dsc">주제별로 분류된 다양한 글 모음</span>
 						</div>
 						<div class="group-title-r">
 							<span class="info">
-								<strong class="new">1,762</strong>개의 글
+								1762
+								<span class="new">개의 글</span>
 							</span>
-							<a href="#" class="btn_set">관심주제 설정</a>
+							<a href="#" class="btn-set">관심주제 설정</a>
 						</div>
 					</div>
 					<div class="group-container">
-						<div class="group-cateogry">
+						<div class="btn-box">
+							<div class="btn">
+								<a href="#" class="btn-next"></a>
+								<a href="#" class="btn-prev"></a>
+							</div>
+						</div>
+						<div class="group-category">
 							<div class="main-category after">
-								<a href="#" class="pm_btn_prev"><i class="ico_btn"><span class="blind">이전</span></i></a>
-								<a href="#" class="pm_btn_next"><i class="ico_btn"><span class="blind">다음</span></i></a>
 								<ul class="category-list">
 									<li class="category-item">
-										<a href="#" class="category-link enter sel">엔터</a>
+										<a href="#" class="category-link enter">엔터</a>
 									</li>
 									<li class="category-item">
-										<a href="#" class="category-link sports">스포츠</a>
+										<a href="#" class="category-link sports sel">스포츠</a>
+									</li>
+									<li class="category-item">
+										<a href="#" class="category-link car">자동차</a>
+									</li>
+									<li class="category-item">
+										<a href="#" class="category-link webtoon">웹툰</a>
+									</li>
+									<li class="category-item">
+										<a href="#" class="category-link economy">경제M</a>
+									</li>
+									<li class="category-item">
+										<a href="#" class="category-link recipe">레시피</a>
+									</li>
+									<li class="category-item">
+										<a href="#" class="category-link game">게임</a>
+									</li>
+									<li class="category-item">
+										<a href="#" class="category-link movie">영화</a>
+									</li>
+								</ul>
+								<ul class="category-list">
+									<li class="category-item">
+										<a href="#" class="category-link enter">JOB&</a>
+									</li>
+									<li class="category-item">
+										<a href="#" class="category-link sports sel">스포츠</a>
 									</li>
 									<li class="category-item">
 										<a href="#" class="category-link car">자동차</a>
@@ -425,10 +459,13 @@
 				<div class="contents-view">
 					<ul class="contents-list">
 						<li class="contents-item">
-							<a href="#" class="contents-link"><i class="news_badge">이슈</i> 코로나 19 바이러스 감염증</a>
+							<a href="#" class="contents-link">
+								<i class="news-badge">이슈</i>
+								<span class="news">코로나바이러스감염증-19 현황</span>
+							</a>
 						</li>
 						<li class="contents-item">
-							<a href="#" class="contents-link"><span class="news">(신문1면) 언론사 헤드라인 보기</span></a>
+							<a href="#" class="contents-link">2</a>
 						</li>
 					</ul>
 				</div>
@@ -440,5 +477,62 @@
 		</div>
 	</div>
 	<footer class="footer-box container"></footer>
+	<script>
+		$('.menu-box .btn-more').on('click', function(e){
+			e.preventDefault();
+			$('.service-box').toggle();
+			// var text = $('.menu-box .btn-more').text();
+			// text 받아오기 대신 hasClass 사용
+			if(!$(this).hasClass('fold')){
+				$('.menu-box .btn-more').text('접기');
+			}else{
+				$('.menu-box .btn-more').text('더보기');
+			}
+			$(this).toggleClass('fold');
+		});
+
+		//왜안됨???????????????????????????????????
+		let min3 = 0; max3=1;
+		let num3 = min3
+		$('.contents-l-box3 .btn-box .btn').click(function(e){
+			console.log(1);
+			e.preventDefault();
+			if($(this).hasClass('btn-prev')){
+				num3 = --num3<min3?min3:num3;
+			}else{
+				num3 = ++num3>max3?max3:num3;
+			}
+			$('.contents-l-box3 .main-category').animate({marginLeft:-750 * num3})
+			
+		})
+
+
+		/* 내가한것(거의 예제를베꼇다고볼수잇지...)
+		let min=0, max=1;
+		let num=min;
+		$('.contents-l-box3 .btn-box .btn-prev').click(function(e){
+			e.preventDefault();
+			num = --num>min?max:num;
+			$('.main-category').animate({marginLeft:-750*num})
+		});
+		$('.contents-l-box3 .btn-box .btn-next').click(function(e){
+			e.preventDefault();
+			num = ++num>max?min:num;
+			$('.main-category').animate({marginLeft:-750*num})
+		})*/
+
+		// $('.menu-link').click(function(e){
+        //     e.preventDefault();//이거 안하면 아래쪽에 메뉴가 잉쓸 시 맨위로 올라감
+        //     $('.menu-link').removeClass('selected');
+        //     $(this).addClass('selected');
+        // })
+
+
+
+		// $('a').click(function(e){
+        //     e.preventDefault();
+        // })
+
+	</script>
 </body>
 </html>

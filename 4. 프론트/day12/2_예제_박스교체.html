@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박스교체예제</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .btn-prev, .btn-next{
+            width: 50px; height: 50px; box-sizing: border-box;
+            background: #fff; cursor: pointer;
+            float: left; border-width: 1px;
+        }
+        .btn-prev:hover, .btn-next:hover{
+            background: #ccc;
+        }
+        .container{
+            background: blue;
+            height: 50px; width: 400px;
+            background: yellow;
+            float: left; margin: 0 20px;
+            border: 1px solid black;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .wrapper{
+            height: 100%; width: 300%; background: skyblue;
+        }
+        .box{
+            height: 100%; width: calc(100%/3); float: left;
+            text-align: center; line-height: 48px;
+        }
+    </style>
+</head>
+<body>
+    <button class="btn-prev">prev</button>
+    <div class="container">
+        <div class="wrapper">
+            <div class="box box1">1</div>
+            <div class="box box2">2</div>
+            <div class="box box3">3</div>
+        </div>
+    </div>
+    <button class="btn-next">next</button>
+    <script>
+        let num=1;
+        $('.btn-prev').click(function(){
+            num--;
+            if(num<1){
+                num=1;
+            }else{
+                if(num==1)
+                $('.wrapper').html('<div class="box box2">1</div>')
+                if(num==2)
+                $('.wrapper').html('<div class="box box2">2</div><div class="box box3">3</div>')
+            }
+        })
+        $('.btn-next').click(function(){
+            num++;
+            if(num>3){
+                num=3;
+            }else{
+                if(num==2)
+                $('.wrapper').html('<div class="box box2">2</div><div class="box box3">3</div>')
+                if(num==3)
+                $('.wrapper').html('<div class="box box2">3</div>')
+            }
+        })
+    </script>
+</body>
+</html>
