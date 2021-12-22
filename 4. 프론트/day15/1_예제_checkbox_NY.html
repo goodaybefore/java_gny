@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkbox</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .red-box{
+            width: 150px; height: 50px; border: 1px solid red;
+            float: left; margin-left: 10px;
+        }
+        .box{
+            float: left; margin-right: 10px; box-sizing: border-box;
+            width:150px; height: 50px; line-height: 50px; font-weight: bold;
+        }
+        .box-container::after{
+            clear: both; content: ''; display: block;
+        }
+        /* .container-box{
+            display: block;
+        } */
+        .red-box.checked{
+            border: none; width: auto; line-height: 50px;
+        }
+        .container-checkbox input[type=checkbox]{
+            display: none;
+        }
+        .btn-clear{display: none;}
+    </style>
+</head>
+<body>
+    <div class="box-container">
+        <div class="box">사과</div>
+        <div class="box">배</div>
+        <div class="box">바나나</div>
+        <div class="box">키위</div>
+    </div>
+    <div class="container-checkbox">
+        <div class="check-box">
+            <label>
+                <input type="checkbox" name="fruit" value="사과">사과
+            </label>
+        </div>
+        <div class="check-box">
+            <label>
+                <input type="checkbox" name="fruit" value="배">배
+            </label>
+        </div>
+        <div class="check-box">
+            <label>
+                <input type="checkbox" name="fruit" value="바나나">바나나
+            </label>
+        </div>
+        <div class="check-box">
+            <label>
+                <input type="checkbox" name="fruit" value="키위">키위
+            </label>
+        </div>
+    </div>
+    <button class="btn-set">버튼</button>
+    <button class="btn-clear">초기화</button>
+    <button class="btn-save">저장</button>
+
+    <script>
+        $('.container-checkbox input[type=checkbox]').prop('disabled', true)
+        $('.btn-save').hide();
+        let arr = new Array();
+        //box-container안에 있는 box의 개수 (box개수만큼 선택 가능하도록 최대 개수 설정)
+        let maxCount = 3;
+        // console.log(maxCount);
+        $('input[type=checkbox]').click(function(){
+            //최대 개수를 체크,해서 최대 개수만큼 저장되어 있으면 추가하지 않음.
+            //배열에 저장된 개수 파악 => maxCount와 arr.length가 같으면 return
+            if(maxCount == arr.length && $(this).prop('checked')){
+                alert("최대 "+maxCount+"개 선택이 가능합니다")
+                $(this).prop('checked', false); // 선택된 checked를 선택 해제
+                return;}
+
+            //모든 box의 글자를 제거하고, checked 클래스 제거
+            $('.red-box').removeClass('checked').text('');
+            
+            let value = $(this).val();
+            //클릭한 체크박스가 체크된 상태이면 배열에 값을 추가
+            if($(this).prop('checked')){
+                arr.push(value);
+            }
+            //클릭한 체크박스가 체크 해제된 상태명 배열에서 값을 제거
+            else{
+                let index = arr.indexOf(value);
+                arr.splice(index, 1);
+            }
+            //배열에 있는 글자들을 순서에 맞게 box에 채워넣고 checked클래스 추가
+            for(var i in arr){
+                $('.box').eq(i).addClass('checked').text(arr[i]);
+            }
+            // for(let i = 0;i<arr.length;i++){}//위에 for문이랑 같음
+        })
+        let fruitName = [];
+        $('.btn-set').click(function(){
+            $(this).hide();
+            $('.box').hide();
+            $('.btn-clear').show();
+            $('.btn-save').show();
+
+            
+            //현재 적혀있는 '보기'들을 배열에 저장
+            
+            for(let i=0;i<$('.box').length;i++){
+                fruitName[i] = $('.box').eq(i).text();
+            }
+            console.log(fruitName);
+            
+            
+            //빨간테두리박스 설정
+            for(let i=0;i<maxCount;i++){
+                $('.box').eq(i).addClass('red-box').text('').show();
+            }
+            //체크박스 보여주기
+            $('.container-checkbox input[type=checkbox]').prop('disabled', false); //이거 안해주면 클릭해도 동작안함
+            $('.container-checkbox input[type=checkbox]').show();
+        });
+        $('.btn-clear').click(function(){
+            $(this).hide();
+            $('.btn-save').hide();
+            
+            $('.container-checkbox input[type=checkbox]').hide();
+            $('.box').removeClass('red-box');
+            console.log(fruitName);
+            for(let i=0;i<$('.box').length;i++){
+                $('.box').eq(i).text('')
+                $('.box').eq(i).text(fruitName[i]);
+            }
+            //메뉴 설정에서 체크된 메뉴들을 해제해줘야함
+            $('.container-checkbox input[type=checkbox]').prop('checked', false);
+            $('.box').show();
+            $('.btn-set').show();
+
+            //배열초기화
+            arr=[];
+        });
+        $('.btn-save').click(function(){
+            $(this).hide();
+            $('.btn-clear').hide();
+
+            //체크된게 없으면
+            if(arr==''){
+                alert('변경사항이 없습니다. 초기화면으로 돌아갑니다.')
+            }            
+
+
+            //btn-clear 복붙
+            $('.container-checkbox input[type=checkbox]').hide();
+            $('.box').removeClass('red-box');
+            // console.log(fruitName);
+            for(let i=0;i<$('.box').length;i++){
+                $('.box').eq(i).text('')
+                $('.box').eq(i).text(fruitName[i]);
+            }
+            $('.box').show();
+            $('.btn-set').show();
+
+        })
+
+    </script>
+    
+</body>
+</html>
