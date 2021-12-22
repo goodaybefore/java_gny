@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>timer example</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		.timer-box{
+			width: 500px; padding: 10px; height: 50px;
+			border: 2px solid black;
+			line-height: 46px; text-align: center;
+		}
+		.clock-box *{
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<!-- 
+		hh:MM:ss mmm
+		00:00:00 000 타이머
+
+
+		1. 60초가 되면 1:00이 되도록 코드작성
+	-->
+	<div class="clock-box">
+		<div class="hour"></div>
+		<div class="min"></div>
+		<div class="sec"></div>
+		<div class="mmm"></div>
+	</div>
+
+	<!-- 화면에 1 2 3 4 5...가 출력되도록 코드를 작성하세요 -->
+	<div class="timer-box">
+		0
+	</div>
+	<button class="btn-start">start</button>
+	<script>
+		let sec = 0, min=0, hour=0, mmm=0;
+		let limit = 5;
+		$(function(){
+			setInterval(function(){
+				++sec;
+				if(sec % limit==0){
+					++min;
+					sec = 0;
+					$('.clock-box .min').text(min+"분");
+				}
+				if(min % limit == 0){
+						++hour;
+						min = 0;
+						$('.clock-box .min').text(hour+"시");
+					}
+				$('.clock-box .sec').text(sec+"초");
+				
+
+			},500,)
+		})
+	</script>
+</body>
+</html>
