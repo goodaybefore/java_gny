@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rolling to right</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .container{ height: 50px; border: 1px solid black;
+            overflow: visible;
+            position: relative; text-align: center;}
+        /* .box{height: 50px; line-height: 50px;} */
+        .box.box1{background: red;}
+        .box.box2{background: darkgreen;}
+        .box.box3{background: goldenrod;}
+        .wrap-box{width: 300%;}
+        .wrap-box::after{ clear: both; content: ''; display: block;}
+        .box{width: calc(100%/3); float: left; height: 50px; line-height: 50px; }
+        .btn-box{
+            position: absolute; top: 10px; right: 10px;
+        }
+        .prev-btn, .next-btn{
+            width: 30px; height: 30px; box-sizing: border-box; float: left; border: 1px solid red;
+            text-align: center; line-height: 28px; background: #fff;
+            text-decoration: none; color: black; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wrap-box">
+            <div class="btn-box">
+                <a href="#" class="prev-btn">◀</a>
+                <a href="#" class="next-btn">▶</a>
+            </div>
+            <div class="box box1">1</div>
+            <div class="box box2">2</div>
+            <div class="box box3">3</div>
+        </div>
+    </div>
+    <script>
+        let rollingId;
+        $(function(){
+            // rollingId = startRolling();
+            $('.next-btn').click(function(e){
+                e.preventDefault();
+                console.log('next click');
+                let width = $('.container').width();
+                $('.box').first().animate({marginLeft:-width}, 1000, function(){
+                    $(this).removeAttr('style').detach().appendTo('.wrap-box');
+                })
+            });
+            $('.prev-btn').click(function(e){
+                e.preventDefault();
+                console.log('prev click');
+                let width = $('.container').width();
+
+                $('.box').last().detach().css('margin-left',-width+'px').prependTo('.wrap-box').animate({marginLeft:-width}, 1000);//떼서 붙이기 '전'에 margin을 -~~만큼 줘야함
+                
+                // $('.box').first().animate({marginRight:-width}, 1000, function(){
+                //     $(this).removeAttr('style').detach().appendTo('.wrap-box');
+                // })
+            })
+        })
+
+
+        function startRolling(){
+            return setInterval(function(){
+                if(!$('.box').first().is(':animated')){//첫번째 요소가 움직이지 않을 떄 실행문을 실행함
+                    let width = $('.container').width();
+                    $('.box').first().animate({marginRight:-width}, 1000, function(){
+                        $(this).removeAttr('style').detach().appendTo('.wrap-box');
+                    })
+                }
+            })
+        }
+        // $(function(){
+        //     rollingId = setInterval(function(){
+        //         $('.box').first().animate({marginRight:'100%'}, 1000)
+        //     })
+        // })
+    </script>
+</body>
+</html>

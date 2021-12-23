@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rolling to right</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .container{ height: 50px; border: 1px solid black;
+            overflow: visible;}
+        /* .box{height: 50px; line-height: 50px;} */
+        .box.box1{background: red;}
+        .box.box2{background: darkgreen;}
+        .box.box3{background: goldenrod;}
+        .wrap-box{width: 300%;}
+        .wrap-box::after{ clear: both; content: ''; display: block;}
+        .box{width: calc(100%/3); float: left; height: 50px; line-height: 50px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wrap-box">
+            <div class="box box1">1</div>
+            <div class="box box2">2</div>
+            <div class="box box3">3</div>
+
+        </div>
+    </div>
+    <script>
+        let rollingId;
+        $(function(){
+            rollingId = startRolling();
+        })
+        function startRolling(){
+            return setInterval(function(){
+                if(!$('.box').first().is(':animated')){//첫번째 요소가 움직이지 않을 떄 실행문을 실행함
+                    let width = $('.container').width();
+                    $('.box').first().animate({marginLeft:-width}, 1000, function(){
+                        $(this).removeAttr('style').detach().appendTo('.wrap-box');
+                    })
+
+
+                }
+            })
+        }
+        // $(function(){
+        //     rollingId = setInterval(function(){
+        //         $('.box').first().animate({marginRight:'100%'}, 1000)
+        //     })
+        // })
+    </script>
+</body>
+</html>

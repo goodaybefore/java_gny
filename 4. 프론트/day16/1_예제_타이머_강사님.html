@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>timer example</title>
+	<script src="../js/jquery.min.js"></script>
+	<style>
+		.timer-box{
+			width: 500px; padding: 10px;
+			border: 2px solid black;
+			line-height: 46px; text-align: center;
+		}
+		.clock-box *{
+			float: left;
+		}
+		.record{color: blue;}
+		.record:first-child{color: red;}
+		.record-box{
+			height: 250px; overflow: auto;
+		}
+	</style>
+</head>
+<body>
+	<!-- 
+		hh:MM:ss mmm
+		00:00:00 000 타이머
+		1. 60초가 되면 1:00이 되도록 코드작성
+	-->
+	<div class="timer-box">
+		<span class="hour">00</span>
+		 : 
+		<span class="minutes">00</span>
+		 : 
+		<span class="second">00</span>
+		<span class="milisec">00</span>
+		<div class="record-box">
+			<!-- <div class="record">1</div> -->
+		</div>
+	</div>
+
+	<!-- 화면에 1 2 3 4 5...가 출력되도록 코드를 작성하세요 -->
+	<button class="btn-start">start</button>
+	<button class="btn-stop">stop</button>
+	<button class="btn-record">record</button>
+	<button class="btn-reset">reset</button>
+	<script>
+		let ms = 0, sec = 0, min = 0, hour = 0;
+		let timerId;
+		$(function(){
+			$('.btn-stop').hide();
+			//stop버튼 숨김
+			$('.btn-start').click(function(){
+				$('.btn-start').toggle();
+				$('.btn-stop').toggle();
+				timerId = setInterval(function(){
+					++ms;
+					if(ms == 100){ms = 0; ++sec;}
+					if(sec == 60){sec = 0; ++min;}
+					if(min == 60){min = 0; ++hour;}
+					// if(hour == 24){hour = 0;}
+					$('.milisec').text(addZero(ms));
+					$('.second').text(addZero(sec));
+					$('.minutes').text(addZero(min));
+					$('.hour').text(addZero(hour));
+				},10)
+			});
+			//중지버튼클릭
+			$('.btn-stop').click(function(){
+				$('.btn-start').toggle();
+				$('.btn-stop').toggle();
+				clearInterval(timerId);
+			});
+			//reset 버튼 클릭
+			$('.btn-reset').click(function(){
+				// clearInterval(timerId);
+				$('.btn-stop').click();
+				ms = 0; sec = 0; min = 0, hour = 0;
+				$('.milisec').text('00');
+				$('.second').text('00');
+				$('.minutes').text('00');
+				$('.hour').text('00');
+
+				//html 비우는거랑 empty랑 두가지 선택지
+				$('.record-box').html('');
+				$('.record-box').empty();//본인은 제외하고 자식요소들을 삭제
+			})
+
+			$('.btn-record').click(function(){
+				let strMs = addZero(ms);
+				let strS = addZero(sec);
+				let strM = addZero(min);
+				let strH = addZero(hour);
+
+				let strTime = strH + ' : ' + strM +" : "+strS+" : "+strMs
+				let strDiv = '<div class="record">'+strTime+'</div>'
+				$('.record-box').prepend(strDiv);
+
+			})
+			
+		})
+		function addZero(num, isMs){
+			if(isMs = true){
+				return (num<10 ? '0'+num : num);
+			}else{
+				return num<10 ? '0'+num : num;
+			}
+		}
+		
+	</script>
+</body>
+</html>
