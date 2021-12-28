@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mouse</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+        .container{padding: 100px; border: 1px solid black;}
+        .box{height: 300px; border: 1px solid red;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            over 횟수 : <span class="over-count">0</span><br>
+            enter 횟수 : <span class="enter-count">0</span><br>
+            leave count : <span class="leave-count">0</span><br>
+            out count : <span class="out-count">0</span>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            let overCount = 0, enterCount = 0;
+            let leaveCount = 0, outCount = 0;
+            $('.container').mouseover(function(){
+                overCount++;
+                $('.over-count').text(overCount);
+            });
+            $('.container').mouseenter(function(){
+                enterCount++;
+                $('.enter-count').text(enterCount);
+            });
+            $('.box').mouseover(function(e){
+                e.stopPropagation();
+            })
+
+            //mouseleave, mouseout
+            $('.container').mouseleave(function(){
+                leaveCount++;
+                $('.leave-count').text(leaveCount);
+            });
+            $('.container').mouseout(function(){
+                outCount++;
+                $('.out-count').text(outCount);
+            });
+            $('.box').mouseout(function(e){
+                e.stopPropagation();
+            })
+
+            //mousedown, up
+            $('.box').mousedown(function(e){
+                console.log('눌렀습니다');
+                console.log(e.originalEvent.x+" , "+e.originalEvent.y);
+            })
+
+        })
+    </script>
+</body>
+</html>

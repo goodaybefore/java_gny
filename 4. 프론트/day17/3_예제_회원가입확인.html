@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예제_회원가입 확인</title>
+    <script src="../js/jquery.min.js"></script>
+</head>
+<body>
+    <!-- ID입력창과 ID중복체크 버튼, 회원가입 버튼을 구성 후
+    회원가입 버튼을 눌렀을 때 아이디 중복체크를 했으면 '회원가입 완료됐습니다'
+    중복체크 안했으면 '아이디 중복체크를 하세요' 알림창을 띄우기
+    단, 아이디를 입력 후 중복체크를 해도 아이디를 변경하면 다시 중복체크 하여야한다 
+    단, 아이디 입력 X시 중복체크를 해도 회원가입이 안됨
+    아이디 입력 X시 회원가입 버튼을 눌렀을 때 아이디를 입력하세요 출력-->
+    <!-- 내꺼! -->
+    <!-- ID : <input type="text" name="id">
+    <button class="check">중복체크</button>
+    <button class="join">회원가입</button> -->
+
+
+    <!-- 강사님 -->
+    <input type="text" name="id">
+    <button id="btnDup">중복체크</button>
+    <br>
+    <button id="btnSubmit">회원가입</button>
+    <script>
+        /* 내꺼!(됨!!!!!) - 하지만 강사님께 더 맞음 ㅇㅅㅇ
+        $(function(){
+            let idCheck = false;
+            let joinCheck = false;
+            $('input[name=id]').change(function(){
+                console.log("ID입력");
+                idCheck = true;
+            })
+
+            $('.check').click(function(){
+                if(idCheck == true){
+                    console.log('id체크완료');
+                    joinCheck = true;
+                    idCheck = false;
+                }
+                else{console.log('id체크 안됨');}
+            })
+            $('.join').click(function(){
+                if(joinCheck == true){
+                    console.log('회원가입완료');
+                    join = false;
+                    joinCheck = false;
+                }
+                else{alert('id중복체크를 하세요');}
+            })
+        })*/
+
+        
+        //강사님
+        $(function(){
+
+            let isDuplicated = false;
+            $('input[name=id]').change(function(){
+                isDuplicated = false;
+            })
+
+            $('#btnDup').click(function(){
+                if($('input[name=id]').val()==''){
+                    alert('ID입력하세요')
+                    return;
+                }
+                isDuplicated = true;
+                alert('중복체크 완료')
+            });
+
+            $('#btnSubmit').click(function(){
+                if($('input[name=id]').val()==''){
+                    alert('ID입력하세요')
+                    return;
+                }
+                if(isDuplicated){
+                    alert('회원가입 완료')
+                }else{
+                    alert('아이디중복체크 하세요')
+                }
+
+            });
+        })
+
+    </script>
+    
+</body>
+</html>

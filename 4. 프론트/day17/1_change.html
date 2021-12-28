@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event</title>
+    <script src="../js/jquery.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <input type="text" name="id" placeholder="id">
+    <input type="text" name="pw" placeholder="pw">
+    <br>
+    성별
+    <input type="radio" name="gender" value="여성">여성
+    <input type="radio" name="gender" value="남성">남성
+    <br>
+    과일선택<br>
+    <input type="checkbox" name="fruit" value="사과">사과
+    <input type="checkbox" name="fruit" value="배">배
+    <input type="checkbox" name="fruit" value="포도">포도
+    <br>select tag
+    <select name="year">
+        <option>출생년도</option>
+        <option>1900</option>
+        <option>1901</option>
+        <option>2021</option>
+    </select>
+    <script>
+        $('input[name=id]').click(function(){
+            console.log('click');
+        })
+        $('input[name=id]').change(function(){
+            console.log('text change');
+        })
+        $('input[type=radio]').change(function(){
+            console.log('radio box change');
+        })
+        $('input[type=checkbox]').change(function(){
+            console.log('checkbox change');
+        })
+        $('select').change(function(){
+            console.log('select change');
+        })
+    </script>
+</body>
+</html>

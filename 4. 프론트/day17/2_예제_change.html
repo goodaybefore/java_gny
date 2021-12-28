@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>change 예제</title>
+    <script src="../js/jquery.min.js"></script>
+</head>
+<body>
+    <!-- 좋아하는 태그를 select로 구성한 후, 값이 바뀌면 바뀐 값을 콘솔에 출력 -->
+    <select name="fruit">
+        <option value="none">select fruit</option>
+        <option value="apple">apple</option>
+        <option value="banana">banana</option>
+        <option value="strawberry">strawberry</option>
+        <option value="peach">peach</option>
+    </select>
+    <script>
+        $(function(){
+            $('select[name=fruit]').change(function(){
+                let selFruit = $(this).val();
+                console.log(selFruit);
+            })
+        })
+    </script>
+</body>
+</html>

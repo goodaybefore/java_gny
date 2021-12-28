@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>join</title>
+    <script src="../js/jquery.min.js"></script>
+</head>
+<body>
+    <!-- id pw를 입력하는 회원가입창을 만들고
+         이 둘이 입력된 상태에서만 버튼 클릭 시 서버에 데이터 전송
+         둘중 하나라도 입력되지 않으면 서버에 전송하지 않음 -->
+    <form>
+        <input type="text" name="id"><br>
+        <input type="password" name="pw"><br>
+        <button type="submit">submit</button>
+    </form>
+
+    <script>
+        let id;
+        let pw;
+        $('form').submit(function(){
+            id = $('input[name=id]').val();
+            pw = $('input[name=pw]').val();
+            if(id.trim()==''||pw.trim()==''){
+                alert('input new id or pw')
+                return false
+            }
+        })
+    </script>
+</body>
+</html>
