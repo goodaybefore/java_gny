@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>객체</title>
+	<script src="../js/jquery.min.js"></script>
+	<style></style>
+</head>
+<body>
+	<div class="box"></div>
+	<script>
+		/* 배열 : 값만 넣어주면 순서대로 0번지부터 값이 들어감
+			 객체 : 속성이름 : 값 으로 해줘야함*/
+		let arr = [];//배열
+		let obj = { 
+			background : 'red',
+			height : 100
+		};//객체
+		$('.box').css(obj)
+
+		let obj2 = {
+			name : '홍길동',
+			grade : 1,
+			classNum : 1,
+			num : 1,
+			subject : {
+				kor : 100,
+				eng : 10,
+				math : 100
+			},
+			print : function(){
+				//this 안 붙이면 정상동작 하지 않음
+				return '이름 : '+this.name + ', 학년 : ' + this.grade;
+			}
+		}
+		console.log(obj2);
+		console.log(obj2.name);
+		console.log(obj2['name']);
+		console.log(obj2.subject.kor);
+		console.log(obj2['subject']['kor']);
+		console.log(obj2.print());
+		obj2.schoolName = '청주그린';
+		console.log('추가된 obj2 : ');
+		console.log(obj2);
+
+		obj2.print2 = function(){
+			console.log('This is print2');
+		}
+		obj2.print2();
+
+		delete obj2.schoolName;
+		console.log(obj2.schoolName);
+	</script>
+</body>
+</html>
