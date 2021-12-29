@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원가입 예제</title>
+	<!-- datepicker -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+</head>
+<body>
+	<!-- 회원가입 화면
+	- 입력항목 : 아이디, 비번, 비번확인, 이름, 성별, 생년월일, 주소
+	- 아이디, 비번, 비번확인,이름, 성별, 생년월일은 필수항목
+	- 비밀번호와 비밀번호확인 => 값이 같아야함
+
+	조건 만족 시 회원가입 진행, 불만족시 alert창으로 불만족 조건 알려주고 회원가입 진행 stop
+	약관동의창 만들고 약관동의 체크X시 회원가입no -->
+
+	<form class="join-form">
+		<div class="id-box">
+			ID <input type="text" name="id" id="id"><br>
+		</div>
+		<div class="pw-box">
+			PW <input type="password"name="pw" id="pw"><br>
+		</div>
+		<div class="pw-check-box">
+			PW check <input type="password"name="pw_check" id="pw_check"><br>
+		</div>
+		<div class="name-box">
+			NAME <input type="text"name="name" id="name"><br>
+		</div>
+		<div class="gender-box">
+			GENDER<br>
+			<label>
+				<input type="radio" name="gender" value="female">여성
+			</label>
+			<label>
+				<input type="radio" name="gender" value="male">남성
+			</label>
+			
+		</div>
+		<div class="birth-box">
+			birth <input type="text" name="birth" id="birth"><br>
+		</div>
+		<div class="address-box">
+			address <input type="text" name="address" id="address"><br>
+		</div>
+		<input type="button" value="회원가입" class="btn">
+	</form>
+
+	<script>
+		//birth 
+		$( function() {
+			$( "#birth" ).datepicker();
+			$( "#birth" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+
+			let id, pw, pwCheck, name, gender, birth, address;
+			address='';
+			let warnings = '';
+			$('.btn').click(function(e){
+				
+			// })
+      // $('form.join-form').submit(function(){
+				warnings='';
+				// e.defaultPrevented();
+        id = $('input[name=id]').val();
+        pw = $('input[name=pw]').val();
+				pwCheck = $('input[name=pw_check]').val();
+				name = $('input[name=name]').val();
+				gender = $('input[name=gender]').val();
+				birth = $('input[name=birth]').val();
+				address = $('input[name=address]').val();
+
+				console.log('id : '+id);
+				console.log('pw : '+pw);
+				console.log('pwCheck : '+pwCheck);
+				console.log('name : '+name);
+				console.log('gender : '+gender);
+				console.log('birth : '+birth);
+				console.log('address : ' +address);
+
+				//뭔가 잘못입력되어있을때
+        if(id.trim()==''||pw.trim()==''||pwCheck.trim()==''||name.trim()==''||gender.trim()==undefined||birth.trim()==''){
+					if(id.trim()=='') warnings += '아이디 ';
+					if(pw.trim()=='') warnings += '비밀번호 ';
+					if(pwCheck.trim()=='') warnings += '비밀번호확인 ';
+					if(name.trim()=='') warnings += '이름 ';
+					if(gender.trim()==undefined) warnings += '성별 ';
+					if(birth.trim()=='') warnings += '생년월일 ';
+					console.log(warnings);
+					alert(warnings+'를 입력하세요');
+          return false;
+        }
+				//비번/비번확인이 일치하지 않을 떄
+				if(pw.trim()!=pwCheck.trim()){
+					alert('비밀번호가 일치하는지 확인해주세요.')
+				}
+				
+			});
+
+		});
+
+		
+	</script>
+</body>
+</html>
