@@ -47,4 +47,3 @@ atlassian-ide-plugin.xml
 
 #log4J
 log4j.xml
-*.class
