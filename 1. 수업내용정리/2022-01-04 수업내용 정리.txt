@@ -1,0 +1,46 @@
+화면 <-> 컨트롤러(class)<-> 서비스(Interface) <-> 다오(Interface)
+		      서비스 임플(class)	    매퍼(xml)
+
+*resources/mappers만들 때 폴더 스펠링 주의하기(resource로 만들면 서버(톰캣)이 경로를 찾을 수 없다고 뜸
+
+root-context에 이것저것 추가한 후
+service 패키지에 서비스 추가(interface, class 둘다 만들어주기) - 이 때, class에는 interface를 implements해주고, 위에 @Service 해주기
+
+그리고 HomeController에 다음의 두줄 추가하기
+@Autowired : 개체를 자동으로 만들어주는 역할
+MemberService memberService;
+//인터페이스로 객체 만들기-> @Service를 해줬기 때문에 멤버서비스를 이용한 객체를 만들 때 구현클래스(MemberService)클래스를 찾아서 객체를 만들어줌
+
+
+- dao 만들기//  DAO : data access(?) Obejct
+dao패키지에 MemberDAO interface만들고 resource/mappers에 memeberMappers.xml만들기 + 예제소스 추가하기
+
+MemberServiceImp로 가서
+@Autowired
+MemeberDAO memberDao; 추가
+
+
+여기까지하면 DB연동완료
+
+스프링 : DB연동 테스트
+
+
+mysql 저장
+mysql로 작업했는데 왜 root-context.xml에는 mapper가 mybatis로 사용될까?
+스프링 : DB 테이블 생성 쿼리
+
+
+src-main-webapp에 table으로저장?
+
+
+
+
+이러한 경우에 에러가 생긴다!
+@Service 안하면
+Unsatisfied dependency ERROR => @Autowired 부분이 제대로 안된거임
+
+인터페이스의 객체를 만들려면 구현 클래스의 객체를 만든 다음에 연결해줘야함 => @Service가 자동으로 이걸 해줌...
+@Service가 없으면
+MemberService asf =  new MemberService() ;로, 인터페이스를 객체화시키려고함 => ERROR 발생
+
+HomeController 에서 loginPost메소드에서 MemberVO member 매개변수가 들어가면, 데이터가 들어오든 안 들어오든간에 무조건 객체를 일단 만들어버림. 그래서 기본생성자를 꼭 만들어주거나 생성자를 아예 만들어주면 안됨
