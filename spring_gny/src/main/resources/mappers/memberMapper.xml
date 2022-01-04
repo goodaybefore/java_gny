@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.spring.dao.MemberDAO">
+	<!-- 쿼리문작성
+	 - dao메소드의 메소드명과 mapper의 id를 일치시켜야함
+	 - resultType을 저렇게 해주면 객체를 만들어서 해당 위치(?)에 자동으로 저장시켜줌 -->
+	<select id="getMember" resultType="kr.green.spring.vo.MemberVO">
+		SELECT * FROM member WHERE me_id = #{me_id}
+	<!-- memberDAO의 @Param() 이 부분과 샵중괄호 안의 내용이라 같아야함 -->
+	</select>
+	
+</mapper>

@@ -1,10 +1,12 @@
 package kr.green.spring.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.spring.service.MemberService;
 import kr.green.spring.vo.MemberVO;
 
 
@@ -13,6 +15,10 @@ import kr.green.spring.vo.MemberVO;
 //@ <- 어노테이션 이라고 읽음
 @Controller
 public class HomeController {
+	
+	@Autowired
+	MemberService memberService;
+	
 	
 	//url을 확인하는 곳(필수)
 	//value : localhost:8080/패키지명 을 제외한 부분
@@ -39,7 +45,7 @@ public class HomeController {
 //login
 @RequestMapping(value = "/login", method = RequestMethod.GET)
 public ModelAndView login(ModelAndView mv) {
-	System.out.println("/member/login");
+	System.out.println("/login:get");
 	mv.setViewName("/member/login");
 	return mv;
 }
@@ -48,7 +54,9 @@ public ModelAndView login(ModelAndView mv) {
 @RequestMapping(value = "/login", method = RequestMethod.POST)
 public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
 	System.out.println("/login:post :" + member);
+	memberService.login(member);
 	mv.setViewName("/member/login");
+	
 	return mv;
 }
 

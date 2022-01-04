@@ -18,10 +18,10 @@
 			<h1 class="text-center">LOGIN</h1>
 			<form action="<%=request.getContextPath() %>/login" method="POST" class="login-form">
 			<div class="form-group">
-			  <input type="text" class="form-control" name="id">
+			  <input type="text" class="form-control" name="me_id">
 			</div>
 			<div class="form-group">
-			  <input type="password" class="form-control" name="pw">
+			  <input type="password" class="form-control" name="me_pw">
 			</div>
 			<button class="btn btn-outline-success col-12">·Î±×ÀÎ</button>
 			</form>
