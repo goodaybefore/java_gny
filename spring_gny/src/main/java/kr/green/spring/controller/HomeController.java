@@ -27,7 +27,7 @@ public class HomeController {
 		//확장자는 servlet-context.xml에서 설정함
 		//단,  views 폴더에는 jsp만 가능
 		//html을 화면으로 사용하려면 src/main/resources폴더에 넣어줘야함
-		mv.setViewName("home2");//화면이름을 home으로 하겠다! => home.jsp or home.html 를 찾음 => jsp인지 html인지는 servlet-context.xml에 가야함
+		mv.setViewName("/main/home");//화면이름을 home으로 하겠다! => home.jsp or home.html 를 찾음 => jsp인지 html인지는 servlet-context.xml에 가야함
 		
 		//화면으로 데이터를 보낼 때 addObject를 사용
 		//addObject("화면에서 사용할 이름", 보낼 데이터);
@@ -36,84 +36,19 @@ public class HomeController {
 		return mv;
 	}
 	
-	//test2 보여주는 화면
-	@RequestMapping(value = "/test2", method = RequestMethod.GET)
-	public ModelAndView test2(ModelAndView mv) {
-		mv.setViewName("test2");
-		return mv;
-	}
-	
-@RequestMapping(value = "/test", method = RequestMethod.GET)
-	//ModelAndView : 정보와 화면이 같이 있음!
-	public ModelAndView testGet(ModelAndView mv, Integer num, String name) {
-		mv.setViewName("home2");
-		//mv.addObject("serverTime", "데이터");//화면으로 보낼 데이터 있을때만 쓰는문장!
-		System.out.println("/test : num = "+num+", name = "+name);
-		
-		return mv;
-	}
-
-@RequestMapping(value = "/test/form", method = RequestMethod.GET)
-//ModelAndView : 정보와 화면이 같이 있음!
-public ModelAndView testFormGet(ModelAndView mv, Integer num, String name) {
-	mv.setViewName("home2");
-	//mv.addObject("serverTime", "데이터");//화면으로 보낼 데이터 있을때만 쓰는문장!
-	System.out.println("/test/form:get\n num = "+num+", name = "+name);
+//login
+@RequestMapping(value = "/login", method = RequestMethod.GET)
+public ModelAndView login(ModelAndView mv) {
+	System.out.println("/member/login");
+	mv.setViewName("/member/login");
 	return mv;
 }
-@RequestMapping(value = "/test/form", method = RequestMethod.POST)
-//ModelAndView : 정보와 화면이 같이 있음!
-public ModelAndView testFormPost(ModelAndView mv, Integer num, String name) {
-	mv.setViewName("home2");
-	//mv.addObject("serverTime", "데이터");//화면으로 보낼 데이터 있을때만 쓰는문장!
-	System.out.println("/test/form:post\n num = "+num+", name = "+name);
-	return mv;
-}
-
-//test2의 form
-@RequestMapping(value = "/test2/form", method = RequestMethod.GET)
-//ModelAndView : 정보와 화면이 같이 있음!
-public ModelAndView test2FormGet(ModelAndView mv, Integer num1, Integer num2) {
-	mv.setViewName("test2");
-	System.out.println("/test/form:GET\nnum1 = "+num1+", num2 = "+num2);
-	Integer sum = null;
-	if(num1!=null && num2!=null) {	sum = num1+num2;}
-	
-	System.out.println(num1+" + "+num2+" = "+sum);
-	mv.addObject("SUM", sum);
-	mv.addObject("num1", num1);
-	mv.addObject("num2", num2);
-	return mv;
-}
-
-//test3
-@RequestMapping(value = "/test3/form", method = RequestMethod.GET)
-//ModelAndView : 정보와 화면이 같이 있음!
-public ModelAndView test3Get(ModelAndView mv, MemberVO member) {
-	System.out.println("/test3" + member);
-	mv.setViewName("test3");
-	return mv;
-}
-
-
-
 
 //login
-//test3
-@RequestMapping(value = "/login", method = RequestMethod.GET)
-//ModelAndView : 정보와 화면이 같이 있음!
-public ModelAndView login(ModelAndView mv) {
-	System.out.println("/login");
-	mv.setViewName("login");
-	return mv;
-}
-
-//login-form
-@RequestMapping(value = "/login/form", method = RequestMethod.POST)
-//ModelAndView : 정보와 화면이 같이 있음!
+@RequestMapping(value = "/login", method = RequestMethod.POST)
 public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
 	System.out.println("/login:post :" + member);
-	mv.setViewName("login");
+	mv.setViewName("/member/login");
 	return mv;
 }
 
