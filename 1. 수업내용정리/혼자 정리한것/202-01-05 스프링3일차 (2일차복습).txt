@@ -1,0 +1,165 @@
+spring_test 프로젝트
+
+spring MVC 프로젝트 만들기
+https://stajun.tistory.com/category/%EC%8A%A4%ED%94%84%EB%A7%81/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8 에서 2,3,4,5 따라하기
+
+preference에서 en으로 검색해서 CSS, HTML, JSP File의 인코딩을 UTF-8로 변경
+
+
+* 가끔 tiles가 폴더명 같은걸 인식을 못하는 경우가 있는데, 이 때 이름 바꿔주면됨 - 티스토리블로그에 올렸음
+
+
+왜 계속 콘솔에 welcome!이 뜨는거지? =>저장을안햇다...ㅎ
+
+
+mysql 예시 복붙하고나서
+데이터베이스이름, 표준시각, username, password 같은 것들을 수정
+value="jdbc:mysql://localhost:3306/spring?useSSL=false&amp;serverTimezone=UTC">
+
+->
+
+value="jdbc:mysql://localhost:3306/community?useSSL=false&amp;serverTimezone=Asia/Seoul">
+
+
+그 후 Mapper 설정 코드 복붙하기
+복붙 후 패키지명 체크
+<mybatis-spring:scan base-package="kr.green.spring.dao"/>
+->
+<mybatis-spring:scan base-package="kr.green.test1.dao"/>
+
+
+
+컨트롤러 패키지와 위치가 같은 곳에 서비스 패키지/다오패키지 만들기
+
+화면(jsp) <> 컨트롤러(class) <> 서비스(interface) <> 다오(interface)
+			　　서비스Imp	　　　매퍼(xml) -매퍼는 서비스Imp(구현클래스)와 같은 역할을 한다.
+			　 (구현클래스)
+
+화면은 컨트롤러에게, 컨트롤러는 서비스에게, 서비스는 다오에게 일을 시킴
+서비스, 다오는 interface라서 implements한 클래스가 따로 등장해줘야함
+그래서 작업순서도 이거 지켜주는게 좋음
+
+* 서비스interface를 만드는 이유 : 어떤 기능은 여러 컴퓨터에서 호출하는 경우가 있음.
+기능을 서비스로 만들면 나중에 재사용이 가능하기 때문
+* 서비스를 사실 그냥 Imp 랑 합쳐서 클래스로 만들어도 됨. 근데 나누는 이유? => 무슨 기능이 있는지 한눈에 볼 수 있기 때문에.
+
+
+서비스를 먼저 생성하자
+MemberService.interface 생성 후 MemberServiceImp.class 생성
+
+
+그다음 다오 생성
+MemberDAO 생성
+
+
+그다음 매퍼 생성
+src/main/resource밑에 mappers 폴더
+그 안에 MemberMapper.xml 생성
+매퍼에서 root-context.xml의 <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+와 경로 맞춰줘야함. root-context.xml에서 뒤에 Mapper.xml로 끝나는거니 src/main/resource/mappers 밑의 파일도 끝에 *Mapper.xml로 끝나는 파일이어야함
+
+매퍼 생성 하고 코드 복붙한 이후 namespace의 패키지경로 맞춰주기... 특히 맨 끝에 MemberDAO의 경우 본인이 작성한 인터페이스의 이름과 똑같이 적어줘야함.
+
+
+
+데이터를 실제 가져올 수 있게 로그인 화면을 만들어보기
+HomeController에 가서 로그인 경로 만들어주기
+
+~bootstrap으로 대충볼만하게 꾸며보자~
+header의 메뉴바의 href 링크 에 <%= request.getContextPath();%> 추가
+=> 맨 첫페이지의 경로라는 뜻인것가틍ㅁ (localhost8080:/test1)
+
+w3school Bootstrap4 - Jumbotron - footer 꾸명
+~bootstrap으로 대충볼만하게 꾸며보자~
+vh : view height
+
+
+데이터를 데이터에 담아서 묶음으로 주고받기 위해서 VO클래스를 하나 만듦
+화면(jsp) <> 컨트롤러(class) <> 서비스(interface) <> 다오(interface)
+			　　서비스Imp	　　　매퍼(xml) -매퍼는 서비스Imp(구현클래스)와 같은 역할을 한다.
+			　 (구현클래스)
+	VO(클래스)		VO(클래스)	VO(클래스)
+	VO(value object)(클래스) : 화면-컨트롤러, 컨트롤러-서비스, 서비스-다오간의 데이터를 주고받을 때 편하게 사용하기위한 클래스
+				중간에 껴있는게 아니라 곳곳에서 사용됨.
+				vo패키지에 클래스를 만들 때 (테이블이름)VO 로 만들어주는게 좋음.
+	다른데선 dto(data transport? object)도 같이 쓰기도함
+
+
+VO 클래스만들때
+- 변수 선언 - getter/setter 설정 - (필요하면)toString
+   * getter/setter는 사실 나중가면 필요없ㅂ지만 지금은 일단 ㄱㄳ
+VO 클래스 만든 후
+데이터를 전송할 jsp(여기서는 login.jsp)에서 input창의 name은 VO클래스의 변수와 이름을 같게 해주어야한다.
+
+
+그다음 Controller에 가서
+@RequestMapping으로 POST 보내는 코드 작성해주기
+코드 작성후 테스트해보고
+
+컨트롤러 바로밑에
+@Autowired
+MemberService memberService;
+로 서비스 객체를 만들어준다
+@Autowired 해줘야 객체가 만들어짐(Q. 그럼 MemberService memberService하면 뭐가만들어짐
+만약 (homeController': Unsatisfied dependency expressed through field 'memberService';) 라는 에러가 발생하면
+MemberService에 @Service 를 추가해줘야함
+- 이제서비스한테 일을 시킬 수 있음
+
+Controller가서 '입력정보 줄테니 DB랑 확인해보세요' 요청하기
+-> memberService.login(user);
+user정보 줄테니 login이란 함수 실행시켯
+-> 그치만 그런함수 없는데요 ㅇㅅㅇ하고 에러남 -> 에러나는 곳에 마우스 올려서 Create
+-> MemberService로 이동됨. 리턴타입을 memberVO로 바꿔줌
+-> MemberServiceImp로 이동해서 에러나는 부분에 ErrorImplement method? 이런거 클릭해서 함수 생성
+-> MemberServiceImp 바로밑에
+	@Autowired
+	MemberDAO memberDao;로 객체를 생성해줌
+
+정보가 있으면 객체를 가져오라고 시키는 코드구문
+> MemberVO DbUser = memberDao.getMember(user.getMe_id()); <
+이때 getMember에 오류가 생기는데, create 비슷한거 클릭하면 MemberDao로 넘어가면서 자동으로 생성됨
+이 때 String 앞에@Param("me_id")를 붙여줘야함 => DAO에는 붙여줘야한다고 알고있기
+					　　Q. DB와 일치시키기 위해서일까?>왜지?
+=> 여기까지하고 재실행하면 에러남. 왜냐하면 Mapper를 완성시켜서 DB에서 정보를 가져오도록 해줘야하는데
+	아직 Mapper를 마무리하지 않아서 에러가 남.
+
+
+이제 Mapper 작업
+아래가 select문의 기본임(resultType은 select문에만 있음)
+<select id="" resultType="">	
+</select>
+작성문
+<select id="" resultType="">	
+	SELECT * FROM member WHERE md_id = #{me_id}
+</select>
+#{}는 (외부(=DAO)에서 알려준 정보)
+#{}값과 DAO의 @Param("")안에 있는 값의 이름이 같아야함.
+
+select태그의 id에는 DAO에서의 메소드이름(여기서는 getMember)을 넣어줘야함
+ - dao와 mapper는 서로 연결이 되어있긴 한데 확장자가 달라서 서로 자동으로 인식을 못함. 그래서 오타실수가 많은편(주의해야함)
+select 태그의 resultType은 리턴타입인데, 여기에 MemberVO의 패키지 경로를 적어줘야함. 이 때 경로를 전부 적어줘야함.
+(여기서는 kr.green.test1.vo.MemberVO)
+Q.왜 갑자기 VO가 나오는지 모르겠음 => 왜냐하면 이 구문의 리턴타입을 MemberVO가 해줘야하므로... ㅇㅅㅇ
+
+
+
+
+1. 스프링 프로젝트 생성
+1-2. 패키지명 변경. A.B.C => A.B.C.controller로 수정
+1-3. servlet-context.xml에서 base-package를 A.B.C.*로 수정
+
+2. 인코딩 설정(블로그참고)
+3. 타일즈 설정(블로그참고)
+
+4. 패키지추가(A.B.C.dao, A.B.C.vo, A.B.C.Service)
+
+5. DB연동(블로그참고)
+6. DB연동테스트
+6-1. service, serviceImp, dao, vo, mapper 생성
+
+
+
+* 본프로젝트에서 할것
+/signup으로 접속하면 회원가입 화면이 나오게 화면을 구성하고,
+회원정보를 입력한 후 회원가입 버튼을 누르면 회원가입이 진행되도록 코드를 작성
+단, 생일 정보는 화면에만 배치하고, name을 제거하여 서버로 데이터를 전송하지 않는다.
