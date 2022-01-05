@@ -42,23 +42,43 @@ public class HomeController {
 		return mv;
 	}
 	
-//login
-@RequestMapping(value = "/login", method = RequestMethod.GET)
-public ModelAndView login(ModelAndView mv) {
-	System.out.println("/login:get");
-	mv.setViewName("/member/login");
-	return mv;
-}
-
-//login
-@RequestMapping(value = "/login", method = RequestMethod.POST)
-public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
-	System.out.println("/login:post :" + member);
-	memberService.login(member);
-	mv.setViewName("/member/login");
+	//login
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login(ModelAndView mv) {
+		System.out.println("/login:get");
+		mv.setViewName("/member/login");
+		return mv;
+	}
 	
-	return mv;
-}
+	//login
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
+		System.out.println("/login:post :" + member);
+		memberService.login(member);
+		mv.setViewName("/member/login");
+		
+		return mv;
+	}
+	
+	//signup
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public ModelAndView signupGet(ModelAndView mv) {
+		System.out.println("/signup");
+		mv.setViewName("/member/signup");
+		return mv;
+	}
+	//signup
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public ModelAndView signupPOST(ModelAndView mv, MemberVO user) {
+		System.out.println("/signup:POST");
+		System.out.println("회원가입으로 받은 정보 : "+user);
+		memberService.signUp(user);
+		mv.setViewName("/main/home");
+		return mv;
+	}
+	
+	
+	
 
 }
 

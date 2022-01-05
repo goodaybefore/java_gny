@@ -10,5 +10,8 @@
 		SELECT * FROM member WHERE me_id = #{me_id}
 	<!-- memberDAO의 @Param() 이 부분과 샵중괄호 안의 내용이라 같아야함 -->
 	</select>
-	
+	<insert id="setMember">
+		INSERT INTO member (me_id, me_pw, me_name, me_birth, me_gender, me_address)
+		VALUES (#{user.me_id}, #{user.me_pw}, #{user.me_name}, #{user.me_birth}, #{user.me_gender}, #{user.me_address});
+	</insert>
 </mapper>
