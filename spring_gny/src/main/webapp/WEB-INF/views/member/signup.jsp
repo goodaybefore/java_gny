@@ -7,16 +7,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>회원가입</title>
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 	<!-- datepicker -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 	<!-- jquery -->
 	<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<!-- bootstrap -->
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	
 	<!-- 우편번호 -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<!-- datapicker -->
@@ -34,7 +30,7 @@
 
 	조건 만족 시 회원가입 진행, 불만족시 alert창으로 불만족 조건 알려주고 회원가입 진행 stop
 	약관동의창 만들고 약관동의 체크X시 회원가입no -->
-	<form class="container signup" action="<%= request.getContextPath()%>/signup" method="POST">
+	<form class="container signup body" action="<%= request.getContextPath()%>/signup" method="POST">
 		
 		<h1 class="title text-center">회원가입</h1>
 		<div class="box" style="height: 100px; border: 1px solid black;">약관내용</div>
@@ -48,11 +44,12 @@
 			
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control" placeholder="아이디" name="me_id">
-			<input type="password" class="form-control" placeholder="비밀번호" name="me_pw">
-			<input type="password" class="form-control" placeholder="비밀번호확인" name="pw2">
-			<input type="text" class="form-control" placeholder="이름" name="me_name">
-			<input type="text" class="form-control" placeholder="생년월일" name="me_birth" id="birth">
+			<input type="text" class="form-control" placeholder="아이디" name="me_id" value="${user.me_id}">
+			<input type="password" class="form-control" placeholder="비밀번호" name="me_pw" value="${user.me_pw}">
+			<input type="password" class="form-control" placeholder="비밀번호확인" name="pw2"">
+			<input type="text" class="form-control" placeholder="이름" name="me_name" value="${user.me_name}">
+			<input type="text" class="form-control" placeholder="생년월일" name="me_birth" id="birth" value="${user.me_birth}">
+			
 			<div class="form-group">
 				<!-- 성별 -->
 				<div class="form-check-inline">
@@ -74,7 +71,8 @@
 				</div>
 				<input type="text" id="address" placeholder="주소" class="form-control mb-2">
 				<input type="text" id="detailAddress" placeholder="상세주소" class="form-control mn-2">
-				<input type="text" name="me_address">
+				<input type="text" name="me_address" style="display:none;">
+				<input type="text" class="form-control" placeholder="전화번호(-를 포함하여 입력하세요)" name="me_phone" value="${user.me_phone}">
 			</div>
 			<button type="submit" class="btn btn-outline-success col-12" id="btn">회원가입</button>
 		</div>
@@ -87,7 +85,7 @@
 			$( "#birthday" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 
 			//항목 기입
-			let id, pw, pw2, name, gender, birth;
+			let id, pw, pw2, name, gender, birth, phone;
 			let warnings = '';
 
 			$('form').submit(function(){
@@ -96,6 +94,7 @@
 				pw2 = $('[name=pw2]').val();
 				name = $('[name=me_name]').val();
 				birth = $('[name=me_birth]').val();
+				phone = $('[name=me_phone]').val();
 				let genderObj = $('[name=me_gender]:checked');
 				//선택된 성별이 없으면 체크된 내용의 길이가 0일것이므로 ''을 반환
 				gender = genderObj.length == 0 ? '' : genderObj.val();
@@ -113,6 +112,7 @@
 				if(name==''){alert('이름을 입력하세요'); $('[name=me_name]').focus(); return false;}
 				if(birth==''){alert('생년월일을 입력하세요'); $('[name=me_birth]').focus(); return false;}
 				if(gender==''){alert('성별을 선택하세요'); $('[name=me_gender]').focus(); return false;}
+				if(phone==''){alert('핸드폰번호를 입력하하세요'); $('[name=me_phone]').focus(); return false;}
 				console.log('end!');
 
 				let address = $('#address').val() + ' ' +$('#detailAddress').val();

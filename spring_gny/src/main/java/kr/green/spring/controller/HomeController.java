@@ -19,7 +19,6 @@ public class HomeController {
 	@Autowired
 	MemberService memberService;
 	
-	
 	//url을 확인하는 곳(필수)
 	//value : localhost:8080/패키지명 을 제외한 부분
 	//method : 전달방식(GET/POST) => 보여지면 안되는 경우 OR 내용이 긴 경우 : POST
@@ -54,7 +53,9 @@ public class HomeController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
 		System.out.println("/login:post :" + member);
-		memberService.login(member);
+		MemberVO user = memberService.login(member);
+		System.out.println(user);
+		
 		mv.setViewName("/member/login");
 		
 		return mv;
@@ -62,18 +63,26 @@ public class HomeController {
 	
 	//signup
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public ModelAndView signupGet(ModelAndView mv) {
+	public ModelAndView signupGet(ModelAndView mv,  MemberVO user) {
 		System.out.println("/signup");
 		mv.setViewName("/member/signup");
+		mv.addObject("user", user);
 		return mv;
 	}
 	//signup
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ModelAndView signupPOST(ModelAndView mv, MemberVO user) {
+		//name에 일치하는 변수가 있으면 setter가 호출됨
+		//MemberVo user = new MemberVO();
+		//
 		System.out.println("/signup:POST");
 		System.out.println("회원가입으로 받은 정보 : "+user);
-		memberService.signUp(user);
-		mv.setViewName("/main/home");
+		if(memberService.signUp(user)) {
+			mv.setViewName("redirect:/");
+		}else {//회원가입에 실패하면 signUp으로 재등장
+			mv.setViewName("redirect:/signup");
+		}
+		
 		return mv;
 	}
 	

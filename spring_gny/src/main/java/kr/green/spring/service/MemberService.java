@@ -6,6 +6,7 @@ public interface MemberService {
 	//login
 	MemberVO login(MemberVO member);
 	//sign up
-	MemberVO signUp(MemberVO user);
+	//회원가입 여부 알려주기위해서  boolean으로 지정
+	boolean signUp(MemberVO user);
 	
 }
