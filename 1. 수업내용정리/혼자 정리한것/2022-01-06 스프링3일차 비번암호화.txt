@@ -1,0 +1,48 @@
+2022-01-06
+비번 암호화
+https://github.com/st8324/Docs/blob/master/spring%20framework/Spring%20%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8%20%EC%95%94%ED%98%B8%ED%99%94%20-%20spring-security.md 여기참고
+
+4번은 MemberServiceImp에
+ @Autowired
+BCryptPasswordEncoder passwordEncoder; 를 추가해야함
+
+
+			암호화알고리즘
+원본문서 			<=>		암호화된문서
+		암호화 알고리즘예시 : 알파벳+1
+abc					bcd
+
+
+원본문서를 통해서암호화된 문서만 알 수 잇음
+암호화된 문서로 원본문서를 찾을 수 없음.
+
+			암호화알고리즘
+원본문서 			<=>		암호화된문서
+abc					qwerqwer
+abc					afasefsd
+=> 암호화 할때마다 결과가 달라짐(주의!)
+BCryptPasswordEncoder로 abc와 암호화 후가 같은지확인해주는 기능
+
+
+
+
+
+
+인터셉터가 서버에서 나오는 정보를 확인하고 통과시킴
+앞부분(request처리할것?) : preHandle
+뒷부분(response처리할것?):postHandle
+
+request에는 여러 정보가 뭉쳐있음
+
+인터셉터 패키지 만들기
+LoginInterceptor클래스만들기
+여기서부터 (https://github.com/st8324/Docs/blob/master/spring%20framework/Interceptor%EB%A5%BC%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EC%9C%A0%EC%A0%80%20%EC%A0%95%EB%B3%B4%20%EC%84%B8%EC%85%98%EC%97%90%20%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0.md 참고)
+LoginInterceptor클래스에 HandlerInterceptorAdapter extends(상속)시키기
+샘플코드 복사해서 붙여넣기
+
+LoginInterceptor의  "user"와 jsp의 "user", 를 반드시 맞춰줘야함
+
+
+header에서 쓴 <c:if test="${}"></c:if> 는 많이 쓰는 태그
+test부분에 참or거짓을 넣으면됨
+근데 ${}뒤에 공백을 넣으면 작동하지않음;;;;; 작동안되는예시 : test="${}  "
