@@ -42,6 +42,22 @@
 	        </beans:list>
 	    </beans:property>
 	</beans:bean>
-
+	
+	
+	<!-- loginInterceptor를 등록. * 등록시 class부분에 있는 경로 설정 주의하기 -->
+	<beans:bean id="loginInterceptor" 
+	class="kr.green.spring.interceptor.LoginInterceptor"></beans:bean>
+	
+	<!-- 등록된 Interceptor가 어떤 url에 동작할 지 설정해주는 태그 -->
+	<interceptors>
+	    <interceptor>
+	    <!-- /login  -->
+	        <mapping path="/login"/>
+	        <!-- login버튼이 다른데서도 동작한다! 하면 이렇게 추가해주면됨. -->
+	        <mapping path="/login2"/>
+	        <beans:ref bean="loginInterceptor"/>
+	    </interceptor>
+	</interceptors>
+	
 
 </beans:beans>

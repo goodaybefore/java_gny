@@ -1,5 +1,7 @@
 package kr.green.spring.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +58,14 @@ public class HomeController {
 		MemberVO user = memberService.login(member);
 		System.out.println(user);
 		
-		mv.setViewName("/member/login");
+		
+		if(user==null) {
+			mv.setViewName("redirect:/login");
+		}else {
+			mv.addObject("user", user);
+			mv.setViewName("redirect:/");
+		}
+		//로그인 성공하면 메인, 실패하면 로그인페이지
 		
 		return mv;
 	}
@@ -66,7 +75,7 @@ public class HomeController {
 	public ModelAndView signupGet(ModelAndView mv,  MemberVO user) {
 		System.out.println("/signup");
 		mv.setViewName("/member/signup");
-		mv.addObject("user", user);
+//		mv.addObject("user", user);//이거그대로 놔두면 signup눌러도 login한거처럼 header가 출력됨
 		return mv;
 	}
 	//signup
@@ -82,13 +91,21 @@ public class HomeController {
 		}else {//회원가입에 실패하면 signUp으로 재등장
 			mv.setViewName("redirect:/signup");
 		}
-		
 		return mv;
 	}
 	
-	
-	
-
+	//logout
+		@RequestMapping(value = "/logout", method = RequestMethod.GET)
+		public ModelAndView logoutGet(ModelAndView mv, HttpServletRequest request) {
+			System.out.println("/logout");
+			//세션에 있는 유저 정보를 삭제
+			request.getSession().removeAttribute("user");
+			mv.setViewName("redirect:/");
+			return mv;
+		}
+		
+		
+		
 }
 
 

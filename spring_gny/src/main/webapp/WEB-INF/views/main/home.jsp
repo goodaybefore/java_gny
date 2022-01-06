@@ -10,8 +10,9 @@
 	
 </head>
 <body>
-<div class="body">
-<h1>Main Page</h1>
-</div>
+	<div class="body">
+		<h1>Main Page</h1>
+		<!-- ${user.me_name} -->
+	</div>
 </body>
 </html>
