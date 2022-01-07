@@ -8,4 +8,20 @@
 		SELECT #{board.bd_title}, #{board.bd_contents}, now(), #{board.bd_type}, #{board.bd_me_id},
 		ifnull(max(bd_num),0)+1, 'N' FROM board;
 	</insert>
+	<select id="getBoardList" resultType="kr.green.spring.vo.BoardVO">
+		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' ORDER BY bd_num DESC;
+	</select>
+	<select id="getBoard" resultType="kr.green.spring.vo.BoardVO">
+		SELECT * FROM board WHERE bd_num=#{bd_num} AND bd_del='N';
+	</select>
+	<update id="updateBoardIsdel">
+		UPDATE board SET
+		bd_del = 'Y',
+		bd_del_date = now()
+		WHERE bd_num = #{bd_num};
+	</update>
+	<update id="updateBoard">
+		UPDATE board SET
+		bd_
+	</update>
 </mapper>

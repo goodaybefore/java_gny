@@ -30,6 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	        HttpSession session = request.getSession();
 	        //여기서의 "user"와 jsp의 "user", 그리고 /login:post의 mv.Object("user",user)의 "user"와 보통 맞춤
 	        session.setAttribute("user", user);
+	        
 	    }
 	}
 

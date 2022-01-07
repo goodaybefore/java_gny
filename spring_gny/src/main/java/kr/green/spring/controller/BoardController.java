@@ -1,5 +1,7 @@
 package kr.green.spring.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,10 @@ public class BoardController {
 	//method=GET이런게 없음. 왜? 게시글 보는 화면에서는 데이터를 전송할 일이 없기 때문...! 그래서 GET은 ㄸ따로 안적어도줘되니껜 ㅇㅅㅇ
 	@RequestMapping(value="/list")//앞에 @RequestMapping(value="/board")를 안해줬으면 value="/board/list"로 작성해줘야함 
 	public ModelAndView boardList(ModelAndView mv) {
+		//등록된 모든 게시글을 확인
+		List<BoardVO> list = boardService.getBoardList("일반");
+		mv.addObject("list", list);
+		System.out.println("list" + list);
 		mv.setViewName("/board/list");
 		return mv;
 	}
@@ -35,19 +41,60 @@ public class BoardController {
 		return mv;
 	}
 	//register(글쓰기)
-		@RequestMapping(value="/register", method=RequestMethod.POST)//앞에 @RequestMapping(value="/board")를 안해줬으면 value="/board/list"로 작성해줘야함 
-		public ModelAndView boardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request) {
-			
-			//중요!!!!!!!!!!!!!!!!!!!!!!!!!
-			//getAttribute의 리턴타입은 Object임.그래서 request.앞에다가 (MemberVO)라고 해서 어떤 클래스의 객체인지 명시해줘야함...!
-			MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-			//게시판 작성자를 현재 로그인해있는 사람의 id로 넣기
-			board.setBd_me_id(user.getMe_id());
-			board.setBd_type("일반");
-			//서비스한테 일시키기
-			mv.setViewName("/board/register");
-			boardService.registerBoard(board);
-			System.out.println("board : "+board);
-			return mv;
-		}
+	@RequestMapping(value="/register", method=RequestMethod.POST) 
+	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request) {
+		//중요!!!!!!!!!!!!!!!!!!!!!!!!!
+		//getAttribute의 리턴타입은 Object임.그래서 request.앞에다가 (MemberVO)라고 해서 어떤 클래스의 객체인지 명시해줘야함...!
+		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
+		//게시판 작성자를 현재 로그인해있는 사람의 id로 넣기
+		board.setBd_me_id(user.getMe_id());
+		board.setBd_type("일반");
+		//서비스한테 일시키기
+		mv.setViewName("/board/register");
+		boardService.registerBoard(board);
+		System.out.println("board : "+board);
+		return mv;
+	}
+	@RequestMapping(value="/detail") 
+	public ModelAndView boardDetail(ModelAndView mv, Integer bd_num) {
+		mv.setViewName("/board/detail");
+		//게시글 번호 확인
+		System.out.println("게시글 번호 : "+bd_num);
+		BoardVO board = boardService.getBoard(bd_num);
+		//화면에 게시글 전달
+		mv.addObject("board",board);
+		return mv;
+	}
+	
+	//게시글 삭제
+	@RequestMapping(value="/delete", method=RequestMethod.GET) 
+	public ModelAndView boardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
+		//삭제처리
+		//게시글 번호 확인
+//		System.out.println("bd_num"+bd_num);
+		
+		//로그인한 유저 정보를 확인
+//		getAttribute는 반환값이 Object라서 앞에 반환값을()로 설정해줘야함 
+		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
+//		System.out.println("user id : "+user.getMe_id());
+		//Service에 게시글 번호와 로그인한 유저 정보를 전달
+		
+		boardService.deleteBoard(bd_num, user);
+		//게시글 삭제
+		
+		mv.setViewName("redirect:/board/list");
+		return mv;
+	}
+	
+	//게시글 수정
+	@RequestMapping(value="/modify", method=RequestMethod.POST)
+	public ModelAndView boardModifyGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
+		
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+//		boardService.modifyBoard(bd_num, user);
+		
+		mv.setViewName("board/modify");
+		return mv;
+	}
+	
 }
