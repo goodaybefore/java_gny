@@ -46,3 +46,6 @@ LoginInterceptor의  "user"와 jsp의 "user", 를 반드시 맞춰줘야함
 header에서 쓴 <c:if test="${}"></c:if> 는 많이 쓰는 태그
 test부분에 참or거짓을 넣으면됨
 근데 ${}뒤에 공백을 넣으면 작동하지않음;;;;; 작동안되는예시 : test="${}  "
+
+
+세선졍보는 request에 담겨있다...
