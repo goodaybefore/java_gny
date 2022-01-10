@@ -16,6 +16,7 @@ public interface BoardDAO {
 
 	void updateBoardIsdel(@Param("bd_num")Integer bd_num);
 
-	void updateBoard(@Param("bd_num")Integer bd_num);
+	//Param 뒤에오는 ""안의 내용은 맘대로 정하는거임 : mapper랑만 맞춰주면 되는듯
+	void updateBoard(@Param("board")BoardVO dbBoard);
 
 }

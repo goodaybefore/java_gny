@@ -22,6 +22,11 @@
 	</update>
 	<update id="updateBoard">
 		UPDATE board SET
-		bd_
+		bd_title = #{board.bd_title},
+		bd_contents= #{board.bd_contents},
+		bd_up_date= #{board.bd_up_date}
+		WHERE bd_num = #{board.bd_num};
+		
+		
 	</update>
 </mapper>

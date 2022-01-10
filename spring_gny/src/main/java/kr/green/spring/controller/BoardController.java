@@ -51,6 +51,8 @@ public class BoardController {
 		board.setBd_type("일반");
 		//서비스한테 일시키기
 		mv.setViewName("/board/register");
+		//추가
+		mv.setViewName("redirect:/board/list");
 		boardService.registerBoard(board);
 		System.out.println("board : "+board);
 		return mv;
@@ -59,7 +61,7 @@ public class BoardController {
 	public ModelAndView boardDetail(ModelAndView mv, Integer bd_num) {
 		mv.setViewName("/board/detail");
 		//게시글 번호 확인
-		System.out.println("게시글 번호 : "+bd_num);
+//		System.out.println("게시글 번호 : "+bd_num);
 		BoardVO board = boardService.getBoard(bd_num);
 		//화면에 게시글 전달
 		mv.addObject("board",board);
@@ -87,13 +89,44 @@ public class BoardController {
 	}
 	
 	//게시글 수정
-	@RequestMapping(value="/modify", method=RequestMethod.POST)
+	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public ModelAndView boardModifyGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
 		
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-//		boardService.modifyBoard(bd_num, user);
+		//게시글 = 서비스.게시글가져오기(번호, 로그인 정보)
+		BoardVO board = boardService.getBoard(bd_num, user);
 		
-		mv.setViewName("board/modify");
+		//게시글이 없으면
+			//1. 번호가 잘못된경우
+			//2. 본인이 작성자가 아닐경우
+		if(board==null) {
+			mv.setViewName("redirect:/board/list");
+		}else {
+			mv.addObject("board", board);
+			mv.setViewName("/board/modify");
+		}
+		
+		//서비스에게 변호를 알려주면서 게시글을 가져오라고 시킴
+		//서비스가 보내준 게시글의 작성자와 로그인한 회원 아이디가 일치하는지 확인
+		//컨트롤러가 서비스가 보내준 게시글 정보를 가지고 추가확인
+		
+		mv.setViewName("/board/modify");
+		return mv;
+	}
+	
+	
+	//게시글 수정
+	@RequestMapping(value="/modify", method=RequestMethod.POST)
+	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board) {
+		//화면에서 수정한 게시글 정보가 넘어오는지 확인
+		System.out.println("수정한 게시글 정보 : "+board);
+		
+		//서비스에게 게시글 정보를 주면서 업ㅌ데이트 하라고 시킴
+		//서비스.게시글업데이트(게시글정보)
+		boardService.updateBoard(board);
+		//추가
+		mv.addObject("bd_num", board.getBd_num());
+		mv.setViewName("redirect:/board/detail");
 		return mv;
 	}
 	
