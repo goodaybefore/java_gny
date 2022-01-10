@@ -1,0 +1,19 @@
+게시판 수정 기능 했음
+
+비로그인 상태에서 500, 404 에러 안나타나게 페이지 돌려버리기
+https://github.com/st8324 - Docs -springframework- 인터셋터 결과에 따른 페이지 사용 결정
+
+< interceptor 만들기(비로그인)>
+1. MemberInterceptor / GuestInterceptor 만들기
+ - HandlerInterceptorAdapter(문서참고)
+
+인터세겉는 리퀘스트 요청으로 컨트롤러로 가기전에(prehandle)/컨트롤러에서 화면으로 가기전에(posthandle) 확인하는 역할을 함.
+loginInterceptor : posthandle => 로그인 안했으면 게시글 작성 화면을 안찍어줌
+
+2. servlet-context.xml에 MemberInterceptor 추가
+
+
+return true; =>다시 가던길을 간다(prehandle/posthandle)후에
+return false;=>  redirect한 길로 감(prehandle/posthandle)후에
+
+*로그인시 로그인/회원가입 페이지를 못가도록 guestInterceptor만들기
