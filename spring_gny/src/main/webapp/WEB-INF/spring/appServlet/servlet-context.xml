@@ -48,6 +48,14 @@
 	<beans:bean id="loginInterceptor" 
 	class="kr.green.spring.interceptor.LoginInterceptor"></beans:bean>
 	
+	<!-- memberInterceptro 등록. id에는 Member가 아니라 member 임. class에는 Member..왜지-->
+	<beans:bean id="memberInterceptor" 
+	class="kr.green.spring.interceptor.MemberInterceptor"></beans:bean>
+	
+	<!-- GuestInterceptor-->
+	<beans:bean id="guestInterceptor" 
+	class="kr.green.spring.interceptor.GuestInterceptor"></beans:bean>
+	
 	<!-- 등록된 Interceptor가 어떤 url에 동작할 지 설정해주는 태그 -->
 	<interceptors>
 	    <interceptor>
@@ -57,6 +65,21 @@
 	        <mapping path="/login2"/>
 	        <beans:ref bean="loginInterceptor"/>
 	    </interceptor>
+	    
+	    <interceptor>
+	    <!-- 요거 실행시 동작하게 할것  -->
+	        <mapping path="/board/register"/>
+	        <mapping path="/board/modify"/>
+	        <mapping path="/board/delete"/>
+	        <beans:ref bean="memberInterceptor"/>
+	    </interceptor>
+	    
+	    <interceptor>
+	        <mapping path="/login"/>
+	        <mapping path="/signup"/>
+	        <beans:ref bean="guestInterceptor"/>
+	    </interceptor>
+	    
 	</interceptors>
 	
 
