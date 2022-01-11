@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.green.service.MemberService;
+import kr.green.green.vo.MemberVO;
 
 
 @Controller
@@ -14,11 +15,13 @@ public class HomeController {
 	@Autowired
 	MemberService memberService;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/")
 	public ModelAndView openTilesView(ModelAndView mv) throws Exception {
 		mv.setViewName("/main/home");
-		mv.addObject("setHeader", "타일즈");
 		System.out.println("DB test");
+		//연동 확인 후 지울 코드
+		MemberVO user = memberService.testSQL("abc123");
+		System.out.println(user);
 		
 		return mv;
 	}

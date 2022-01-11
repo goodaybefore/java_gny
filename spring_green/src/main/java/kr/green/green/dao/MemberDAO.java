@@ -1,4 +1,11 @@
 package kr.green.green.dao;
 
-public class MemberDAO {
+import org.apache.ibatis.annotations.Param;
+
+import kr.green.green.vo.MemberVO;
+
+public interface MemberDAO {
+
+	MemberVO testSQL(@Param("id")String id);
+	
 }
