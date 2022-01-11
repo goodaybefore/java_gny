@@ -6,5 +6,7 @@ public interface MemberService {
 
 	MemberVO testSQL(String string);
 
+	boolean signup(MemberVO user);
+
 
 }
