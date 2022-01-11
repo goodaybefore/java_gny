@@ -1,0 +1,8 @@
+Public Key Retrieval is not allowed
+- root-context.xml 에서 MySQL 비번 틀리면 생기는 에러
+
+
+Could not open ServletContext resource [/WEB-INF/spring/spring-security.xml]
+- pom.xml에 등록된 xml파일이름과 실제 등록된 xml파일이름이 다를 때 발생
+- spring-security.xml
+
