@@ -8,5 +8,10 @@ public interface MemberService {
 
 	boolean signup(MemberVO user);
 
+//	MemberVO getMember(MemberVO user);
+
+	MemberVO login(MemberVO user);
+
+
 
 }

@@ -58,7 +58,6 @@ public class HomeController {
 		MemberVO user = memberService.login(member);
 		System.out.println(user);
 		
-		
 		if(user==null) {
 			mv.setViewName("redirect:/login");
 		}else {
