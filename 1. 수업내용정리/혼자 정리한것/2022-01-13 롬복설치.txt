@@ -1,0 +1,4 @@
+lombok 사용
+1 롬복설치
+2 https://search.maven.org/ 들어가서 lombok검색 해서 첫번째꺼 1.18.22 선택
+3 Apcahe Maven의 depencency복사해서 pom.xml에 붙여넣기
