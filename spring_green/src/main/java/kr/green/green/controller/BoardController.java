@@ -30,7 +30,14 @@ public class BoardController {
 		//mv.addObject("list",list).setViewName("/board/list");로 한줄로 해도됨
 		return mv;
 	}
-	
+	//게시글 상세(detail)
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	public ModelAndView BoardDetailPost(ModelAndView mv, Integer bd_num) {
+		BoardVO  thisBoard = boardService.getBoardList(bd_num);
+		mv.addObject("thisBoard", thisBoard);
+		mv.setViewName("/board/detail");
+		return mv;
+	}
 	//게시글 등록(register)
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView BoardRegisterPost(ModelAndView mv) {

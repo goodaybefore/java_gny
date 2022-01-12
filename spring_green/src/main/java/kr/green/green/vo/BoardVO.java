@@ -1,5 +1,6 @@
 package kr.green.green.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BoardVO {
@@ -31,8 +32,17 @@ public class BoardVO {
 	public void setBd_contents(String bd_contents) {
 		this.bd_contents = bd_contents;
 	}
+	
+	//이거는 getBd_reg_date().toString()이 호출되어서 지저분하게 나옴
+	//ex. 	Fri Jan 07 09:43:39 KST 2022
 	public Date getBd_reg_date() {
 		return bd_reg_date;
+	}
+	//Date를 String으로
+	public String getBd_reg_date_str() {
+		//Date->String으로 형변환
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return format.format(bd_reg_date);
 	}
 	public void setBd_reg_date(Date bd_reg_date) {
 		this.bd_reg_date = bd_reg_date;
