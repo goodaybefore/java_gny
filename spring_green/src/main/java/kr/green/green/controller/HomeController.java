@@ -62,12 +62,15 @@ public class HomeController {
 	public ModelAndView loginPost(ModelAndView mv, MemberVO user){
 		//로그인 됐는지 안됐는지
 		MemberVO loginUser= memberService.login(user);
-//		System.out.println("member : "+member);
+		
 		if(loginUser==null) {
 			mv.setViewName("redirect:/login");
-//			mv.setViewName("member/login");//은 안되나방...
+			
+//			mv.setViewName("member/login");//은 안되나범
 		}else {
 			mv.setViewName("redirect:/");
+			//인터셉터한테 정보 주는 역할
+			mv.addObject("user",loginUser);
 			
 		}
 		return mv;
@@ -82,5 +85,4 @@ public class HomeController {
 		mv.setViewName("redirect:/");
 		return mv;
 	}
-
 }

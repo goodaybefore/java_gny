@@ -22,6 +22,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	    //User였던걸 MemberVO로 바꿔주기
 	    MemberVO user = (MemberVO)modelMap.get("user");
 
+	    //가져온 회원정보가 있으면 세션에 저장
 	    if(user != null) {
 	        HttpSession session = request.getSession();
 	        session.setAttribute("user", user);

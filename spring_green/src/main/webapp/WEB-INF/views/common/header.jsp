@@ -7,11 +7,10 @@
 <meta charset="UTF-8">
 </head>
 <body>
+
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 	  <!-- Brand/logo -->
 	  <a class="navbar-brand" href="<%= request.getContextPath()%>">Home</a>
-	  
-	  
 	  
 	  <!-- Links -->
 	  <ul class="navbar-nav">
