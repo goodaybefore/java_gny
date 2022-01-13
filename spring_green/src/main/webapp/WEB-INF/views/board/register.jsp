@@ -10,14 +10,19 @@
 <body>
 	<div class="body container">
 		<h1>게시글 등록</h1>
-		<form action="<%= request.getContextPath() %>/board/register" method="post">
+		<form action="<%= request.getContextPath()%>/board/register" method="post">
+			<label>제목</label>
 			<div class="form-group">
-				<input type="text" class="form-control" placeholder="제목" name="bd_title">
+				<input type="text" class="form-control" name="bd_title" placeholder="제목">
 			</div>
+			
+			<label>내용</label>
 			<div class="form-group">
-				<textarea class="form-control" placeholder="내용" name="bd_title" rows="10"></textarea>
+				<textarea class="form-control" name="bd_contents" placeholder="제목" rows="10"></textarea>
 			</div>
-			<button class="btn btn-outline-success col-12">submit</button>
+			<div class="form-group"></div>
+			<!-- 나영ver-->
+			<button type="submit" class="btn btn-outline-success">작성완료</button>
 		</form>
 	</div>
 </body>

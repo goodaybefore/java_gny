@@ -3,6 +3,8 @@ package kr.green.green.vo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 //lombok 사용
 import lombok.Data;
 
@@ -11,6 +13,7 @@ public class BoardVO {
 	private int bd_num;
 	private String bd_title;
 	private String bd_contents;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date bd_reg_date;
 	private Date bd_up_date;
 	private String bd_type;

@@ -56,12 +56,12 @@ public class HomeController {
 	public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
 		System.out.println("/login:post :" + member);
 		MemberVO user = memberService.login(member);
-		System.out.println(user);
+		System.out.println(member);
 		
 		if(user==null) {
 			mv.setViewName("redirect:/login");
 		}else {
-			mv.addObject("user", user);
+			mv.addObject("member", member);
 			mv.setViewName("redirect:/");
 		}
 		//로그인 성공하면 메인, 실패하면 로그인페이지

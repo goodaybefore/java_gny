@@ -28,10 +28,12 @@
 		        <!-- 원래는 board.bd_reg_date 였지만 Date를 string으로 바꿔준 후 바뀐 string변수가 들어있는 _str을 붙여준다 -->
 		        <td>${board.bd_reg_date_str}</td>
 		      </tr>
-		      
 		    </c:forEach>
 		    </tbody>
 		  </table>
+		  <c:if test="${user!=null}">
+		  	<a href="<%=request.getContextPath() %>/board/register" class="btn btn-outline-success">글쓰기</a>
+		  </c:if>
 	</div>
 </body>
 </html>
