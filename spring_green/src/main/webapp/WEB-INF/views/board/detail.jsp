@@ -34,6 +34,9 @@
 				<a href="<%= request.getContextPath()%>/board/modify?bd_num=${board.bd_num}">
 				<button class="btn btn-outline-success">수정</button>
 				</a>
+				<a href="<%= request.getContextPath()%>/board/delete?bd_num=${board.bd_num}">
+					<button class="btn btn-outline-danger">삭제</button>
+				</a>
 			</c:if>
 
 	</div>

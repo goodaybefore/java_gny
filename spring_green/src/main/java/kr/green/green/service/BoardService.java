@@ -18,6 +18,8 @@ public interface BoardService {
 
 	//게시글 수정
 	void modifyBoard(BoardVO board, MemberVO user);
+	//게시글 삭제
+	void deleteBoard(MemberVO user, Integer bd_num);
 
 
 }

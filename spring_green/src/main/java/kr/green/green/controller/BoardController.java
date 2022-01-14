@@ -100,8 +100,6 @@ public class BoardController {
 		mv.addObject("bd_num", board.getBd_num());
 		
 		
-		
-		
 		/*
 		//내꺼. 안될듯.
 		System.out.println("board : "+board);
@@ -114,7 +112,15 @@ public class BoardController {
 		mv.setViewName("redirect:/board/detail");
 		*/
 		return mv;
-		
 	}
+	
+	//게시글 삭제 - GET
+		@RequestMapping(value="/delete", method=RequestMethod.GET)
+		public ModelAndView BoardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
+			MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+			boardService.deleteBoard(user, bd_num);
+			mv.setViewName("redirect:/board/list");
+			return mv;
+		}
 	
 }

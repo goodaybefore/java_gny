@@ -87,4 +87,21 @@ public class BoardServiceImp implements BoardService{
 //		//받ㅇ아온정보를 sql에서 update
 		boardDao.updateBoard(board);
 	}
+
+	//게시글 삭제
+	@Override
+	public void deleteBoard(MemberVO user, Integer bd_num) {
+		if(bd_num == null || bd_num <= 0) return ;
+		
+		BoardVO board = boardDao.getBaord(bd_num);
+		if(board ==null) return;
+		//board.getBd_me_id() !=null의 경우, 아이디는 db에서 primarykey이기 때문에 누락될 일이 없으나
+		//									더 안정적인 코드를 만드는 연습을 하고싶다면 삽입해주기
+		if(user != null && 
+				board.getBd_me_id() !=null && board.getBd_me_id().equals(user.getMe_id()))
+			boardDao.deleteBoard(bd_num);
+		
+		
+		System.out.println("삭제완료되었습니다");
+	}
 }

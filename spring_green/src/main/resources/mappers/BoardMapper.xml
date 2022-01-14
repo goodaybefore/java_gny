@@ -54,4 +54,11 @@
 		bd_up_date = now()
 	WHERE bd_num = #{board.bd_num};
 	</update>
+	
+	<update id="deleteBoard">
+		UPDATE board SET
+			bd_del = 'Y',
+			bd_del_date = now()
+		WHERE bd_num=#{bd_nm};
+	</update>
 </mapper>
