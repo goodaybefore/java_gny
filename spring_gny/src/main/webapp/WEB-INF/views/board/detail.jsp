@@ -23,6 +23,22 @@
 			<div class="form-group">
 			  <textarea type="text" class="form-control" rows="10" name="bd_contents" readonly>${board.bd_contents}</textarea>
 			</div>
+			<div class="form-group">
+				<c:if test="${files != null && files.size() != 0}">
+					<label>첨부파일</label>
+					<!-- items = 서버에서 보내줄 리스트 -->
+					<c:forEach items="${files}" var="file">
+						<a href="<%=request.getContextPath() %>/board/download?fileName=${file.fi_name}" class="form-control">${file.fi_ori_name}</a>
+					</c:forEach>
+					
+				</c:if>
+					
+				<c:if test="${files==null || files.size() == 0}">
+					<label>첨부파일 없음</label>
+				</c:if>
+				
+				
+			</div>
 			<c:if test="${user != null && user.me_id == board.bd_me_id}">
 				<a href="<%= request.getContextPath()%>/board/modify?bd_num=${board.bd_num}">
 					<button class="btn btn-outline-success">수정</button>

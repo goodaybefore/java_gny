@@ -53,15 +53,15 @@ public class HomeController {
 	
 	//login
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
-		System.out.println("/login:post :" + member);
-		MemberVO user = memberService.login(member);
-		System.out.println(member);
+	public ModelAndView loginPost(ModelAndView mv, MemberVO user) {
+		System.out.println("/login:post :" + user);
+		MemberVO loginUser = memberService.login(user);
+		System.out.println(user);
 		
-		if(user==null) {
+		if(loginUser==null) {
 			mv.setViewName("redirect:/login");
 		}else {
-			mv.addObject("member", member);
+			mv.addObject("user", loginUser);
 			mv.setViewName("redirect:/");
 		}
 		//로그인 성공하면 메인, 실패하면 로그인페이지

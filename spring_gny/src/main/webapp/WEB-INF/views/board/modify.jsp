@@ -8,7 +8,7 @@
 <title>게시글 수정</title>
 </head>
 <body>
-	<form class="body container" action="" method="post">
+	<form class="body container" action="" method="post" enctype="multipart/form-data">
 		<h1>게시글 수정</h1>
 		<div class="form-group">
 		  <input type="text" class="form-control" name="bd_title" value="${board.bd_title}">
@@ -17,6 +17,11 @@
 		  <textarea class="form-control" name="bd_contents"rows="10">${board.bd_contents}</textarea>
 		</div>
 		<input type="hidden" name="bd_num" value="${board.bd_num}">
+		<!-- 첨부파일 등록 -->
+		<div class="form-group">
+	        <label>파일</label>
+	        <input type="file" class="form-control" name="file"/>
+	    </div>
 		<button class="btn btn-outline-success col-12">등록</button>
 	</form>
 </body>

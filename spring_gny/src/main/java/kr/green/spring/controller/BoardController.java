@@ -1,17 +1,27 @@
 package kr.green.spring.controller;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.service.BoardService;
 import kr.green.spring.vo.BoardVO;
+import kr.green.spring.vo.FileVO;
 import kr.green.spring.vo.MemberVO;
 
 //게시글 url을 담당하는 커느롤러. /board/xxx을 담당
@@ -29,7 +39,7 @@ public class BoardController {
 		//등록된 모든 게시글을 확인
 		List<BoardVO> list = boardService.getBoardList("일반");
 		mv.addObject("list", list);
-		System.out.println("list" + list);
+//		System.out.println("list" + list);
 		mv.setViewName("/board/list");
 		return mv;
 	}
@@ -42,7 +52,8 @@ public class BoardController {
 	}
 	//register(글쓰기)
 	@RequestMapping(value="/register", method=RequestMethod.POST) 
-	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request) {
+	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request,
+			List<MultipartFile> files) throws Exception  {
 		//중요!!!!!!!!!!!!!!!!!!!!!!!!!
 		//getAttribute의 리턴타입은 Object임.그래서 request.앞에다가 (MemberVO)라고 해서 어떤 클래스의 객체인지 명시해줘야함...!
 		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
@@ -51,20 +62,28 @@ public class BoardController {
 		board.setBd_type("일반");
 		//서비스한테 일시키기
 		mv.setViewName("/board/register");
-		//추가
+		
+		//게시글 등록 후 첨부파일 등록
 		mv.setViewName("redirect:/board/list");
-		boardService.registerBoard(board);
-		System.out.println("board : "+board);
+		boardService.registerBoard(board, files);
+		System.out.println("reg때 files"+files);
+		
+		System.out.println("전달받은 board : "+board);
 		return mv;
 	}
 	@RequestMapping(value="/detail") 
 	public ModelAndView boardDetail(ModelAndView mv, Integer bd_num) {
 		mv.setViewName("/board/detail");
-		//게시글 번호 확인
-//		System.out.println("게시글 번호 : "+bd_num);
+		//게시글 가져오기
 		BoardVO board = boardService.getBoard(bd_num);
-		//화면에 게시글 전달
+		//게시글 전달
 		mv.addObject("board",board);
+		
+		//파일가져오기
+		List<FileVO> files = boardService.getFileList(bd_num);
+		//파일 전달
+		mv.addObject("files", files);
+		
 		return mv;
 	}
 	
@@ -119,7 +138,7 @@ public class BoardController {
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
 	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board) {
 		//화면에서 수정한 게시글 정보가 넘어오는지 확인
-		System.out.println("수정한 게시글 정보 : "+board);
+//		System.out.println("수정한 게시글 정보 : "+board);
 		
 		//서비스에게 게시글 정보를 주면서 업ㅌ데이트 하라고 시킴
 		//서비스.게시글업데이트(게시글정보)
@@ -129,5 +148,37 @@ public class BoardController {
 		mv.setViewName("redirect:/board/detail");
 		return mv;
 	}
+	
+	@ResponseBody//리턴값이 직접적으로 화면에(요청한곳에) 가도록 해줌 
+	@RequestMapping("/download")
+	
+	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
+		//집
+		String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+		//학원
+		//String uploadPath = "";
+		
+	    InputStream in = null;
+	    //byte에 담아서 전송
+	    ResponseEntity<byte[]> entity = null;
+	    try{
+	        String FormatName = fileName.substring(fileName.lastIndexOf(".")+1);
+	        HttpHeaders headers = new HttpHeaders();
+	        in = new FileInputStream(uploadPath+fileName);
+
+	        fileName = fileName.substring(fileName.indexOf("_")+1);
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	        headers.add("Content-Disposition",  "attachment; filename=\"" 
+				+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+	        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+	    }finally {
+	        in.close();
+	    }
+	    return entity;
+	}
+	
 	
 }
