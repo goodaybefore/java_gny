@@ -1,20 +1,25 @@
 package kr.green.green.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.green.green.dao.BoardDAO;
+import kr.green.green.utils.UploadFileUtils;
 import kr.green.green.vo.BoardVO;
+import kr.green.green.vo.FileVO;
 import kr.green.green.vo.MemberVO;
 
 @Service
 public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDao;
-
+	//집
+	String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+	//학원
+	//String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
 	@Override
 	public List<BoardVO> getBoardList(String bd_type) {
 		
@@ -31,7 +36,7 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public void regBoard(BoardVO board, MemberVO user) {
+	public void regBoard(BoardVO board, MemberVO user, List<MultipartFile> files) {
 		
 		//사실 Controller에서 넘겨줄 때 user는 null일수 없음..
 		//근데 SErviceImp입장에서 확신을 할 수 없으니까 그냥 user==null도 넣어줌
@@ -43,7 +48,37 @@ public class BoardServiceImp implements BoardService{
 		//게시글에 작성자의 id를 set해주기
 		board.setBd_me_id(user.getMe_id());
 		
+		//게시글 추가 후
 		boardDao.insertBoard(board);
+		//첨부파일 등록
+		if(files == null || files.size()==0) return;
+		for(MultipartFile tmpFile : files) {
+			if(tmpFile !=null && tmpFile.getOriginalFilename().length()!=0) {//실제로 파일도 존재하고, 파일 이름도 있어야 등록가능
+				try {
+					//다운로드 옵션? 설정
+					String path = UploadFileUtils.uploadFile(uploadPath, tmpFile.getOriginalFilename(),tmpFile.getBytes());
+					/* FileVO는
+					 * public FileVO(String fi_ori_name, String fi_name, int fi_bd_num) {
+					   this.fi_ori_name = fi_ori_name;
+					   this.fi_name = fi_name;
+					   this.fi_bd_num = fi_bd_num; 참고
+					 * */
+					FileVO file = new FileVO(tmpFile.getOriginalFilename(), path, board.getBd_num());
+					/* 저 생성자 안 만들었을 떄
+					 * FileVO file = new FileVO();
+					 * file.setFi_bd_num(board.getBd_num());
+					 * file.serFi_name(path);
+					 * file.setFi_ori_name(tmpFile.getOriginalFilename());
+					 * */
+					//파일 넣어라고 일시킴
+					boardDao.insertFile(file);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		
 	}
 

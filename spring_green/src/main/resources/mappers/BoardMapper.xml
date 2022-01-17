@@ -9,7 +9,10 @@
 	<select id="selectBoard" resultType="kr.green.green.vo.BoardVO">
 		select * from board where bd_num=#{bd_num};
 	</select>
-	<insert id="insertBoard">
+	<insert id="insertBoard"
+		useGeneratedKeys="true"
+		keyProperty="board.bd_num"
+		parameterType="kr.green.green.vo.BoardVO">
 		<!-- 이것도 되고 밑에꺼도 됨... 이거는 근데 ifnull(max(bd_num),0)+1이 뭔지 모르겠음.. 갑자기 SELECT문 나온것도 어지럽네 SQL파트 다시봐야하나
 			ori_num 을 쓰기위해 중간에 select 넣어주는것임
 			board table의 bd_title... 에 board로부터 셀렉된 #{board.bd_title}...이 들어간다  -->
@@ -61,4 +64,7 @@
 			bd_del_date = now()
 		WHERE bd_num=#{bd_nm};
 	</update>
+	<insert id="insertFile">
+		INSERT INTO file (fi_ori_name, fi_name, fi_bd_num) VALUES (#{file.fi_ori_name}, #{file.fi_name}, #{file.fi_bd_num});
+	</insert>
 </mapper>

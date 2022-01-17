@@ -10,7 +10,7 @@
 <body>
 	<div class="body container">
 		<h1>게시글 등록</h1>
-		<form action="<%= request.getContextPath()%>/board/register" method="post">
+		<form action="<%= request.getContextPath()%>/board/register" method="post" enctype="multipart/form-data">
 			<label>제목</label>
 			<div class="form-group">
 				<input type="text" class="form-control" name="bd_title" placeholder="제목">
@@ -20,9 +20,14 @@
 			<div class="form-group">
 				<textarea class="form-control" name="bd_contents" placeholder="제목" rows="10"></textarea>
 			</div>
-			<div class="form-group"></div>
-			<!-- 나영ver-->
-			<button type="submit" class="btn btn-outline-success">작성완료</button>
+			<div class="form-group">
+		        <label>첨부파일</label>
+		        <input type="file" class="form-control" name="files"/>
+		        <input type="file" class="form-control" name="files"/>
+		        <input type="file" class="form-control" name="files"/>
+		    </div>
+			<button class="btn btn-outline-success">작성완료</button>
+			
 		</form>
 	</div>
 </body>
