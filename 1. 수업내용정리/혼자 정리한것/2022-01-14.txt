@@ -35,4 +35,4 @@ ${files.fi_ori_name}을 사용하려고하면 에러가 난다.(forEach문 안�
 st3824 - docs 어쩌구저쩌고
 <업로드된 파일 다은로드 테스트> 를 복사해서 boardController하단에 붙여넣고 저장
 import할때는 spring있는것들 클릭클릭하면됨.
-BoardServiceImp 에서 String uploadPaht만들어놓은거 복붙
+BoardServiceImp 에서 String uploadPath만들어놓은거 복붙

@@ -1,18 +1,27 @@
 package kr.green.green.controller;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.green.service.BoardService;
 import kr.green.green.vo.BoardVO;
+import kr.green.green.vo.FileVO;
 import kr.green.green.vo.MemberVO;
 
 @Controller
@@ -20,6 +29,8 @@ import kr.green.green.vo.MemberVO;
 public class BoardController {
 	@Autowired
 	BoardService boardService;
+	
+
 	
 	//list출력
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
@@ -37,6 +48,11 @@ public class BoardController {
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public ModelAndView BoardDetailPost(ModelAndView mv, Integer bd_num) {
 		BoardVO  board = boardService.getBoardList(bd_num);
+		
+		//게시글 번호와 일치하는 첨부파일 가져오라고 시킴(최대 3개)
+		List<FileVO> fileList = boardService.getFileList(bd_num);
+//		System.out.println("fileList : "+fileList);
+		mv.addObject("fileList",fileList);
 		mv.addObject("board", board);
 		mv.setViewName("/board/detail");
 		return mv;
@@ -116,12 +132,37 @@ public class BoardController {
 	}
 	
 	//게시글 삭제 - GET
-		@RequestMapping(value="/delete", method=RequestMethod.GET)
-		public ModelAndView BoardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
-			MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-			boardService.deleteBoard(user, bd_num);
-			mv.setViewName("redirect:/board/list");
-			return mv;
-		}
-	
+	@RequestMapping(value="/delete", method=RequestMethod.GET)
+	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		boardService.deleteBoard(user, bd_num);
+		mv.setViewName("redirect:/board/list");
+		return mv;
+	}
+		
+	//첨부파일 다운로드
+	@ResponseBody
+	@RequestMapping("/download")
+	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
+		String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+		InputStream in = null;
+	    ResponseEntity<byte[]> entity = null;
+	    try{
+	        String FormatName = fileName.substring(fileName.lastIndexOf(".")+1);
+	        HttpHeaders headers = new HttpHeaders();
+	        in = new FileInputStream(uploadPath+fileName);
+
+	        fileName = fileName.substring(fileName.indexOf("_")+1);
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	        headers.add("Content-Disposition",  "attachment; filename=\"" 
+				+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+	        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+	    }finally {
+	        in.close();
+	    }
+	    return entity;
+	}
 }

@@ -29,6 +29,12 @@
 			<label>내용</label>
 			<textarea readonly class="form-control" name="bd_contents" rows="10">${board.bd_contents}</textarea>
 		</div>
+		<div class="form-group">
+			<label>첨부파일</label>
+			<c:forEach items="${fileList}" var="file">
+				<a href="<%=request.getContextPath() %>/board/download?fileName=${file.fi_name}" class="form-control">${file.fi_ori_name}</a>
+			</c:forEach>
+		</div>
 		<!-- test=""에는 조건문이 들어가야함~! -->
 			<c:if test="${user.me_id == board.bd_me_id}">
 				<a href="<%= request.getContextPath()%>/board/modify?bd_num=${board.bd_num}">

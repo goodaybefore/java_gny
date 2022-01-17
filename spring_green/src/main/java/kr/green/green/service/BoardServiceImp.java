@@ -139,4 +139,11 @@ public class BoardServiceImp implements BoardService{
 		
 		System.out.println("삭제완료되었습니다");
 	}
+
+	@Override
+	public List<FileVO> getFileList(Integer bd_num) {
+		if(bd_num == null || bd_num <= 0) return null;
+		
+		return boardDao.selectFileList(bd_num);
+	}
 }
