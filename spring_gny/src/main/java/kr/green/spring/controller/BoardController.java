@@ -63,7 +63,7 @@ public class BoardController {
 	//register(글쓰기)
 	@RequestMapping(value="/register", method=RequestMethod.POST) 
 	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request,
-			List<MultipartFile> files) throws Exception  {
+			List<MultipartFile> files2) throws Exception  {
 		//중요!!!!!!!!!!!!!!!!!!!!!!!!!
 		//getAttribute의 리턴타입은 Object임.그래서 request.앞에다가 (MemberVO)라고 해서 어떤 클래스의 객체인지 명시해줘야함...!
 		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
@@ -75,8 +75,8 @@ public class BoardController {
 		
 		//게시글 등록 후 첨부파일 등록
 		mv.setViewName("redirect:/board/list");
-		boardService.registerBoard(board, files);
-		System.out.println("reg때 files"+files);
+		boardService.registerBoard(board, files2);
+		System.out.println("reg때 files"+files2);
 		
 		System.out.println("전달받은 board : "+board);
 		return mv;
@@ -153,7 +153,7 @@ public class BoardController {
 	//게시글 수정
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
 	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board,
-			List<MultipartFile> files, Integer [] fileNums) {
+			List<MultipartFile> files2, Integer [] fileNums) {
 		//기존 첨부파일 번호인 fileNums확인	
 		System.out.println("modify Post");
 		System.out.println("fileNums" + fileNums);//번호이렇게 넘어오게하면 안뜨나요?
@@ -167,7 +167,7 @@ public class BoardController {
 		
 		//서비스에게 게시글 정보를 주면서 업ㅌ데이트 하라고 시킴
 		//서비스.게시글업데이트(게시글정보)
-		boardService.updateBoard(board, files, fileNums);
+		boardService.updateBoard(board, files2, fileNums);
 		//추가
 		mv.addObject("bd_num", board.getBd_num());
 		mv.setViewName("redirect:/board/detail");

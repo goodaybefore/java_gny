@@ -4,8 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>register</title>
+	<!-- summernote -->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
 	<div class="body container">
@@ -20,13 +23,20 @@
 			<!-- 첨부파일 등록 -->
 			<div class="form-group">
 		        <label>첨부파일(최대3개)</label>
-		        <input type="file" class="form-control" name="files"/>
-		        <input type="file" class="form-control" name="files"/>
-		        <input type="file" class="form-control" name="files"/>
+		        <input type="file" class="form-control" name="files2"/>
+		        <input type="file" class="form-control" name="files2"/>
+		        <input type="file" class="form-control" name="files2"/>
 		    </div>
 		    
 			<button class="btn btn-outline-success col-12">submit</button>
 		</form>
 	</div>
+	<script>
+      $('[name=bd_contents]').summernote({
+        placeholder: 'Hello Bootstrap 4',
+        tabsize: 2,
+        height: 100
+      });
+    </script>
 </body>
 </html>
