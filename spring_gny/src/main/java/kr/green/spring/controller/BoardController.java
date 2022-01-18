@@ -2,7 +2,6 @@ package kr.green.spring.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.spring.pagination.Criteria;
+import kr.green.spring.pagination.PageMaker;
 import kr.green.spring.service.BoardService;
 import kr.green.spring.vo.BoardVO;
 import kr.green.spring.vo.FileVO;
@@ -36,11 +37,19 @@ public class BoardController {
 	
 	//method=GET이런게 없음. 왜? 게시글 보는 화면에서는 데이터를 전송할 일이 없기 때문...! 그래서 GET은 ㄸ따로 안적어도줘되니껜 ㅇㅅㅇ
 	@RequestMapping(value="/list")//앞에 @RequestMapping(value="/board")를 안해줬으면 value="/board/list"로 작성해줘야함 
-	public ModelAndView boardList(ModelAndView mv) {
-		//등록된 모든 게시글을 확인
-		List<BoardVO> list = boardService.getBoardList("일반");
+	public ModelAndView boardList(ModelAndView mv, Criteria cri) {
+//		System.out.println("cri"+ cri);//page=1, pagination=10
+		cri.setPerPageNum(2);
+		//등록된 게시글 중 현재 페이지와 일치하는 게시글을 가져옴
+		//cri를 매개변수로 넣어주는 이유 :  일반게시글 중에 현재페이지와 일치하는 게시글 가져왕.
+		List<BoardVO> list = boardService.getBoardList("일반", cri);
+		
+		//페이지메이커를 만들어서 화면에 전달
+		int totalCount = boardService.getTotalCount("일반");
+		PageMaker pm = new PageMaker(totalCount, 5, cri);
+		
+		mv.addObject("pm", pm);
 		mv.addObject("list", list);
-//		System.out.println("list" + list);
 		mv.setViewName("/board/list");
 		return mv;
 	}

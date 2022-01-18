@@ -12,7 +12,8 @@
 		ifnull(max(bd_num),0)+1, 'N' FROM board;
 	</insert>
 	<select id="getBoardList" resultType="kr.green.spring.vo.BoardVO">
-		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' ORDER BY bd_num DESC;
+		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' ORDER BY bd_num DESC
+		LIMIT #{cri.pageStart}, #{cri.perPageNum};
 	</select>
 	<select id="getBoard" resultType="kr.green.spring.vo.BoardVO">
 		SELECT * FROM board WHERE bd_num=#{bd_num} AND bd_del='N';
@@ -43,4 +44,7 @@
 			fi_del_date = now()
 		WHERE fi_num = #{fi_num}
 	</update>
+	<select id="selectCountBoard" resultType="int">
+		SELECT COUNT(*) FROM community.board WHERE bd_type=#{type} AND bd_del="N";
+	</select>
 </mapper>

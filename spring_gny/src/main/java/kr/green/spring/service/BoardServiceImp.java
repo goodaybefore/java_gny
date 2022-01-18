@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.green.spring.dao.BoardDAO;
+import kr.green.spring.pagination.Criteria;
 import kr.green.spring.utills.UploadFileUtils;
 import kr.green.spring.vo.BoardVO;
 import kr.green.spring.vo.FileVO;
@@ -46,8 +47,9 @@ public class BoardServiceImp implements BoardService{
 	
 	//게시글 리스트 출력(type="일반"
 	@Override
-	public List<BoardVO> getBoardList(String type) {
-		return boardDao.getBoardList(type);
+	public List<BoardVO> getBoardList(String type,  Criteria cri) {
+		
+		return boardDao.getBoardList(type, cri);
 	}
 	
 	@Override
@@ -202,6 +204,11 @@ public class BoardServiceImp implements BoardService{
 				boardDao.deleteFile(tmpFileVO.getFi_num());
 			}
 		}
+	}
+
+	@Override
+	public int getTotalCount(String type) {
+		return boardDao.selectCountBoard(type);
 	}
 	
 }
