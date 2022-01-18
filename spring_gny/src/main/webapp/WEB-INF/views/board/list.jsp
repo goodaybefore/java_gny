@@ -9,7 +9,13 @@
 </head>
 <body>
 	<div class="body container">
-	<h1>Boards</h1>
+		<h1>Boards</h1>
+		<form class="input-group mb-3" action="<%=request.getContextPath()%>/board/list">
+			<input type="text" class="form-control" placeholder="검색" name="search" value="${pm.criteria.search}">
+		    <div class="input-group-append">
+		    	<button class="btn btn-success" type="submit">Go</button>  
+		    </div>
+		</form>
 		<table class="table table-warning table-hover">
 			<thead>
 				<tr>
@@ -39,24 +45,24 @@
 		<ul class="pagination justify-content-center">
 			<c:if test="${pm.prev}">
 				<li class="page-item">
-					<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page-1}">이전</a>
+					<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page-1}&search=${pm.criteria.search}">이전</a>
 			    </li>
 			</c:if>
 			<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var ="i">
 			    <c:if test="${i != pm.criteria.page}">
 				    <li class="page-item">
-				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}">${i}</a>
+				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}&search=${pm.criteria.search}">${i}</a>
 				   	</li>
 			   	</c:if>
 			   	<c:if test="${i == pm.criteria.page}">
 				   	<li class="page-item active">
-				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}">${i}</a>
+				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}&search=${pm.criteria.search}">${i}</a>
 				   	</li>
 			   	</c:if>
 		   	</c:forEach>
 		   	<c:if test="${pm.next}">
 			    <li class="page-item">
-			   		<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page+1}">다음</a>
+			   		<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page+1}&search=${pm.criteria.search}">다음</a>
 			   	</li>
 			   	
 		   	</c:if>
@@ -68,6 +74,5 @@
 		  </a>
 		  </c:if>
 	</div>
-	${pm}
 </body>
 </html>

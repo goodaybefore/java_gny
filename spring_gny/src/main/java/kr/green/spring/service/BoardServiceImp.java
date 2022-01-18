@@ -207,8 +207,8 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public int getTotalCount(String type) {
-		return boardDao.selectCountBoard(type);
+	public int getTotalCount(String type, Criteria cri) {
+		return boardDao.selectCountBoard(type, cri);
 	}
 	
 }

@@ -39,13 +39,13 @@ public class BoardController {
 	@RequestMapping(value="/list")//앞에 @RequestMapping(value="/board")를 안해줬으면 value="/board/list"로 작성해줘야함 
 	public ModelAndView boardList(ModelAndView mv, Criteria cri) {
 //		System.out.println("cri"+ cri);//page=1, pagination=10
-		cri.setPerPageNum(2);
+		cri.setPerPageNum(5);
 		//등록된 게시글 중 현재 페이지와 일치하는 게시글을 가져옴
 		//cri를 매개변수로 넣어주는 이유 :  일반게시글 중에 현재페이지와 일치하는 게시글 가져왕.
 		List<BoardVO> list = boardService.getBoardList("일반", cri);
 		
 		//페이지메이커를 만들어서 화면에 전달
-		int totalCount = boardService.getTotalCount("일반");
+		int totalCount = boardService.getTotalCount("일반", cri);
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		
 		mv.addObject("pm", pm);

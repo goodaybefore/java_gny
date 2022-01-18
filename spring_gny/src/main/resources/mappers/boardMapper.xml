@@ -12,7 +12,7 @@
 		ifnull(max(bd_num),0)+1, 'N' FROM board;
 	</insert>
 	<select id="getBoardList" resultType="kr.green.spring.vo.BoardVO">
-		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' ORDER BY bd_num DESC
+		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' AND bd_title LIKE concat('%', #{cri.search}, '%') ORDER BY bd_num DESC
 		LIMIT #{cri.pageStart}, #{cri.perPageNum};
 	</select>
 	<select id="getBoard" resultType="kr.green.spring.vo.BoardVO">
@@ -45,6 +45,12 @@
 		WHERE fi_num = #{fi_num}
 	</update>
 	<select id="selectCountBoard" resultType="int">
-		SELECT COUNT(*) FROM community.board WHERE bd_type=#{type} AND bd_del="N";
+		SELECT COUNT(*) FROM community.board
+		WHERE
+			bd_type=#{type}
+		AND
+			bd_del="N"
+		AND
+			bd_title LIKE concat('%', #{cri.search}, '%');
 	</select>
 </mapper>

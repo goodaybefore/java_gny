@@ -28,7 +28,7 @@ public interface BoardDAO {
 	//첨부파일 삭제
 	void deleteFile(@Param("fi_num")int fi_num);
 
-	int selectCountBoard(@Param("type")String type);
+	int selectCountBoard(@Param("type")String type,@Param("cri")Criteria cri);
 
 
 }
