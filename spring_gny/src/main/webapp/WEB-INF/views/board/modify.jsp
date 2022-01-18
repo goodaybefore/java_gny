@@ -18,11 +18,32 @@
 		</div>
 		<input type="hidden" name="bd_num" value="${board.bd_num}">
 		<!-- 첨부파일 등록 -->
-		<div class="form-group">
-	        <label>파일</label>
-	        <input type="file" class="form-control" name="file"/>
+	    <div class="form-group attachment">
+	    	<label>첨부파일</label>
+	    	<c:forEach items="${fileList}" var="file">
+	    		<div class="form-control">
+	    			<input type="hidden" name="fileNums" value="${file.fi_num}">
+	    			<span>${file.fi_ori_name}</span>
+	    			<a class="btn-close" href="#">X</a>
+	    		</div>
+	    	</c:forEach>
+	    	<c:forEach begin="1" end="${3-fileList.size()}">
+	    		<input type="file" class="form-control" name="files">
+	    	</c:forEach>
 	    </div>
 		<button class="btn btn-outline-success col-12">등록</button>
 	</form>
+	
+	<script>
+		$(function(){
+			$('.attachment .btn-close').click(function(e){
+				e.preventDefault();
+				//버튼이 있는 곳의 부모를 지워준다. (form-control을 지우남)
+				$(this).parent().remove();
+				var str ='<input type="file" class="form-control" name="files">';
+				$('.attachment').append(str);
+			});
+		});		
+	</script>
 </body>
 </html>

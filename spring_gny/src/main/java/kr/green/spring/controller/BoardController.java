@@ -2,6 +2,7 @@ package kr.green.spring.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,7 +90,8 @@ public class BoardController {
 	
 	//게시글 삭제
 	@RequestMapping(value="/delete", method=RequestMethod.GET) 
-	public ModelAndView boardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
+	public ModelAndView boardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request,
+			List<MultipartFile> files, Integer [] fileNums) {
 		//삭제처리
 		//게시글 번호 확인
 //		System.out.println("bd_num"+bd_num);
@@ -121,7 +123,12 @@ public class BoardController {
 		if(board==null) {
 			mv.setViewName("redirect:/board/list");
 		}else {
+			//첨부파일 가져오기
+			List<FileVO> fileList = boardService.getFileList(bd_num);
+			mv.addObject("fileList", fileList);
+			//게시글 가져오기
 			mv.addObject("board", board);
+			//화면출력
 			mv.setViewName("/board/modify");
 		}
 		
@@ -136,13 +143,22 @@ public class BoardController {
 	
 	//게시글 수정
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board) {
+	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board,
+			List<MultipartFile> files, Integer [] fileNums) {
+		//기존 첨부파일 번호인 fileNums확인	
+		System.out.println("modify Post");
+		System.out.println("fileNums" + fileNums);//번호이렇게 넘어오게하면 안뜨나요?
+		if(fileNums != null) {
+			for(Integer tmp : fileNums)
+				System.out.println(tmp);
+		}
+		
 		//화면에서 수정한 게시글 정보가 넘어오는지 확인
 //		System.out.println("수정한 게시글 정보 : "+board);
 		
 		//서비스에게 게시글 정보를 주면서 업ㅌ데이트 하라고 시킴
 		//서비스.게시글업데이트(게시글정보)
-		boardService.updateBoard(board);
+		boardService.updateBoard(board, files, fileNums);
 		//추가
 		mv.addObject("bd_num", board.getBd_num());
 		mv.setViewName("redirect:/board/detail");

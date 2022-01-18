@@ -89,13 +89,13 @@ public class BoardController {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");//user를 다른걸로 하면 안나오는 이유 누가 아시는분 => 로그인할때 addObject를 user로 해줬기 때문인가?
 		System.out.println("user " +user);//pw가 qwer그대로 나오는거 봐서는 알아서 복호화 된걱겠지?
 		BoardVO board = boardService.getBoardList(bd_num);
-		
 		if(user!=null|| board!=null &&
 				user.getMe_id().equals(board.getBd_me_id())) {
 			mv.addObject("board", board);
 			mv.setViewName("/board/modify");
 		}else {
 			mv.addObject("bd_num",bd_num);//detail로 넘어가려면 게시글 번호(bd_num)가 필요
+			//화면출력
 			mv.setViewName("redirect:/board/detail");
 		}
 		return mv;

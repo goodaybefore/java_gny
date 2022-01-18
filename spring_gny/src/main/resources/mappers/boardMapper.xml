@@ -35,6 +35,12 @@
 		VALUES(#{file.fi_ori_name},#{file.fi_name},#{file.fi_bd_num})
 	</insert>
 	<select id="selectFileList" resultType="kr.green.spring.vo.FileVO">
-		select * from file where fi_bd_num = #{bd_num};
+		select * from file where fi_bd_num = #{bd_num} AND (fi_del != 'Y' || fi_del is null);
 	</select>
+	<update id="deleteFile">
+		UPDATE file SET
+			fi_del = 'Y',
+			fi_del_date = now()
+		WHERE fi_num = #{fi_num}
+	</update>
 </mapper>

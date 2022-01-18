@@ -24,5 +24,8 @@ public interface BoardDAO {
 
 	List<FileVO> selectFileList(@Param("bd_num")Integer bd_num);
 
+	//첨부파일 삭제
+	void deleteFile(@Param("fi_num")int fi_num);
+
 
 }
