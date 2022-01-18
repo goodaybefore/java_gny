@@ -36,8 +36,6 @@
 				<c:if test="${files==null || files.size() == 0}">
 					<label>첨부파일 없음</label>
 				</c:if>
-				
-				
 			</div>
 			<c:if test="${user != null && user.me_id == board.bd_me_id}">
 				<a href="<%= request.getContextPath()%>/board/modify?bd_num=${board.bd_num}">
