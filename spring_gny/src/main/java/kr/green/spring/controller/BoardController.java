@@ -56,7 +56,8 @@ public class BoardController {
 	
 	//register(글쓰기)
 	@RequestMapping(value="/register", method=RequestMethod.GET)//앞에 @RequestMapping(value="/board")를 안해줬으면 value="/board/list"로 작성해줘야함 
-	public ModelAndView boardRegisterGet(ModelAndView mv) {
+	public ModelAndView boardRegisterGet(ModelAndView mv, Integer bd_ori_num) {
+		mv.addObject("bd_ori_num", bd_ori_num);
 		mv.setViewName("/board/register");
 		return mv;
 	}

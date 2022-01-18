@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div class="body container">
-		<h1>게시글 등록</h1>
+		<h1>게시글 등록</h1> ${bd_ori_num}
 		<form action="<%=request.getContextPath() %>/board/register" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 			  <input type="text" class="form-control" placeholder="제목" name="bd_title">
@@ -28,6 +28,9 @@
 		        <input type="file" class="form-control" name="files2"/>
 		    </div>
 		    
+		    <c:if test="${bd_ori_num != null}">
+		    	<input type="hidden" name="bd_ori_num" value="${bd_ori_num}">
+		    </c:if>
 			<button class="btn btn-outline-success col-12">submit</button>
 		</form>
 	</div>

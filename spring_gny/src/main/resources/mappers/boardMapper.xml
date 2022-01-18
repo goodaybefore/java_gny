@@ -7,12 +7,23 @@
 	<insert id="insertBoard"
 		useGeneratedKeys="true" keyProperty="board.bd_num"
 		parameterType="kr.green.spring.vo.BoardVO">
-		INSERT INTO board (bd_title, bd_contents, bd_reg_date, bd_type, bd_me_id, bd_ori_num, bd_del)
-		SELECT #{board.bd_title}, #{board.bd_contents}, now(), #{board.bd_type}, #{board.bd_me_id},
-		ifnull(max(bd_num),0)+1, 'N' FROM board;
+		<if test="board.bd_ori_num == 0">
+			<!-- select로 넣은 이유 : bdorinum을 select로 계산하기 위해서 -->
+			INSERT INTO board (bd_title, bd_contents, bd_reg_date, bd_type, bd_me_id, bd_ori_num, bd_del)
+			SELECT #{board.bd_title}, #{board.bd_contents}, now(), #{board.bd_type}, #{board.bd_me_id},
+			ifnull(max(bd_num),0)+1, 'N' FROM board;
+		</if>
+		<if test="board.bd_ori_num !=0 ">
+			<!-- select로 넣은 이유 : bdorinum을 select로 계산하기 위해서 -->
+			INSERT INTO board (bd_title, bd_contents, bd_reg_date, bd_type, bd_me_id, bd_ori_num, bd_del)
+			VALUES (#{board.bd_title}, #{board.bd_contents}, now(), #{board.bd_type}, #{board.bd_me_id},
+			#{board.bd_ori_num}, 'N');
+		</if>
+		
 	</insert>
 	<select id="getBoardList" resultType="kr.green.spring.vo.BoardVO">
-		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' AND bd_title LIKE concat('%', #{cri.search}, '%') ORDER BY bd_num DESC
+		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' AND bd_title LIKE concat('%', #{cri.search}, '%')
+		ORDER BY bd_ori_num DESC, bd_num ASC
 		LIMIT #{cri.pageStart}, #{cri.perPageNum};
 	</select>
 	<select id="getBoard" resultType="kr.green.spring.vo.BoardVO">

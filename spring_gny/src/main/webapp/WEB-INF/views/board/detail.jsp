@@ -44,6 +44,11 @@
 				<a href="<%= request.getContextPath()%>/board/delete?bd_num=${board.bd_num}">
 					<button class="btn btn-outline-danger">삭제</button>
 				</a>
+				<c:if test="${board.bd_ori_num == board.bd_num }">
+					<a href="<%= request.getContextPath()%>/board/register?bd_ori_num=${board.bd_num}">
+						<button class="btn btn-outline-warning">답변</button>
+					</a>
+				</c:if>
 			</c:if>
 		</c:if>
 		<c:if test="${board == null}">
