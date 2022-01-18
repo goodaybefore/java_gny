@@ -45,7 +45,8 @@
 					<button class="btn btn-outline-danger">삭제</button>
 				</a>
 			</c:if>
-			<c:if test="${user != null && board.bd_ori_num == board.bd_num }">
+			<!-- 공지에 답변 안들어가도록 수정 -->
+			<c:if test="${board.bd_type!='공지' && user != null && board.bd_ori_num == board.bd_num }">
 				<a href="<%= request.getContextPath()%>/board/register?bd_ori_num=${board.bd_num}">
 					<button class="btn btn-outline-warning">답변</button>
 				</a>

@@ -9,12 +9,21 @@
 </head>
 <body>
 	<div class="body container">
-		<h1>Boards</h1>
+		<c:if test="${pm.criteria.type != null && pm.criteria.type == '일반'}">
+			<h1>Board</h1>
+		</c:if>
+		
+		<c:if test="${pm.criteria.type != null && pm.criteria.type == '공지'}">
+			<h1>Notice</h1>
+		</c:if>
+		
 		<form class="input-group mb-3" action="<%=request.getContextPath()%>/board/list">
 			<input type="text" class="form-control" placeholder="검색" name="search" value="${pm.criteria.search}">
 		    <div class="input-group-append">
 		    	<button class="btn btn-success" type="submit">Go</button>  
 		    </div>
+		    <!-- 검색 시 해당하는  type에서만 검색되도록 -->
+		  	<input type="hidden" name="type" value="${pm.criteria.type}">
 		</form>
 		<table class="table table-warning table-hover">
 			<thead>
@@ -50,31 +59,31 @@
 		<ul class="pagination justify-content-center">
 			<c:if test="${pm.prev}">
 				<li class="page-item">
-					<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page-1}&search=${pm.criteria.search}">이전</a>
+					<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page-1}&search=${pm.criteria.search}&type=${pm.criteria.type}">이전</a>
 			    </li>
 			</c:if>
 			<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var ="i">
 			    <c:if test="${i != pm.criteria.page}">
 				    <li class="page-item">
-				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}&search=${pm.criteria.search}">${i}</a>
+				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}&search=${pm.criteria.search}&type=${pm.criteria.type}">${i}</a>
 				   	</li>
 			   	</c:if>
 			   	<c:if test="${i == pm.criteria.page}">
 				   	<li class="page-item active">
-				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}&search=${pm.criteria.search}">${i}</a>
+				   		 <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${i}&search=${pm.criteria.search}&type=${pm.criteria.type}">${i}</a>
 				   	</li>
 			   	</c:if>
 		   	</c:forEach>
 		   	<c:if test="${pm.next}">
 			    <li class="page-item">
-			   		<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page+1}&search=${pm.criteria.search}">다음</a>
+			   		<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page+1}&search=${pm.criteria.search}&type=${pm.criteria.type}">다음</a>
 			   	</li>
 			   	
 		   	</c:if>
 		  </ul>
 		  
 		  <c:if test="${ user != null }">
-		  <a href="<%=request.getContextPath()%>/board/register">
+		  <a href="<%=request.getContextPath()%>/board/register?bd_type=${pm.criteria.type}">
 		  	<button class="btn btn-outline-success">write</button>
 		  </a>
 		  </c:if>

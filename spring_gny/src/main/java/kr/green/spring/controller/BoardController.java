@@ -42,10 +42,10 @@ public class BoardController {
 		cri.setPerPageNum(5);
 		//등록된 게시글 중 현재 페이지와 일치하는 게시글을 가져옴
 		//cri를 매개변수로 넣어주는 이유 :  일반게시글 중에 현재페이지와 일치하는 게시글 가져왕.
-		List<BoardVO> list = boardService.getBoardList("일반", cri);
+		List<BoardVO> list = boardService.getBoardList(cri);
 		
 		//페이지메이커를 만들어서 화면에 전달
-		int totalCount = boardService.getTotalCount("일반", cri);
+		int totalCount = boardService.getTotalCount(cri);
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		
 		mv.addObject("pm", pm);
@@ -56,8 +56,9 @@ public class BoardController {
 	
 	//register(글쓰기)
 	@RequestMapping(value="/register", method=RequestMethod.GET)//앞에 @RequestMapping(value="/board")를 안해줬으면 value="/board/list"로 작성해줘야함 
-	public ModelAndView boardRegisterGet(ModelAndView mv, Integer bd_ori_num) {
+	public ModelAndView boardRegisterGet(ModelAndView mv, Integer bd_ori_num, String bd_type) {
 		mv.addObject("bd_ori_num", bd_ori_num);
+		mv.addObject("bd_type", bd_type);
 		mv.setViewName("/board/register");
 		return mv;
 	}
@@ -70,7 +71,9 @@ public class BoardController {
 		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
 		//게시판 작성자를 현재 로그인해있는 사람의 id로 넣기
 		board.setBd_me_id(user.getMe_id());
-		board.setBd_type("일반");
+		
+		//바로 공지사항 글을 작성하면 작성 후 바로 공지사항 화면으로 갈 수 있게 해주는듯...!
+		mv.addObject("type", board.getBd_type());
 		//서비스한테 일시키기
 		mv.setViewName("/board/register");
 		

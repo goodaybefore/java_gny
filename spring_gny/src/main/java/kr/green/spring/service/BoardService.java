@@ -15,7 +15,7 @@ public interface BoardService {
 	//이유 : 제목, 내용만 입력하기 때문에 회원가입에 비하면 뭐 리턴할게 없음
 	void registerBoard(BoardVO board, List<MultipartFile> files) throws Exception;
 
-	List<BoardVO> getBoardList(String string, Criteria cri);
+	List<BoardVO> getBoardList(Criteria cri);
 
 	BoardVO getBoard(Integer bd_num);
 	
@@ -27,6 +27,6 @@ public interface BoardService {
 
 	List<FileVO> getFileList(Integer bd_num);
 
-	int getTotalCount(String type, Criteria cri);
+	int getTotalCount(Criteria cri);
 
 }

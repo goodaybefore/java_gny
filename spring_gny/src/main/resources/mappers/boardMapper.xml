@@ -22,7 +22,7 @@
 		
 	</insert>
 	<select id="getBoardList" resultType="kr.green.spring.vo.BoardVO">
-		SELECT * FROM board WHERE bd_type=#{type} AND bd_del='N' AND bd_title LIKE concat('%', #{cri.search}, '%')
+		SELECT * FROM board WHERE bd_type=#{cri.type} AND bd_del='N' AND bd_title LIKE concat('%', #{cri.search}, '%')
 		ORDER BY bd_ori_num DESC, bd_num ASC
 		LIMIT #{cri.pageStart}, #{cri.perPageNum};
 	</select>
@@ -58,7 +58,7 @@
 	<select id="selectCountBoard" resultType="int">
 		SELECT COUNT(*) FROM community.board
 		WHERE
-			bd_type=#{type}
+			bd_type=#{cri.type}
 		AND
 			bd_del="N"
 		AND
