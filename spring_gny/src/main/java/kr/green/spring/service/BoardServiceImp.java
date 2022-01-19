@@ -24,9 +24,9 @@ public class BoardServiceImp implements BoardService{
 	
 	//파일업로드를 위한 매개변수
 	//집
-	String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+//	String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
 	//학원
-//	String uploadPath = "";
+	String uploadPath = "E:\\java_gny\\upload";
 	String uploadFileName = "";
 
 	@Override

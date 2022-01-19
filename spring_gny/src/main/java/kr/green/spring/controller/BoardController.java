@@ -183,9 +183,9 @@ public class BoardController {
 	
 	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
 		//집
-		String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+//		String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
 		//학원
-		//String uploadPath = "";
+		String uploadPath = "E:\\java_gny\\upload";
 		
 	    InputStream in = null;
 	    //byte에 담아서 전송
