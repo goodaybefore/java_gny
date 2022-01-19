@@ -28,5 +28,7 @@ public interface BoardDAO {
 	//detail에서 첨부파일 불러오기
 	List<FileVO> selectFileList(@Param("bd_num")Integer bd_num);
 
+	void deleteFile(@Param("file")FileVO tmp);
+
 	
 }

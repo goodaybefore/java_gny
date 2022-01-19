@@ -35,7 +35,7 @@
 				<!-- ifnull(exp1, exp2) : 값이 null이면 exp1값을 리턴, 아니면 exp2값을 리턴
 					 여기서는 bd_ori_num ==null 일시 bd_num의 제일 최대값을 넣고, null이 아니면 0을 리턴한다.
 					 -->
-				ifnull(max(#{board.bd_title}),0)+1,
+				ifnull(max(bd_num),0)+1,
 				'N'
 			from board;
 		<!-- insert into board (bd_title, bd_contents, bd_reg_date, bd_type, bd_me_id, bd_ori_num, bd_del)
@@ -62,12 +62,18 @@
 		UPDATE board SET
 			bd_del = 'Y',
 			bd_del_date = now()
-		WHERE bd_num=#{bd_nm};
+		WHERE bd_num=#{bd_num};
 	</update>
 	<insert id="insertFile">
 		INSERT INTO file (fi_ori_name, fi_name, fi_bd_num) VALUES (#{file.fi_ori_name}, #{file.fi_name}, #{file.fi_bd_num});
 	</insert>
 	<select id="selectFileList" resultType="kr.green.green.vo.FileVO">
-		SELECT * FROM file WHERE fi_bd_num = #{bd_num};
+		SELECT * FROM file WHERE fi_bd_num = #{bd_num} AND fi_del is null;
 	</select>
+	<update id="deleteFile">
+		UPDATE file SET
+			fi_del = 'Y',
+			fi_del_date = now()
+		WHERE fi_num = #{file.fi_num};
+	</update>
 </mapper>

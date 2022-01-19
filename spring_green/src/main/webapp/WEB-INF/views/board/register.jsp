@@ -22,12 +22,11 @@
 			</div>
 			<div class="form-group">
 		        <label>첨부파일</label>
-		        <input type="file" class="form-control" name="files"/>
-		        <input type="file" class="form-control" name="files"/>
-		        <input type="file" class="form-control" name="files"/>
+		        <input type="file" class="form-control" name="files2"/>
+		        <input type="file" class="form-control" name="files2"/>
+		        <input type="file" class="form-control" name="files2"/>
 		    </div>
 			<button class="btn btn-outline-success">작성완료</button>
-			
 		</form>
 	</div>
 </body>

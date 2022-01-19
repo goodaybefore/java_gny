@@ -49,6 +49,7 @@ public class BoardController {
 	public ModelAndView BoardDetailPost(ModelAndView mv, Integer bd_num) {
 		BoardVO  board = boardService.getBoardList(bd_num);
 		
+
 		//게시글 번호와 일치하는 첨부파일 가져오라고 시킴(최대 3개)
 		List<FileVO> fileList = boardService.getFileList(bd_num);
 //		System.out.println("fileList : "+fileList);
@@ -69,15 +70,16 @@ public class BoardController {
 	//게시글 등록(register) - POST
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView BoardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request,
-			List<MultipartFile> files) {
+			List<MultipartFile> files2) {
 		//현재 세션에서 로그인되어있는 유저 정보를 가져오기
 		//아직 HttpServeltRequest에 익숙하지 않으니 꼭 명심해두기
 		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
 		//board에 등록하라고 service에게 전달
-
 		board.setBd_type("일반");
-		boardService.regBoard(board, user, files);
 		
+		boardService.regBoard(board, user, files2);
+		System.out.println("등록한 board : "+board);
+		System.out.println("등록한 files2: "+files2);
 		//insert되었으면 list로 돌아가서 목록 보여주기
 		mv.setViewName("redirect:/board/list");
 		return mv;
@@ -87,10 +89,16 @@ public class BoardController {
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public ModelAndView BoardModifyGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");//user를 다른걸로 하면 안나오는 이유 누가 아시는분 => 로그인할때 addObject를 user로 해줬기 때문인가?
-		System.out.println("user " +user);//pw가 qwer그대로 나오는거 봐서는 알아서 복호화 된걱겠지?
+//		System.out.println("user " +user);//pw가 qwer그대로 나오는거 봐서는 알아서 복호화 된걱겠지?
 		BoardVO board = boardService.getBoardList(bd_num);
+		//파일 리스트 가져오기
+		List<FileVO> fileList = boardService.getFileList(bd_num);
+		
+		
 		if(user!=null|| board!=null &&
 				user.getMe_id().equals(board.getBd_me_id())) {
+			
+			mv.addObject("fileList", fileList);
 			mv.addObject("board", board);
 			mv.setViewName("/board/modify");
 		}else {
@@ -103,19 +111,20 @@ public class BoardController {
 	
 	//게시글 수정 post
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public ModelAndView BoardModifyPost(ModelAndView mv, BoardVO board, HttpServletRequest request) {
-		
-		//강사님
-		mv.setViewName("redirect:/board/detail");
-		
-		//
+	public ModelAndView BoardModifyPost(ModelAndView mv, BoardVO board, HttpServletRequest request,
+			List<MultipartFile> files2, Integer [] fileNums) {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		if(fileNums != null) {//넘어온 fileNums 좀 보자
+			for(Integer tmp : fileNums) System.out.println("게시글 번호 : "+tmp);
+		}
+		if(files2 != null) {
+			for(MultipartFile tmp : files2) System.out.println("첨부파일명 : "+tmp.getOriginalFilename());
+		}
 		//강사님은 비밀번호 암호와 되어서 오는데 왜 난 아니지??
-		boardService.modifyBoard(board, user);
-		
+		boardService.modifyBoard(board, user, files2, fileNums);
 		//이거 넣어주면 detail에 '수정된 번호의 게시글'이 나옴
 		mv.addObject("bd_num", board.getBd_num());
-		
+		mv.setViewName("redirect:/board/detail");
 		
 		/*
 		//내꺼. 안될듯.
@@ -144,7 +153,10 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("/download")
 	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
-		String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+		//집
+		//String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+		//학원
+		String uploadPath = "E:\\upload";
 		InputStream in = null;
 	    ResponseEntity<byte[]> entity = null;
 	    try{

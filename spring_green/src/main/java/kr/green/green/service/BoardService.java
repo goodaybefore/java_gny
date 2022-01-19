@@ -20,7 +20,7 @@ public interface BoardService {
 	BoardVO getBoard(Integer bd_num, MemberVO user);
 
 	//게시글 수정
-	void modifyBoard(BoardVO board, MemberVO user);
+	void modifyBoard(BoardVO board, MemberVO user, List<MultipartFile> files2, Integer[] fileNums);
 	//게시글 삭제
 	void deleteBoard(MemberVO user, Integer bd_num);
 
