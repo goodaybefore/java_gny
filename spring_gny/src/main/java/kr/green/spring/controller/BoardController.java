@@ -198,7 +198,7 @@ public class BoardController {
 		//집
 //		String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
 		//학원
-		String uploadPath = "E:\\java_gny\\upload";
+		String uploadPath = "E:\\upload";
 		
 	    InputStream in = null;
 	    //byte에 담아서 전송

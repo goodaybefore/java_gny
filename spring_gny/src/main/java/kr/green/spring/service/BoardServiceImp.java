@@ -26,7 +26,7 @@ public class BoardServiceImp implements BoardService{
 	//집
 //	String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
 	//학원
-	String uploadPath = "E:\\java_gny\\upload";
+	String uploadPath = "E:\\upload";
 	String uploadFileName = "";
 
 	@Override
