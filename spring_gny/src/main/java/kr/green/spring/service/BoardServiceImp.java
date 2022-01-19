@@ -81,10 +81,16 @@ public class BoardServiceImp implements BoardService{
 		if(!board.getBd_me_id().equals(user.getMe_id())) return;
 				
 		
+		List<String> authorityAdmin = new ArrayList<String>();
+		authorityAdmin.add("관리자");
+		authorityAdmin.add("슈퍼 관리자");
+		if(board.getBd_type().equals("공지") &&
+				authorityAdmin.indexOf(user.getMe_authority()) < 0) return;
+		
 		//게시글을 삭제
-		//게시글의 bd_del을 Y로 수정
-		//다오애게 수정된 게시글을 업데이트 하라고 시킴
-		//boardDao.게시글삭제(게시글번호)
+				//게시글의 bd_del을 Y로 수정
+				//다오애게 수정된 게시글을 업데이트 하라고 시킴
+				//boardDao.게시글삭제(게시글번호
 		boardDao.updateBoardIsdel(bd_num);//방법1) 재사용성이 낮은 메소드 + 쿼리문이 단순(한줄만 쓰면됨). 해당 게시글 번호의 두가지 속성만 덮어씀
 		
 		

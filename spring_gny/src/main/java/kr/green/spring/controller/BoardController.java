@@ -2,6 +2,7 @@ package kr.green.spring.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,14 +73,29 @@ public class BoardController {
 		//게시판 작성자를 현재 로그인해있는 사람의 id로 넣기
 		board.setBd_me_id(user.getMe_id());
 		
-		//바로 공지사항 글을 작성하면 작성 후 바로 공지사항 화면으로 갈 수 있게 해주는듯...!
-		mv.addObject("type", board.getBd_type());
+		
 		//서비스한테 일시키기
 		mv.setViewName("/board/register");
 		
-		//게시글 등록 후 첨부파일 등록
-		mv.setViewName("redirect:/board/list");
-		boardService.registerBoard(board, files2);
+		//관리자 이름들을 list에 넣기
+		List<String> authorityAdmin = new ArrayList<String>();
+		authorityAdmin.add("관리자");
+		authorityAdmin.add("슈퍼 관리자");
+		//회원의 권한이 관리자or슈퍼관리자가 아닐 경우
+		if(board.getBd_type().equals("공지") &&
+				authorityAdmin.indexOf(user.getMe_authority()) < 0) {
+			mv.addObject("type", "공지");
+			mv.setViewName("redirect:/board/list");
+		}else {
+			boardService.registerBoard(board, files2);
+			//바로 공지사항 글을 작성하면 작성 후 바로 공지사항 화면으로 갈 수 있게 해주는듯...!
+			mv.addObject("type", board.getBd_type());
+			//게시글 등록 후 첨부파일 등록
+			mv.setViewName("redirect:/board/list");
+		}
+		
+		
+		
 		System.out.println("reg때 files"+files2);
 		
 		System.out.println("전달받은 board : "+board);
@@ -166,21 +182,18 @@ public class BoardController {
 				System.out.println(tmp);
 		}
 		
-		//화면에서 수정한 게시글 정보가 넘어오는지 확인
-//		System.out.println("수정한 게시글 정보 : "+board);
-		
 		//서비스에게 게시글 정보를 주면서 업ㅌ데이트 하라고 시킴
 		//서비스.게시글업데이트(게시글정보)
 		boardService.updateBoard(board, files2, fileNums);
 		//추가
 		mv.addObject("bd_num", board.getBd_num());
 		mv.setViewName("redirect:/board/detail");
+		
 		return mv;
 	}
 	
 	@ResponseBody//리턴값이 직접적으로 화면에(요청한곳에) 가도록 해줌 
 	@RequestMapping("/download")
-	
 	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
 		//집
 //		String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
