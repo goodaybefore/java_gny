@@ -111,6 +111,9 @@ public class BoardController {
 		
 		//파일가져오기
 		List<FileVO> files = boardService.getFileList(bd_num);
+		
+		//조회수 증가시키기
+		boardService.updateViews(bd_num);
 		//파일 전달
 		mv.addObject("files", files);
 		

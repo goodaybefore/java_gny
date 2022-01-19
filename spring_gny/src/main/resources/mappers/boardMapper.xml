@@ -64,4 +64,9 @@
 		AND
 			bd_title LIKE concat('%', #{cri.search}, '%');
 	</select>
+	<update id="updateViews">
+		UPDATE board SET
+			bd_views = bd_views+1
+		WHERE bd_num = #{bd_num};
+	</update>
 </mapper>

@@ -29,6 +29,9 @@ public interface BoardDAO {
 	void deleteFile(@Param("fi_num")int fi_num);
 
 	int selectCountBoard(@Param("cri")Criteria cri);
+	
+	//조회수 증가
+	void updateViews(@Param("bd_num")Integer bd_num);
 
 
 }
