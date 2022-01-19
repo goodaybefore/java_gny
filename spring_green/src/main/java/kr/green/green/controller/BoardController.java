@@ -49,13 +49,16 @@ public class BoardController {
 	public ModelAndView BoardDetailPost(ModelAndView mv, Integer bd_num) {
 		BoardVO  board = boardService.getBoardList(bd_num);
 		
-
 		//게시글 번호와 일치하는 첨부파일 가져오라고 시킴(최대 3개)
 		List<FileVO> fileList = boardService.getFileList(bd_num);
-//		System.out.println("fileList : "+fileList);
-		mv.addObject("fileList",fileList);
-		mv.addObject("board", board);
-		mv.setViewName("/board/detail");
+		if(board == null) {
+			mv.setViewName("redirect:/board/list");
+		}else {
+//			System.out.println("fileList : "+fileList);
+			mv.addObject("fileList",fileList);
+			mv.addObject("board", board);
+			mv.setViewName("/board/detail");
+		}
 		return mv;
 	}
 	
@@ -142,9 +145,10 @@ public class BoardController {
 	
 	//게시글 삭제 - GET
 	@RequestMapping(value="/delete", method=RequestMethod.GET)
-	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request) {
+	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request,
+			List<MultipartFile> files2) {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-		boardService.deleteBoard(user, bd_num);
+		boardService.deleteBoard(user, bd_num, files2);
 		mv.setViewName("redirect:/board/list");
 		return mv;
 	}

@@ -123,20 +123,8 @@ public class BoardServiceImp implements BoardService{
 			fileList.removeAll(remainFileList);
 		}
 		
-		//실제 서버에서 삭제 후 DB에서도 삭제 처리
-		if(fileList != null && fileList.size() != 0) {
-			for(FileVO tmp : fileList) {
-				String fileName = tmp.getFi_name().replace("/", File.separator);//이전 수업시간에는 얘가 길어서 나눠썼음. 이게 가벼운 버전
-				File f = new File(uploadPath + fileName);
-				//저장된 리스트에 있는 첨부파일들을 DB에서 삭제 처리
-				boardDao.deleteFile(tmp);
-				if(f.exists()) {
-					f.delete();
-					
-				}
-			}
-		}
-		
+		//실제서버에서 삭제처리
+		deleteFile(fileList);
 		
 		
 		//새로 추가한 첨부파일을 업로드
@@ -146,19 +134,24 @@ public class BoardServiceImp implements BoardService{
 
 	//게시글 삭제
 	@Override
-	public void deleteBoard(MemberVO user, Integer bd_num) {
+	public void deleteBoard(MemberVO user, Integer bd_num, List<MultipartFile> files2) {
 		if(bd_num == null || bd_num <= 0) return ;
 		
 		BoardVO board = boardDao.getBaord(bd_num);
+		List<FileVO> fileList = boardDao.selectFileList(bd_num);
+		
 		if(board ==null) return;
 		//board.getBd_me_id() !=null의 경우, 아이디는 db에서 primarykey이기 때문에 누락될 일이 없으나
-		//									더 안정적인 코드를 만드는 연습을 하고싶다면 삽입해주기
+		//더 안정적인 코드를 만드는 연습을 하고싶다면 삽입해주기
 		if(user != null && 
-				board.getBd_me_id() !=null && board.getBd_me_id().equals(user.getMe_id()))
+				board.getBd_me_id() !=null && board.getBd_me_id().equals(user.getMe_id())) {
 			boardDao.deleteBoard(bd_num);
+			deleteFile(fileList);
+			
+		}
+			
 		
 		
-		System.out.println("삭제완료되었습니다");
 	}
 
 	@Override
@@ -200,7 +193,19 @@ public class BoardServiceImp implements BoardService{
 		}
 		
 	}
-	private void deleteFile() {
-		
+	private void deleteFile(List<FileVO> fileList) {
+		//실제 서버에서 삭제 후 DB에서도 삭제 처리
+		if(fileList != null && fileList.size() != 0) {
+			for(FileVO tmp : fileList) {
+				String fileName = tmp.getFi_name().replace("/", File.separator);//이전 수업시간에는 얘가 길어서 나눠썼음. 이게 가벼운 버전
+				File f = new File(uploadPath + fileName);
+				//저장된 리스트에 있는 첨부파일들을 DB에서 삭제 처리
+				boardDao.deleteFile(tmp);
+				if(f.exists()) {
+					f.delete();
+					
+				}
+			}
+		}
 	}
 }

@@ -22,7 +22,7 @@ public interface BoardService {
 	//게시글 수정
 	void modifyBoard(BoardVO board, MemberVO user, List<MultipartFile> files2, Integer[] fileNums);
 	//게시글 삭제
-	void deleteBoard(MemberVO user, Integer bd_num);
+	void deleteBoard(MemberVO user, Integer bd_num, List<MultipartFile> files2);
 
 	//detail에서 첨부 파일  목록 불러오기
 	List<FileVO> getFileList(Integer bd_num);
