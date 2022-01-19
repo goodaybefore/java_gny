@@ -82,7 +82,7 @@
 		$(function(){
 			//생년월일
 			$( "#birth" ).datepicker();
-			$( "#birthday" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+			$( "#birth" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 
 			//항목 기입
 			let id, pw, pw2, name, gender, birth, phone;
