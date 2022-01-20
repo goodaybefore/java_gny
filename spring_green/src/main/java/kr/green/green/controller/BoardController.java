@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.green.pagination.Criteria;
+import kr.green.green.pagination.PageMaker;
 import kr.green.green.service.BoardService;
 import kr.green.green.vo.BoardVO;
 import kr.green.green.vo.FileVO;
@@ -30,14 +32,19 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
-
 	
 	//list출력
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public ModelAndView BoardlistGet(ModelAndView mv){
-		
+	public ModelAndView BoardlistGet(ModelAndView mv, Criteria cri){
 		//게시글을 가져오기위한 List
-		List<BoardVO> list = boardService.getBoardList("일반");
+		List<BoardVO> list = boardService.getBoardList(cri);
+		//PageMaker를 만들어서 화면에 전달
+		
+		//페이지메이커 생성
+		int totalCount = boardService.getTotalCount(cri);
+		PageMaker pm = new PageMaker(totalCount, 2, cri);
+		mv.addObject("pm", pm);
+		System.out.println("pm"+pm);
 		//list를 넘겨주기
 		mv.addObject("list", list);
 		mv.setViewName("/board/list");

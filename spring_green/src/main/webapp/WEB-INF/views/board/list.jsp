@@ -31,6 +31,21 @@
 		    </c:forEach>
 		    </tbody>
 		  </table>
+		  <c:if test="${pm.criteria.page != i }">active</c:if>
+		  <c:if test="${!pm.prev}">disabled</c:if>
+		  <ul class="pagination justify-content-center">
+		    	<li class="page-item <c:if test="${!pm.prev}">disabled</c:if>">
+			    	<a class="page-link" href="<%= request.getContextPath()%>/board/list?page=${pm.startPage-1}">이전</a>
+			    </li>
+		    <c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
+		    	<li class="page-item <c:if test="${pm.criteria.page== i }">active</c:if>">
+		    		<a class="page-link" href="<%= request.getContextPath()%>/board/list?page=${i}">${i}</a>
+		    	</li>
+		    </c:forEach>
+		    <li class="page-item <c:if test="${!pm.next}">disabled</c:if>">
+		    	<a class="page-link" href="<%= request.getContextPath()%>/board/list?page=${pm.endPage+1}">다음</a>
+		    </li>
+		  </ul>
 		  <c:if test="${user!=null}">
 		  	<a href="<%=request.getContextPath() %>/board/register" class="btn btn-outline-success">글쓰기</a>
 		  </c:if>

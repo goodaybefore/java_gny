@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.green.green.pagination.Criteria;
 import kr.green.green.vo.BoardVO;
 import kr.green.green.vo.FileVO;
 import kr.green.green.vo.MemberVO;
 
 public interface BoardService {
 
-	List<BoardVO> getBoardList(String bd_type);
+	List<BoardVO> getBoardList(Criteria cri);
 
 	BoardVO getBoardList(Integer bd_num);
 
@@ -26,6 +27,8 @@ public interface BoardService {
 
 	//detail에서 첨부 파일  목록 불러오기
 	List<FileVO> getFileList(Integer bd_num);
+
+	int getTotalCount(Criteria cri);
 
 
 }

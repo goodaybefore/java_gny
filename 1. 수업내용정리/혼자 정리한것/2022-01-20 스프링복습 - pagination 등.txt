@@ -1,0 +1,53 @@
+/board/list에서 BoardMapper까지 매개변수 cri를 통해 Criteria 객체를 넘겨줬는데
+BoardMapper에서 cri.startPage가 나온게 이해가 안됩니다.. startpage는 PageMaker 클래스 에서 등장하는 변수이고 Criteria 클래스에는 등장하지 않는데 어떻게 cri.startPage가 동작가능한지 궁금합니다
+
+
+<Criteria>
+변수는 기본 2가지(page, perPageNum)
+getPageStart() : 쿼리문에서 사용하기 위해서 필요
+ - 왜  get을 쓰냐면 => #{xxx.pageStart}로 쓸것이기 때문. 저렇게 써줘도 자동으로 getter가 작동함
+ - (맨위에 있는 질문의 답)
+- 공식처럼 외울 필요는 없고 그냥 그렇구나 하면된...다네요 ㅜ
+
+<PageMaker>
+getter setter 다 지우기 - @Data 추가
+
+calcData() : 
+prev, next 수정 = > 각각 누르면 바로 앞, 바로 뒤 페이지로 이동하도록 수정. 
+		기존것은 다음 그룹으로 넘어가게 하는것. => 현재 페이지가 중요한게 아니라, 현재 pagination 숫자에 1이 있으면 prev버튼을 비활성화.
+tempEndPage : 실제 마지막 페이지(고정)
+endPage : 현재 pagination에서의 마지막 페이지(현재 pagination에 따라 달라짐)
+- green에 써져있는 코드는 네이버 지식인 페이지네이션과 같음
+
+
+후에 생성자 만들어줌(매개변수 : totalCount, displaypageNum, criteria)
+- 생성자 만든 후에 calcData로 prev, next, endPage, startPage를 계산하세요 라고 한다.
+
+
+<BoardController  - board/list>
+Criteria cri 매개변수 추가 + boardSerivce.getBoardList에 cri 추가 -> 다 바꿔줌
+제대로 가져왔는지 sysout(cri) 하고 서버 재가동
+boar/list?page=2 <- 2페이지가 나옴
+boardMapper에 limit 추가
+
+페이지메이커 생성
+ - PageMaker pm =  new PageMaker(생성자)
+ - 생성자 - 총 게시글 수, 한 페이지네이션에서 페이지 개수, 현재 페이지 정보 - 총 3가지가 필요
+ - 여기서 현재 페이지 정보는 cri에 담겨있어서 따로 계산할 필요 없음.
+- 페이지네이션에서의 페이지 개수 : 내가 정해주면 됨
+ - 총 게시글 수(totalCount) : 내가 몰라서 DB에 요청해줘야함.
+ - int totalCount = boardService.getTotalCount(cri);
+ - cri가 매개변수로 들어가는 이유 : criteria 클래스에 기본 type으로 "일반"을 설정해놓았기 때문
+
+<list.jsp>
+
+prev버튼쪽 class에 <c:if test="${!pm.prev}">disabled</c:if> 추가
+-> pm.perv가 false(앞쪽에 표시할 pagination 그룹이 없을때)일때 이전버튼을 비활성화.
+-> next도 코드 조금 수정해서 추가
+
+숫자 버튼 쪽 class에 <c:if test="${pm.criteria.page != i }">active</c:if> 추가
+- 지금 현재 페이지꺼를 active하게 설정함.
+
+이전버튼의 href ="~~board/list?page=${pm.startPage-1}"로 해줌. 왜냐하면 이전 pagination 그룹으로 가기 때문에.
+=> 현재 페이지의 맨 첫번째 페이지보다 하나 적은 페이지로 간다.?
+다음버튼의 href=""도 이전버튼과 비슷하게 바꿔주기.
