@@ -19,9 +19,9 @@ public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDao;
 	//집
-//	String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
+	String uploadPath = "C:\\Users\\tsj02\\Documents\\java_gny\\upload";
 	//학원
-	String uploadPath = "E:\\upload";
+//	String uploadPath = "E:\\upload";
 	@Override
 	public List<BoardVO> getBoardList(String bd_type) {
 		
@@ -138,7 +138,7 @@ public class BoardServiceImp implements BoardService{
 		if(bd_num == null || bd_num <= 0) return ;
 		
 		BoardVO board = boardDao.getBaord(bd_num);
-		List<FileVO> fileList = boardDao.selectFileList(bd_num);
+		
 		
 		if(board ==null) return;
 		//board.getBd_me_id() !=null의 경우, 아이디는 db에서 primarykey이기 때문에 누락될 일이 없으나
@@ -146,6 +146,8 @@ public class BoardServiceImp implements BoardService{
 		if(user != null && 
 				board.getBd_me_id() !=null && board.getBd_me_id().equals(user.getMe_id())) {
 			boardDao.deleteBoard(bd_num);
+			///첨부파일 삭제하기 위해서 해당 게시글과 일치하는 첨부파일들을 가져와야함.
+			List<FileVO> fileList = boardDao.selectFileList(bd_num);
 			deleteFile(fileList);
 			
 		}
