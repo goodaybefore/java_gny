@@ -57,7 +57,6 @@ public class BoardController {
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public ModelAndView BoardDetailPost(ModelAndView mv, Integer bd_num) {
 		BoardVO  board = boardService.getBoardList(bd_num);
-		
 		//게시글 번호와 일치하는 첨부파일 가져오라고 시킴(최대 3개)
 		List<FileVO> fileList = boardService.getFileList(bd_num);
 		if(board == null) {
@@ -73,7 +72,8 @@ public class BoardController {
 	
 	//게시글 등록(register) - GET
 	@RequestMapping(value="/register", method=RequestMethod.GET)
-	public ModelAndView BoardRegisterGet(ModelAndView mv) {
+	public ModelAndView BoardRegisterGet(ModelAndView mv, Integer bd_ori_num) {
+		mv.addObject("bd_ori_num", bd_ori_num);
 		mv.setViewName("/board/register");
 		return mv;
 	}
@@ -82,16 +82,15 @@ public class BoardController {
 	//게시글 등록(register) - POST
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView BoardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request,
-			List<MultipartFile> files2) {
+			List<MultipartFile> files2, Integer bd_ori_num) {
 		//현재 세션에서 로그인되어있는 유저 정보를 가져오기
 		//아직 HttpServeltRequest에 익숙하지 않으니 꼭 명심해두기
 		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
 		//board에 등록하라고 service에게 전달
 		board.setBd_type("일반");
 		
+		System.out.println("Reg board : "+board);
 		boardService.regBoard(board, user, files2);
-		System.out.println("등록한 board : "+board);
-		System.out.println("등록한 files2: "+files2);
 		//insert되었으면 list로 돌아가서 목록 보여주기
 		mv.setViewName("redirect:/board/list");
 		return mv;

@@ -58,5 +58,34 @@ prev버튼쪽 class에 <c:if test="${!pm.prev}">disabled</c:if> 추가
 ~Search~
 <Criteria>
 search변수 추가 및 기본생성자 세팅
-
 <BoardController>
+
+
+
+~답변글쓰기~
+DB에 게시글 저장시 bd_ori_num을 null로 설정했었나??......bd_num이랑 ori_num이랑 똑같지 않았나.. 하ㅜ Mapper 수정해야하나
+register.jsp에 <c:if test="${bd_ori_num != null}"> input태그 </c:if>는 뭐지?
+그냥 실수로 들어온걸 방지하는 용??
+
+detail에 답변버튼 추가
+답변버튼 링크를/register?bd_ori_num=${bd_num}
+컨트롤러get에 bd_ori_num 추가 + addObject("bd_ori_num", bd_ori_num);
+register.jsp 가서 bd_ori_num이 제대로 오고있는지 확인
+hidden input을 c:if로 감싸서 name="bd_ori_num"이고 value="${bd_ori_num}인 input을 보내기 => c:if test="${bd_ori_num != null}" => 이유 : 평소 그냥 글쓰기 하면 ori_num에 자동으로 null이 들어감. (근데 DB들어가는 Mapper에서는 왜 board.bd_ori_num != 0 이렇게함 왜 null 아님??ㅠㅠ)
+-여기까지 잘 했음
+
+Mapper 수정할때를 못하고 있음..
+bd_ori_num==0일땐 select이하 부분을 if로 감싸고,
+bd_ori_num !=0일땐  vlaues 이하 부분을 if로 감싸기
+
+
+ list 수정 : 답변글일떄랑 아닐떄랑을 c:if로 구분
+
+본진도랑 다르게하기
+본진도:  -B에 답글을 달수없다
+복습진도 : -B에 답글을 달면 자동으로 A게시글에 답글이 달리게
+A
+ - B
+ - E
+C
+ - D

@@ -39,7 +39,6 @@
 			<c:if test="${fileList == null || fileList.size() == 0}">
 				<label>첨부파일 없음</label>
 			</c:if>
-			
 		</div>
 		<!-- test=""에는 조건문이 들어가야함~! -->
 			<c:if test="${user.me_id == board.bd_me_id}">
@@ -50,6 +49,19 @@
 					<button class="btn btn-outline-danger">삭제</button>
 				</a>
 			</c:if>
+			<!-- 현재 보고있는 게시글이 원본 게시글인 경우 -->
+			<c:if test="${board.bd_num == board.bd_ori_num}">
+				<a href="<%= request.getContextPath()%>/board/register?bd_ori_num=${board.bd_num}">
+					<button class="btn btn-outline-warning">답변</button>
+				</a>
+			</c:if>
+			<!-- 현재 보고있는 게시글이 답변 게시글인 경우 -->
+			<c:if test="${board.bd_num != board.bd_ori_num}">
+				<a href="<%= request.getContextPath()%>/board/register?bd_ori_num=${board.bd_ori_num}">
+					<button class="btn btn-outline-warning">답변</button>
+				</a>
+			</c:if>
+			
 
 	</div>
 </body>

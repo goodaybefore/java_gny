@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="body container">
-		<h1>게시글 등록</h1>
+		<h1>게시글 등록</h1>${bd_ori_num}
 		<form action="<%= request.getContextPath()%>/board/register" method="post" enctype="multipart/form-data">
 			<label>제목</label>
 			<div class="form-group">
@@ -20,6 +20,9 @@
 			<div class="form-group">
 				<textarea class="form-control" name="bd_contents" placeholder="제목" rows="10"></textarea>
 			</div>
+			<c:if test="${bd_ori_num !=null}">
+				<input type="hidden" name="bd_ori_num" value="${bd_ori_num}">
+			</c:if>
 			<div class="form-group">
 		        <label>첨부파일</label>
 		        <input type="file" class="form-control" name="files2"/>

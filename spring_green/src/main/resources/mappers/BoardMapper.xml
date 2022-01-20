@@ -9,7 +9,7 @@
 			bd_del='N'
 		AND
 			bd_title LIKE concat('%', #{cri.search},'%')
-		ORDER BY bd_num desc
+		ORDER BY bd_ori_num desc, bd_num asc
 		LIMIT #{cri.pageStart}, #{cri.perPageNum};
 	</select>
 	<select id="selectBoard" resultType="kr.green.green.vo.BoardVO">
@@ -24,14 +24,9 @@
 			board table의 bd_title... 에 board로부터 셀렉된 #{board.bd_title}...이 들어간다  -->
 		insert into
 			board(
-				bd_title,
-				bd_contents,
-				bd_me_id,
-				bd_reg_date,
-				bd_type,
-				bd_ori_num,
-				bd_del
-			) 
+				bd_title, bd_contents, bd_me_id, bd_reg_date, bd_type,
+				bd_ori_num,	bd_del	) 
+		<if test="board.bd_ori_num == 0">
 			select
 				#{board.bd_title},
 				#{board.bd_contents},
@@ -44,6 +39,21 @@
 				ifnull(max(bd_num),0)+1,
 				'N'
 			from board;
+		</if>
+		<if test="board.bd_ori_num != 0">
+			VALUES(
+				#{board.bd_title},
+				#{board.bd_contents},
+				#{board.bd_me_id},
+				now(),
+				#{board.bd_type},
+				<!-- ifnull(exp1, exp2) : 값이 null이면 exp1값을 리턴, 아니면 exp2값을 리턴
+					 여기서는 bd_ori_num ==null 일시 bd_num의 제일 최대값을 넣고, null이 아니면 0을 리턴한다.
+					 -->
+				#{board.bd_ori_num},
+				'N'
+			);
+		</if>
 		<!-- insert into board (bd_title, bd_contents, bd_reg_date, bd_type, bd_me_id, bd_ori_num, bd_del)
 		SELECT #{board.bd_title}, #{board.bd_contents}, now(), #{board.bd_type}, #{board.bd_me_id},
 		ifnull(max(bd_num),0)+1, 'N' FROM board;-->
