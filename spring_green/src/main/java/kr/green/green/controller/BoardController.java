@@ -36,6 +36,7 @@ public class BoardController {
 	//list출력
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
 	public ModelAndView BoardlistGet(ModelAndView mv, Criteria cri){
+		cri.setPerPageNum(5);
 		//게시글을 가져오기위한 List
 		List<BoardVO> list = boardService.getBoardList(cri);
 		//PageMaker를 만들어서 화면에 전달
@@ -43,8 +44,9 @@ public class BoardController {
 		//페이지메이커 생성
 		int totalCount = boardService.getTotalCount(cri);
 		PageMaker pm = new PageMaker(totalCount, 2, cri);
+		
+		
 		mv.addObject("pm", pm);
-		System.out.println("pm"+pm);
 		//list를 넘겨주기
 		mv.addObject("list", list);
 		mv.setViewName("/board/list");

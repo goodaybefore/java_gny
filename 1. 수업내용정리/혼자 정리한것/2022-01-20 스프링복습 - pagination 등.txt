@@ -1,7 +1,7 @@
 /board/list에서 BoardMapper까지 매개변수 cri를 통해 Criteria 객체를 넘겨줬는데
 BoardMapper에서 cri.startPage가 나온게 이해가 안됩니다.. startpage는 PageMaker 클래스 에서 등장하는 변수이고 Criteria 클래스에는 등장하지 않는데 어떻게 cri.startPage가 동작가능한지 궁금합니다
 
-
+~Pagination~
 <Criteria>
 변수는 기본 2가지(page, perPageNum)
 getPageStart() : 쿼리문에서 사용하기 위해서 필요
@@ -51,3 +51,12 @@ prev버튼쪽 class에 <c:if test="${!pm.prev}">disabled</c:if> 추가
 이전버튼의 href ="~~board/list?page=${pm.startPage-1}"로 해줌. 왜냐하면 이전 pagination 그룹으로 가기 때문에.
 => 현재 페이지의 맨 첫번째 페이지보다 하나 적은 페이지로 간다.?
 다음버튼의 href=""도 이전버튼과 비슷하게 바꿔주기.
+
+
+
+
+~Search~
+<Criteria>
+search변수 추가 및 기본생성자 세팅
+
+<BoardController>
