@@ -8,5 +8,6 @@ public interface MemberService {
 	//sign up
 	//회원가입 여부 알려주기위해서  boolean으로 지정
 	boolean signUp(MemberVO user);
+	boolean idDuplicated(String id);
 	
 }

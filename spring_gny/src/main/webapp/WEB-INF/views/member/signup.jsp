@@ -45,6 +45,7 @@
 		</div>
 		<div class="form-group">
 			<input type="text" class="form-control" placeholder="아이디" name="me_id" value="${user.me_id}">
+			<button type="button" class="btn btn-outline-success col-12" id="idCheck">아이디 중복 검사</button>
 			<input type="password" class="form-control" placeholder="비밀번호" name="me_pw" value="${user.me_pw}">
 			<input type="password" class="form-control" placeholder="비밀번호확인" name="pw2"">
 			<input type="text" class="form-control" placeholder="이름" name="me_name" value="${user.me_name}">
@@ -80,6 +81,7 @@
 	
 	<script>
 		$(function(){
+			
 			//생년월일
 			$( "#birth" ).datepicker();
 			$( "#birth" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
@@ -87,34 +89,43 @@
 			//항목 기입
 			let id, pw, pw2, name, gender, birth, phone;
 			let warnings = '';
-
+			
+			var idCheck = false;
+			$('#idCheck').click(function(){
+				var id = $('[name=me_id]').val();
+				$.ajax({
+					async :true,
+				    type:'POST',
+				    data:{id: id},
+				    url:"<%=request.getContextPath()%>/idcheck",
+				    success : function(res){
+				    	console.log(res);
+				    	idCheck = res == 'ok' ? true : false;
+				    	
+				    	if(idCheck) alert('사용가능한 아이디');
+				    	else alert('이미 존재하는 아이디입니다.')
+				    	}
+				    });
+			})
+			
+			
+			
 			$('form').submit(function(){
-				id = $('[name=me_id]').val();
-				pw = $('[name=me_pw]').val();
-				pw2 = $('[name=pw2]').val();
-				name = $('[name=me_name]').val();
-				birth = $('[name=me_birth]').val();
-				phone = $('[name=me_phone]').val();
-				let genderObj = $('[name=me_gender]:checked');
-				//선택된 성별이 없으면 체크된 내용의 길이가 0일것이므로 ''을 반환
-				gender = genderObj.length == 0 ? '' : genderObj.val();
-
+				
 				let isAgree = $('[name=agree]').is(':checked');
-				// console.log(isAgree);
 				if(!isAgree){
 					alert('동의에 체크해야합니다.');
 					$('[name=agree]').focus();
 					return false;
 				}
-				if(id==''){alert('아이디를 입력하세요'); $('[name=me_id]').focus(); return false;}
-				if(pw==''){alert('비밀번호를 입력하세요'); $('[name=me_pw]').focus(); return false;}
-				if(pw2!=pw){alert('비밀번호가 일치하지않습니다.'); $('[name=pw2]').focus(); return false;}
-				if(name==''){alert('이름을 입력하세요'); $('[name=me_name]').focus(); return false;}
-				if(birth==''){alert('생년월일을 입력하세요'); $('[name=me_birth]').focus(); return false;}
-				if(gender==''){alert('성별을 선택하세요'); $('[name=me_gender]').focus(); return false;}
-				if(phone==''){alert('핸드폰번호를 입력하하세요'); $('[name=me_phone]').focus(); return false;}
-				console.log('end!');
-
+				
+				//id체크
+				if(idCheck){
+					alert('아이디 중복검사를 하세요');
+					return false;
+				}
+				
+				
 				let address = $('#address').val() + ' ' +$('#detailAddress').val();
 				$('[name=me_address]').val(address);
 				

@@ -3,7 +3,8 @@
 
 Criteria에 getTypeTitle() 이라는 String 메소드 만들어서 "공지"나 "게시글"을 리턴하게 함. => c:if 없이 코드 처리 가능. => 화면이 깔끔해짐
 
-
+BoardVO에 getTypeTitle
+BoardVO에 isAccessAuthority를 통해 공지의 관리자 접근권한 설정(ex. regBoard)
 
 .
 .
@@ -23,3 +24,17 @@ authorityAdmin에 "관리자" "슈퍼 관리자" 권한 추가
 
 
 Q. db에도 me_authority 등록했고 MemberVO에도 등록했는데 왜 서버에서는 null로 받아오는걸까
+
+
+
+
+****Ajax
+pom.xml에 2.13.1 버전으로 업데이트 
+
+****json 
+- 객체라고 생각하면됨
+{속성명 : 값, 속성명 : 값}
+
+
+<AjaxController>
+매개변수에 추가한 @RequestBody가 뭔데 => 컨트롤러에서 리턴해주면 veiwresolve로 분석해주는데 이거 붙으면 veiwreslove안거치고 해당데이터를 직접 전달해줌
