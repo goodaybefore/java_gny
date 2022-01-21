@@ -16,33 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `member`
+-- Table structure for table `comment`
 --
 
-DROP TABLE IF EXISTS `member`;
+DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `member` (
-  `me_id` varchar(20) NOT NULL,
-  `me_pw` varchar(255) DEFAULT NULL,
-  `me_name` varchar(30) DEFAULT NULL,
-  `me_gender` varchar(6) DEFAULT NULL,
-  `me_birth` date DEFAULT NULL,
-  `me_address` varchar(100) DEFAULT NULL,
-  `me_phone` varchar(13) DEFAULT NULL,
-  `me_authority` varchar(10) NOT NULL DEFAULT '회원',
-  PRIMARY KEY (`me_id`)
+CREATE TABLE `comment` (
+  `co_num` int NOT NULL,
+  `co_bd_num` int NOT NULL,
+  `co_me_id` varchar(20) NOT NULL,
+  `co_reg_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `co_del` varchar(2) NOT NULL DEFAULT 'N',
+  `co_ori_num` int NOT NULL,
+  `co_contents` longtext NOT NULL,
+  PRIMARY KEY (`co_num`),
+  KEY `co_bd_num_idx` (`co_bd_num`),
+  KEY `co_me_id_idx` (`co_me_id`),
+  CONSTRAINT `co_bd_num` FOREIGN KEY (`co_bd_num`) REFERENCES `board` (`bd_num`),
+  CONSTRAINT `co_me_id` FOREIGN KEY (`co_me_id`) REFERENCES `member` (`me_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `member`
+-- Dumping data for table `comment`
 --
 
-LOCK TABLES `member` WRITE;
-/*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES ('asdf','$2a$10$Kb8hUNi1evxC3gyhRBay2eDY2u7ZWPuacy2aPNFgQfUkAj/LpdOWy','tttt','male','2022-01-02',' ','010-9874-6512','관리자'),('qwer','$2a$10$psWKJ.45.oRybBGhA/K2pOwFHie.BMihoSvDLHUUhIViCHFwAjK7e','qwerty','female','2022-01-01',' ','010-7723-4451','슈퍼 관리자'),('zxcv','$2a$10$IfIPL3akB/XnphXvniXb5erxer3jNfGzREmglpXXIuJ5UFiTnrKiO','erqqw','male','2022-01-22',' ','010-3368-2458','회원');
-/*!40000 ALTER TABLE `member` ENABLE KEYS */;
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
