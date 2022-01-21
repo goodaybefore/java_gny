@@ -87,6 +87,7 @@ public class BoardController {
 		//현재 세션에서 로그인되어있는 유저 정보를 가져오기
 		//아직 HttpServeltRequest에 익숙하지 않으니 꼭 명심해두기
 		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
+		System.out.println(board);
 		boardService.regBoard(board, user, files2);
 		//insert되었으면 list로 돌아가서 목록 보여주기
 		mv.addObject("type", board.getBd_type());

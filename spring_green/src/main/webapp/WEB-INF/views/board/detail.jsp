@@ -27,7 +27,7 @@
 		</div>
 		<div class="form-group">
 			<label>내용</label>
-			<textarea readonly class="form-control" name="bd_contents" rows="10">${board.bd_contents}</textarea>
+			<div class="form-control" name="bd_contents" style="min-height:100px; height:auto;">${board.bd_contents}</div>
 		</div>
 		<div class="form-group">
 			<c:if test="${fileList!=null && fileList.size() !=0}">

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 <body>
 	<div class="body container">
@@ -47,7 +49,13 @@
 				$(this).parent().remove();
 				var str = '<input type="file" class="form-control" name="files2">';
 				$('.attachment').append(str);
-			})
+				
+			});
+			$('[name=bd_contents]').summernote({
+		        placeholder: '내용을 작성',
+		        tabsize: 2,
+		        height: 400
+		      });
 		})
 	</script>
 </body>

@@ -6,12 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 <body>
 	<div class="body container">
 		<h1>${board.typeTitle} 등록</h1>
 		<form action="<%= request.getContextPath()%>/board/register" method="post" enctype="multipart/form-data">
-			<c:if test="${bd_type=='일반'}">
+			<c:if test="${board.bd_type=='일반'}">
 				<input type="hidden" name="bd_type" value="${board.bd_type}">
 			</c:if>
 			<c:if test="${board.bd_type=='공지'}">
@@ -44,5 +47,15 @@
 			<button class="btn btn-outline-success">작성완료</button>
 		</form>
 	</div>
+	
+	<script>
+    $(document).ready(function() {
+    	$('[name=bd_contents]').summernote({
+            placeholder: '내용을 작성',
+            tabsize: 2,
+            height: 400
+          });
+    });
+  </script>
 </body>
 </html>
