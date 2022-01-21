@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="body container">
-		<h1>게시글 상세</h1>
+		<h1>${board.typeTitle} 상세</h1>
 		<div class="form-group">
 			<label>제목</label>
 			<!-- 이거 name 왜들어갔지? Mapper였나? -->
@@ -45,18 +45,18 @@
 				<a href="<%= request.getContextPath()%>/board/modify?bd_num=${board.bd_num}">
 				<button class="btn btn-outline-success">수정</button>
 				</a>
-				<a href="<%= request.getContextPath()%>/board/delete?bd_num=${board.bd_num}">
+				<a href="<%= request.getContextPath()%>/board/delete?bd_num=${board.bd_num}&bd_type=${board.bd_type}">
 					<button class="btn btn-outline-danger">삭제</button>
 				</a>
 			</c:if>
 			<!-- 현재 보고있는 게시글이 원본 게시글인 경우 -->
-			<c:if test="${board.bd_num == board.bd_ori_num}">
+			<c:if test="${board.bd_num == board.bd_ori_num && (board.bd_type == '일반' || board.bd_type =='질문')}">
 				<a href="<%= request.getContextPath()%>/board/register?bd_ori_num=${board.bd_num}">
 					<button class="btn btn-outline-warning">답변</button>
 				</a>
 			</c:if>
 			<!-- 현재 보고있는 게시글이 답변 게시글인 경우 -->
-			<c:if test="${board.bd_num != board.bd_ori_num}">
+			<c:if test="${board.bd_num != board.bd_ori_num && (board.bd_type == '일반' || board.bd_type =='질문')}">
 				<a href="<%= request.getContextPath()%>/board/register?bd_ori_num=${board.bd_ori_num}">
 					<button class="btn btn-outline-warning">답변</button>
 				</a>

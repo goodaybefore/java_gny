@@ -2,6 +2,7 @@ package kr.green.green.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,9 @@ public class BoardController {
 	
 	//list출력
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public ModelAndView BoardlistGet(ModelAndView mv, Criteria cri){
+	public ModelAndView BoardlistGet(ModelAndView mv, Criteria cri, HttpServletRequest request){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		System.out.println(user);
 		cri.setPerPageNum(5);
 		//게시글을 가져오기위한 List
 		List<BoardVO> list = boardService.getBoardList(cri);
@@ -45,9 +48,7 @@ public class BoardController {
 		int totalCount = boardService.getTotalCount(cri);
 		PageMaker pm = new PageMaker(totalCount, 2, cri);
 		
-		
 		mv.addObject("pm", pm);
-		//list를 넘겨주기
 		mv.addObject("list", list);
 		mv.setViewName("/board/list");
 		//mv.addObject("list",list).setViewName("/board/list");로 한줄로 해도됨
@@ -62,7 +63,7 @@ public class BoardController {
 		if(board == null) {
 			mv.setViewName("redirect:/board/list");
 		}else {
-//			System.out.println("fileList : "+fileList);
+			boardService.updateViews(bd_num);
 			mv.addObject("fileList",fileList);
 			mv.addObject("board", board);
 			mv.setViewName("/board/detail");
@@ -72,8 +73,8 @@ public class BoardController {
 	
 	//게시글 등록(register) - GET
 	@RequestMapping(value="/register", method=RequestMethod.GET)
-	public ModelAndView BoardRegisterGet(ModelAndView mv, Integer bd_ori_num) {
-		mv.addObject("bd_ori_num", bd_ori_num);
+	public ModelAndView BoardRegisterGet(ModelAndView mv, BoardVO board) {
+		mv.addObject("board", board);
 		mv.setViewName("/board/register");
 		return mv;
 	}
@@ -86,13 +87,11 @@ public class BoardController {
 		//현재 세션에서 로그인되어있는 유저 정보를 가져오기
 		//아직 HttpServeltRequest에 익숙하지 않으니 꼭 명심해두기
 		MemberVO user = (MemberVO)(request.getSession().getAttribute("user"));
-		//board에 등록하라고 service에게 전달
-		board.setBd_type("일반");
-		
-		System.out.println("Reg board : "+board);
 		boardService.regBoard(board, user, files2);
 		//insert되었으면 list로 돌아가서 목록 보여주기
+		mv.addObject("type", board.getBd_type());
 		mv.setViewName("redirect:/board/list");
+		
 		return mv;
 	}
 	
@@ -104,7 +103,6 @@ public class BoardController {
 		BoardVO board = boardService.getBoardList(bd_num);
 		//파일 리스트 가져오기
 		List<FileVO> fileList = boardService.getFileList(bd_num);
-		
 		
 		if(user!=null|| board!=null &&
 				user.getMe_id().equals(board.getBd_me_id())) {
@@ -131,7 +129,6 @@ public class BoardController {
 		if(files2 != null) {
 			for(MultipartFile tmp : files2) System.out.println("첨부파일명 : "+tmp.getOriginalFilename());
 		}
-		//강사님은 비밀번호 암호와 되어서 오는데 왜 난 아니지??
 		boardService.modifyBoard(board, user, files2, fileNums);
 		//이거 넣어주면 detail에 '수정된 번호의 게시글'이 나옴
 		mv.addObject("bd_num", board.getBd_num());
@@ -153,10 +150,12 @@ public class BoardController {
 	
 	//게시글 삭제 - GET
 	@RequestMapping(value="/delete", method=RequestMethod.GET)
-	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request,
-			List<MultipartFile> files2) {
+	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer bd_num, HttpServletRequest request, String bd_type) {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-		boardService.deleteBoard(user, bd_num, files2);
+		
+		boardService.deleteBoard(user, bd_num);
+		System.out.println("bd_type at /delete"+bd_type);
+		mv.addObject("type", bd_type);//cri에서 type이라서 계속 type을 쓰는건가.... header에서도 bd_type쓰면 안되던데 ㅜ
 		mv.setViewName("redirect:/board/list");
 		return mv;
 	}

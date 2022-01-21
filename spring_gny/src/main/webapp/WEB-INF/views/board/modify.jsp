@@ -12,7 +12,7 @@
 
 </head>
 <body>
-	<form class="body container" action="" method="post" enctype="multipart/form-data">
+	<form class="body container" action="<%= request.getContextPath()%>/board/modify" method="post" enctype="multipart/form-data">
 		<h1>게시글 수정</h1>
 		<div class="form-group">
 		  <input type="text" class="form-control" name="bd_title" value="${board.bd_title}">

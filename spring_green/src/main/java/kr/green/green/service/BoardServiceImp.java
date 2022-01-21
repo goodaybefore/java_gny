@@ -48,6 +48,11 @@ public class BoardServiceImp implements BoardService{
 		
 		if(board.getBd_title()==null || board.getBd_title().trim().length()==0) return;
 		
+		if(!board.isAccessAuthority(user.getMe_authority())) {
+			System.out.println("fail");
+			return;
+		}
+		
 		//게시글에 작성자의 id를 set해주기
 		board.setBd_me_id(user.getMe_id());
 		
@@ -135,7 +140,7 @@ public class BoardServiceImp implements BoardService{
 
 	//게시글 삭제
 	@Override
-	public void deleteBoard(MemberVO user, Integer bd_num, List<MultipartFile> files2) {
+	public void deleteBoard(MemberVO user, Integer bd_num) {
 		if(bd_num == null || bd_num <= 0) return ;
 		
 		BoardVO board = boardDao.getBaord(bd_num);
@@ -144,6 +149,11 @@ public class BoardServiceImp implements BoardService{
 		if(board ==null) return;
 		//board.getBd_me_id() !=null의 경우, 아이디는 db에서 primarykey이기 때문에 누락될 일이 없으나
 		//더 안정적인 코드를 만드는 연습을 하고싶다면 삽입해주기
+		List<String> authorityAdmin = new ArrayList<String>();
+		authorityAdmin.add("관리자");
+		authorityAdmin.add("슈퍼 관리자");
+		if(board.getBd_type().equals("공지") && authorityAdmin.indexOf(user.getMe_authority())<0) return;
+		
 		if(user != null && 
 				board.getBd_me_id() !=null && board.getBd_me_id().equals(user.getMe_id())) {
 			boardDao.deleteBoard(bd_num);
@@ -215,5 +225,10 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public int getTotalCount(Criteria cri) {
 		return boardDao.selectCntBoard(cri);
+	}
+
+	@Override
+	public void updateViews(Integer bd_num) {
+		boardDao.updateViews(bd_num);
 	}
 }

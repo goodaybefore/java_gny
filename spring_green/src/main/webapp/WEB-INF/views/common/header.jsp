@@ -29,12 +29,14 @@
 		      <a class="nav-link" href="<%= request.getContextPath()%>/logout">logout</a>
 		    </li>
 		  </c:if>
-		  
 		  <li class="nav-item">
-		      <a class="nav-link" href="<%= request.getContextPath()%>/notice/list">notice</a>
+		      <a class="nav-link" href="<%= request.getContextPath()%>/board/list?type=공지">notice</a>
 		  </li>
 		  <li class="nav-item">
 		      <a class="nav-link" href="<%= request.getContextPath()%>/board/list">board</a>
+		  </li>
+		  <li class="nav-item">
+		      <a class="nav-link" href="<%= request.getContextPath()%>/board/list?type=qna">QnA</a>
 		  </li>
 		    
 	  </ul>

@@ -62,7 +62,7 @@ public class MemberServiceImp implements MemberService{
 		MemberVO dbuser = memberDao.selectMember(user.getMe_id());
 		if(dbuser == null) return null;
 		if(!passwordEncoder.matches(user.getMe_pw(), dbuser.getMe_pw())) return null;
-		return user;
+		return dbuser;
 	}
 	
 }

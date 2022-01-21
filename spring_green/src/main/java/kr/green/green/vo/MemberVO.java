@@ -25,6 +25,7 @@ public class MemberVO {
 	
 	private String me_address;
 	private String me_phone;
+	private String me_authority;
 	
 	/*
 	//birth Date 처리
