@@ -10,6 +10,10 @@
 	from comment
 	</insert>
 	<select id="selectCommentList" resultType="kr.green.spring.vo.CommentVO">
-	select * from comment where co_bd_num = #{co_bd_num};
+	select * from comment where co_bd_num = #{co_bd_num} and co_del='N'
+	limit #{cri.pageStart}, #{cri.perPageNum};
+	</select>
+	<select id="selectTotalCnt" resultType="int">
+	select COUNT(*) from comment where co_bd_num = #{co_bd_num} and co_del='N';
 	</select>
 </mapper>

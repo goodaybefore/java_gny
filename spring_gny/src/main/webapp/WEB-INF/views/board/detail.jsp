@@ -55,10 +55,18 @@
 		<c:if test="${board == null}">
 			<h1>없는게시글이거나 삭제된 게시글입니다</h1>
 		</c:if>
+		<hr class="mt-3">
 		<div class="comment-list mt-3">
 			
 		</div>
-		<div class="comment-pagination"></div>
+		<div class="comment-pagination">
+			<ul class="pagination justify-content-center">
+			    <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="">Previous</a></li>
+			    <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="1">1</a></li>
+			    <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="2">2</a></li>
+			    <li class="page-item"><a class="page-link" href="javascript:void(0);" data-page="">Next</a></li>
+			  </ul>
+		</div>
 		<div class="comment-box">
 			<div class="input-group mb-3">
 			  <textarea class="form-control text-comment" placeholder="댓글"></textarea>
@@ -80,8 +88,12 @@
 				var co_contents = $('.text-comment').val();
 				//게시글 번호
 				var co_bd_num = '${board.bd_num}';
+				//댓글 원본 번호(나중에)
 				
-				//댓글 원본 번호
+				if(co_contents == ''){
+					alert('댓글 내용을 입력하세요');
+					return;
+				}
 				var comment = {
 						co_contents : co_contents,
 						co_bd_num : co_bd_num
@@ -98,7 +110,8 @@
 				    		$('.text-comment').val('');
 				    		alert("댓글 등록이 완료되었습니다");
 				    		//새로운 댓글을 가져옴
-				    		readComment(co_bd_num);
+				    		readComment(co_bd_num, 1);
+				    		
 				    	}else{
 				    		alert("댓글 등록에 실패했습니다.");
 				    	}
@@ -107,8 +120,20 @@
 			})
 		});
 		
+		//이렇게 하면 안됨! => 나중에 추가된 이벤트들을 동작시키지 못함.
+		//=> 댓글 등록하면 페이지네이션부분이 ajax로 새로 만들어지는데, 그부분이 동작이 안됨.
+		//$('.comment-pagination page-link').click(function(){})
+		
+		//요소에 이벤트를 등록하는것이 아니라 document에 등록해서, 요소가 나중에 추가되어도
+		//해당 선택자만 맞으면 Event가 실행됨
+		$(document).on('click', '.comment-pagination .page-link', function(){
+			var page = $(this).data('page');
+			readComment(co_bd_num, page);
+		});
+		
+		//화면 로딩 후 댓글과 댓글 페이지네이션 배치
 		var co_bd_num = '${board.bd_num}';
-		readComment(co_bd_num);
+		readComment(co_bd_num, 1);
 		
 		
 		
@@ -128,28 +153,51 @@
 				'<div class="co_me_id">'+co_me_id+'</div>'+
 				'<div class="co_contents">'+co_contents+'</div>'+
 				'<div class="co_reg_date">'+co_reg_date+'</div>'+
-				'<button class="btn_reply_comment btn-outline-success">답글</button>'+
+				'<button class=" btn btn_reply_comment btn-outline-success">답글</button>'+
 				'<hr>'+
 			'</div>';
 		}
-		function readComment(co_bd_num){
+		function readComment(co_bd_num, page){
 			if(co_bd_num != ''){
 				$.ajax({
 					async :false, // 딱히 완료 안되어도 다른거ajax 실행 ㄱ
 				    type:'get',
-				    url:"<%=request.getContextPath()%>/comment/list?co_bd_num="+co_bd_num,
+				    url:"<%=request.getContextPath()%>/comment/list?co_bd_num="+co_bd_num + '&page='+page,
 				    dataType:"json",
 				    success : function(res){
 				    	var str = '';
-				    	for(tmp of res){
+				    	for(tmp of res.list){
 				    		//그냥 콘솔 찍으면 날짜가 1642989793000 이딴식으로 나와서 변형해줘야함
 							var date = new Date(tmp.co_reg_date);//날짜형태로 바꿔주고
 							str += createCommentStr(tmp.co_me_id, tmp.co_contents, getDateStr(date));
 				    	}
+				    	
 				    	$('.comment-list').html(str);
+				    	var paginationStr = createCommentPagination(res.pm);
+				    	$('.comment-pagination').html(paginationStr);
 				    	}
+				    
 				    });
 			}
+		}
+		function createCommentPagination(pm){
+			
+			var str = "";
+			str += 
+			'<ul class="pagination justify-content-center">';
+			var startDisabled = pm.prev  ? '' : 'disabled';
+			var endDisabled= pm.next ? '' : 'disabled';
+			
+			str += '<li class="page-item '+startDisabled+'"><a class="page-link" href="javascript:void(0);" data-page="'+(pm.criteria.page-1)+'">이전</a></li>';
+			for(i = pm.startPage; i<=pm.endPage;i++){
+				var currentActive = pm.criteria.page == i ? ' active' : '';
+				str += '<li class="page-item '+currentActive+'"><a class="page-link" href="javascript:void(0);" data-page="' +i + '">'+i+'</a></li>';
+				console.log("i : "+i)
+			}
+			str += '<li class="page-item '+endDisabled+'"><a class="page-link" href="javascript:void(0);" data-page="' + (pm.criteria.page+1) +'">다음</a></li>'+
+			'</ul>';
+			return str;
+				
 		}
 	</script>
 </body>
