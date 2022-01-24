@@ -153,7 +153,7 @@
 				'<div class="co_me_id">'+co_me_id+'</div>'+
 				'<div class="co_contents">'+co_contents+'</div>'+
 				'<div class="co_reg_date">'+co_reg_date+'</div>'+
-				'<button class=" btn btn_reply_comment btn-outline-success">답글</button>'+
+				'<button class=" btn btn_reply_comment btn-outline-danger">답글</button>'+
 				'<hr>'+
 			'</div>';
 		}
