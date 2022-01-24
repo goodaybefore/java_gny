@@ -47,8 +47,15 @@ public class CommentController {
 		
 		map.put("pm", pm);
 		map.put("list", list);
-		
-		
 		return map;
-	} 
+	}
+	
+	
+	@RequestMapping(value ="/comment/delete")
+	//매개변수 안에 @RequestBody를 붙이는 이유? 
+	public String commentDelete(Integer co_num, HttpServletRequest request){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		return commentService.deleteComment(co_num, user);
+	}
+	
 }

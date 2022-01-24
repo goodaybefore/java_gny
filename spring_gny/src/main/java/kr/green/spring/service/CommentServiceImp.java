@@ -35,4 +35,13 @@ public class CommentServiceImp implements CommentService{
 		return commentDao.selectTotalCnt(co_bd_num);
 	}
 
+	@Override
+	public String deleteComment(Integer co_num, MemberVO user) {
+		if(user==null || co_num <= 0 || co_num == null) return "false";
+		CommentVO comment = commentDao.selectComment(co_num);
+		if(comment == null || !comment.getCo_me_id().equals(user.getMe_id())) return "false";
+		commentDao.deleteComment(co_num);
+		return "true";
+	}
+
 }

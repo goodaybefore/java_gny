@@ -131,11 +131,36 @@
 			readComment(co_bd_num, page);
 		});
 		
+		//댓글 삭제
+		$(document).on('click', '.comment-list .btn-del-comment', function(){
+			var co_num = $(this).data('num');//data-num => data.('num') 하면 값을 가져올수있음
+			if(co_num != ''){
+				$.ajax({
+					async :false, // 딱히 완료 안되어도 다른거ajax 실행 ㄱ
+				    type:'get',
+				    url:"<%=request.getContextPath()%>/comment/delete?co_num="+co_num,
+				    dataType:"json",
+				    success : function(res){
+				    	
+				    	var co_bd_num = '${board.bd_num}';
+				    	//1page 기준으로 
+						readComment(co_bd_num, 1);
+				    	}
+				    
+				    });
+			}
+		});
+		
+		
+		
 		//화면 로딩 후 댓글과 댓글 페이지네이션 배치
 		var co_bd_num = '${board.bd_num}';
 		readComment(co_bd_num, 1);
 		
 		
+		
+		
+		//Functions
 		
 		//Date 객체를 yyyy-MM-dd hh:mm형태의 문자열로 변환하는 함수
 		function getDateStr(date){
@@ -147,15 +172,22 @@
 			return year+"-"+month+"-"+day+" "+hour+":"+minute;
 			
 		}
-		function createCommentStr(co_me_id, co_contents, co_reg_date){
-			return ''+
+		function createCommentStr(co_me_id, co_contents, co_reg_date, co_num){
+			var str=
 			'<div class="comment-box">'+
 				'<div class="co_me_id">'+co_me_id+'</div>'+
 				'<div class="co_contents">'+co_contents+'</div>'+
 				'<div class="co_reg_date">'+co_reg_date+'</div>'+
-				'<button class=" btn btn_reply_comment btn-outline-danger">답글</button>'+
-				'<hr>'+
-			'</div>';
+				'<button class=" btn btn_reply_comment btn-outline-success">답글</button>';
+				//수정,삭제의 조건 => 작성자==로그인한아이디 인 경우에만 보여야함
+				if('${user.me_id}' == co_me_id){
+					str += '<button class=" btn btn_mod_comment btn-outline-warning ml-2" data-num="'+co_num+'">수정</button>'+
+					'<button class=" btn btn-del-comment btn-outline-danger ml-2" data-num="'+co_num+'">삭제</button>';
+				}
+				
+				str += 	'<hr>'+	'</div>';
+				
+				return str;
 		}
 		function readComment(co_bd_num, page){
 			if(co_bd_num != ''){
@@ -169,7 +201,7 @@
 				    	for(tmp of res.list){
 				    		//그냥 콘솔 찍으면 날짜가 1642989793000 이딴식으로 나와서 변형해줘야함
 							var date = new Date(tmp.co_reg_date);//날짜형태로 바꿔주고
-							str += createCommentStr(tmp.co_me_id, tmp.co_contents, getDateStr(date));
+							str += createCommentStr(tmp.co_me_id, tmp.co_contents, getDateStr(date), tmp.co_num);
 				    	}
 				    	
 				    	$('.comment-list').html(str);
@@ -198,6 +230,23 @@
 			'</ul>';
 			return str;
 				
+		}
+		
+		//
+		function commentService(){
+			var commentSerivce={
+					insert : function(){
+						
+					},
+					delete : function(){
+						
+					},
+					list : function(){
+						
+					}
+			};
+			
+			
 		}
 	</script>
 </body>

@@ -14,5 +14,7 @@ public interface CommentService {
 
 	int selectTotalCnt(Integer co_bd_num);
 
+	String deleteComment(Integer co_num, MemberVO user);
+
 
 }
