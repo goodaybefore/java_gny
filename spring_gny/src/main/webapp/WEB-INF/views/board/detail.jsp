@@ -56,6 +56,8 @@
 			<h1>없는게시글이거나 삭제된 게시글입니다</h1>
 		</c:if>
 		<div class="comment-list mt-3">
+			
+			
 		</div>
 		<div class="comment-pagination"></div>
 		<div class="comment-box">
@@ -79,10 +81,11 @@
 				var co_contents = $('.text-comment').val();
 				//게시글 번호
 				var co_bd_num = '${board.bd_num}';
+				
 				//댓글 원본 번호
 				var comment = {
-						"co_contents" : co_contents,
-						"co_bd_num" : co_bd_num
+						co_contents : co_contents,
+						co_bd_num : co_bd_num
 						};
 				$.ajax({
 					async :true, 
@@ -96,6 +99,8 @@
 				    		$('.text-comment').val('');
 				    		alert("댓글 등록이 완료되었습니다");
 				    		//새로운 댓글을 가져옴
+				    		var co_bd_num = '${board.bd_num}';
+				    		readComment(co_bd_num);
 				    	}else{
 				    		alert("댓글 등록에 실패했습니다.");
 				    	}
@@ -103,6 +108,51 @@
 				    });
 			})
 		});
+		
+		var co_bd_num = '${board.bd_num}';
+		commentList(co_bd_num);
+		
+		
+		
+		//Date 객체를 yyyy-MM-dd hh:mm형태의 문자열로 변환하는 함수
+		function getDateStr(date){
+    		var year = date.getFullYear();
+    		var month = date.getMonth()+1;
+    		var day = date.getDate();
+    		var hour = date.getHours();
+    		var minute = date.getMinutes();
+			return year+"-"+month+"-"+day+" "+hour+":"+minute;
+			
+		}
+		function createCommentStr(co_me_id, co_contents, co_reg_date){
+			return ''+'<div class="comment-box">'+
+			'<div class="co_me_id">'+co_me_id+'</div>'+
+			'<div class="co_contents">'+co_contents+'</div>'+
+			'<div class="co_reg_date">'+co_reg_date+'</div>'+
+			'<button class="btn_reply_comment btn-outline-success">답글</button>'+
+			'<hr>'+'</div>';
+		}
+		function commentList(co_bd_num){
+			if(co_bd_num != ''){
+				$.ajax({
+					async :false, // 딱히 완료 안되어도 다른거ajax 실행 ㄱ
+				    type:'get',
+				    url:"<%=request.getContextPath()%>/comment/list?co_bd_num="+co_bd_num,
+				    dataType:"json",
+				    contentType:"application/json; charset=UTF-8",
+				    success : function(res){
+				    	var str = '';
+				    	for(tmp of res){
+				    		//그냥 콘솔 찍으면 날짜가 1642989793000 이딴식으로 나와서 변형해줘야함
+				    		console.log("hi");
+							var date = new Date(tmp.co_reg_date);//날짜형태로 바꿔주고
+							str = createCommentStr(tmp.co_me_id, tmp.co_contents, getDateStr(date));
+				    	}
+				    	$('.comment-list').html(str);
+				    	}
+				    });
+			}
+		}
 	</script>
 </body>
 </html>

@@ -9,4 +9,7 @@
 		select #{comment.co_bd_num}, #{comment.co_me_id}, #{comment.co_contents}, ifnull(max(co_num), 0)+1
 	from comment
 	</insert>
+	<select id="selectCommentList" resultType="kr.green.spring.vo.CommentVO">
+	select * from comment where co_bd_num = #{co_bd_num};
+	</select>
 </mapper>

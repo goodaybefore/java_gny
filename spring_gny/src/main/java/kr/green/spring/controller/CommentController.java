@@ -1,5 +1,7 @@
 package kr.green.spring.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import kr.green.spring.vo.MemberVO;
 public class CommentController {
 	@Autowired
 	CommentService commentService;
+	
 	@RequestMapping(value ="/comment/insert")
 	//매개변수 안에 @RequestBody를 붙이는 이유? 
 	public String commentInsert(@RequestBody CommentVO comment, HttpServletRequest request){
@@ -24,5 +27,13 @@ public class CommentController {
 			return "true";
 		}
 		return "false";
+	}
+	
+	
+	@RequestMapping(value ="/comment/list")
+	//매개변수 안에 @RequestBody를 붙이는 이유? 
+	public List<CommentVO> commentList(Integer co_bd_num){
+		List<CommentVO> a =commentService.selectCommentList(co_bd_num);
+		return a;
 	} 
 }
