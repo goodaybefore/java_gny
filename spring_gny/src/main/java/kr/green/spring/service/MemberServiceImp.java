@@ -19,8 +19,11 @@ public class MemberServiceImp implements MemberService{
 	public MemberVO login(MemberVO member) {
 		if(member == null || member.getMe_id() == null) return null;
 		MemberVO Dbuser = memberDao.getMember(member.getMe_id());
+		System.out.println("member : "+member);
+		System.out.println("dbUser: "+Dbuser);
 		//로그인 성공시 회원정보를, 실패하면 null을 반환
 		if(Dbuser ==null) return null;
+		System.out.println("DBUSER : " +Dbuser);
 		//matches(원래 비번, 암호화된비번) : 같으면(비번이맞으면) true, 다르면 false
 		if(passwordEncoder.matches(member.getMe_pw(), Dbuser.getMe_pw())) return Dbuser;
 		return null;

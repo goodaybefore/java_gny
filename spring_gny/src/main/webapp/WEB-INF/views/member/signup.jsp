@@ -120,7 +120,7 @@
 				}
 				
 				//id체크
-				if(idCheck){
+				if(!idCheck){
 					alert('아이디 중복검사를 하세요');
 					return false;
 				}

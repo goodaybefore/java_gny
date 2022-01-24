@@ -57,9 +57,9 @@ public class HomeController {
 	public ModelAndView loginPost(ModelAndView mv, MemberVO user) {
 		System.out.println("/login:post :" + user);
 		MemberVO loginUser = memberService.login(user);
-		System.out.println(user);
+		System.out.println("loginUser : "+loginUser);
 		
-		if(loginUser==null) {
+		if(loginUser == null) {
 			mv.setViewName("redirect:/login");
 		}else {
 			mv.addObject("user", loginUser);
