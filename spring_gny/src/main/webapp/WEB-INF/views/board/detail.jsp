@@ -55,7 +55,54 @@
 		<c:if test="${board == null}">
 			<h1>없는게시글이거나 삭제된 게시글입니다</h1>
 		</c:if>
+		<div class="comment-list mt-3">
+		</div>
+		<div class="comment-pagination"></div>
+		<div class="comment-box">
+			<div class="input-group mb-3">
+			  <textarea class="form-control text-comment" placeholder="댓글"></textarea>
+			  <div class="input-group-append">
+			    <button class="btn btn-success btn-comment">등록</button>
+			  </div>
+			</div>
+		</div>
 	</div>
-	
+	<script>
+		$(function(){
+			$('.btn-comment').click(function(){
+				var user = '${user}';
+				if(user = ''){
+				alert('로그인 후 댓글 등록이 가능합니다')
+				return;
+				}
+				//댓글 내용
+				var co_contents = $('.text-comment').val();
+				//게시글 번호
+				var co_bd_num = '${board.bd_num}';
+				//댓글 원본 번호
+				var comment = {
+						"co_contents" : co_contents,
+						"co_bd_num" : co_bd_num
+						};
+				$.ajax({
+					async :true, 
+				    type:'POST',
+				    data:JSON.stringify(comment),
+				    url:"<%=request.getContextPath()%>/comment/insert",
+				    dataType : "json",
+				    contentType:"application/json; charset=UTF-8",
+				    success : function(res){
+				    	if(res==true){
+				    		$('.text-comment').val('');
+				    		alert("댓글 등록이 완료되었습니다");
+				    		//새로운 댓글을 가져옴
+				    	}else{
+				    		alert("댓글 등록에 실패했습니다.");
+				    	}
+				    	}
+				    });
+			})
+		});
+	</script>
 </body>
 </html>
