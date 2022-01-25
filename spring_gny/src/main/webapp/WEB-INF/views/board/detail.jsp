@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="shortcut icon" href="#">
 </head>
 <body>
 	<div class="body container">
@@ -78,8 +79,10 @@
 	</div>
 	<script>
 		$(function(){
+			//댓글 등록 버튼 클릭
 			$('.btn-comment').click(function(){
-				var user = '${user}';
+				//로그인한 회원만 가능하도록 회원 id를 가져오고, id가 없으면 로그인하라고 알려줌
+				var user = '${user.me_id}';
 				if(user == ''){
 				alert('로그인 후 댓글 등록이 가능합니다')
 				return;
@@ -88,28 +91,39 @@
 				var co_contents = $('.text-comment').val();
 				//게시글 번호
 				var co_bd_num = '${board.bd_num}';
-				//댓글 원본 번호(나중에)
+				//댓글 원본 번호(답글 기능 때 사용)
 				
+				//댓글 내용이 없는 경우
 				if(co_contents == ''){
 					alert('댓글 내용을 입력하세요');
 					return;
 				}
+				
+				//ajax로 댓글 정보를 보내기 위한 객체 생성
+				//이 때 만들어지는 객체의 속성명을 CommentVO의 멤버변수 이름과 일치시킴
 				var comment = {
 						co_contents : co_contents,
 						co_bd_num : co_bd_num
 						};
 				$.ajax({
-					async :true, 
+					//동기화 : 다 끝날때까지 기다림
+					async :false, 
 				    type:'POST',
+				    //서버로 보낸 객체가 VO에 잘 담기기 위하 변형
 				    data:JSON.stringify(comment),
 				    url:"<%=request.getContextPath()%>/comment/insert",
+				    //서버에서 보낸 데이터의 타입
 				    dataType : "json",
+				    //화면이 서버로 보낸 데이터의 타입
 				    contentType:"application/json; charset=UTF-8",
+				    //ajax성공시
 				    success : function(res){
+				    	//댓글 등록에 성공하면
 				    	if(res==true){
+				    		//입력한 댓글을 지워줌
 				    		$('.text-comment').val('');
 				    		alert("댓글 등록이 완료되었습니다");
-				    		//새로운 댓글을 가져옴
+				    		//새로고침을 해서(전체가 아닌 댓글부분만) 1페이지에 맞는 댓글을 새로 가져옴
 				    		readComment(co_bd_num, 1);
 				    		
 				    	}else{
@@ -117,6 +131,8 @@
 				    	}
 					}
 				});
+				
+				//
 			})
 		});
 		
@@ -126,22 +142,28 @@
 		
 		//요소에 이벤트를 등록하는것이 아니라 document에 등록해서, 요소가 나중에 추가되어도
 		//해당 선택자만 맞으면 Event가 실행됨
+		var page = $(this).data('page');
 		$(document).on('click', '.comment-pagination .page-link', function(){
-			var page = $(this).data('page');
+			//var page = $(this).data('page');
 			readComment(co_bd_num, page);
 		});
 		
 		//댓글 삭제
 		$(document).on('click', '.comment-list .btn-del-comment', function(){
+			//삭제할 댓글 번호 가져옴(삭제할댓글번호 : delete버튼에 data-num 속성값으로 입력되어있음)
+			//data() 메소드는 data-xxx인 속성들의 값을 가져올때사용
 			var co_num = $(this).data('num');//data-num => data.('num') 하면 값을 가져올수있음
+			
+			//삭제할 댓글 번호가 있는 경우만 삭제
 			if(co_num != ''){
 				$.ajax({
-					async :false, // 딱히 완료 안되어도 다른거ajax 실행 ㄱ
+					async :false,
+					//삭제할 댓글 번호는 노출되어도 상관없기 때문에 get으로 보냄
 				    type:'get',
 				    url:"<%=request.getContextPath()%>/comment/delete?co_num="+co_num,
 				    dataType:"json",
 				    success : function(res){
-				    	
+				    	//삭제가 완료되면 댓글을 새로고침(1페이지)
 				    	var co_bd_num = '${board.bd_num}';
 				    	//1page 기준으로 
 						readComment(co_bd_num, 1);
@@ -151,6 +173,76 @@
 			}
 		});
 		
+		
+		//댓글 수정
+		$(document).on('click', '.comment-list .btn_mod_comment', function(){
+			// 이전에 댓글 수정버튼을 클릭해서 생긴 textarea태그와 등록button을 제거하고, 감춰뒀던 답글, 수정,삭제button을 추가
+			//.co_contents2가 있으면 걔 형제중에 co_contents2를 다시 보여주고, 자기자신을 지움
+			//수정할때 하나만 선택되도록 하는 기능
+			$('.co_contents2').each(function(){
+				//수정하기의 댓글을 다시 보여줌(co_contents : 수정 전 / co_contents2 : 수정 후)
+				$(this).siblings('.co_contents').show();
+				//답변,(수정,삭제)button을 보여줌
+				$(this).parent().children('button').show();
+				//댓글수정을 위한 등록버튼을 없앰
+				$(this).siblings('.btn-mod-comment2').remove();//remove()본인 포함해서 자식들까지 삭제. empty()본인 제외하고 자식들만 삭제
+				//textarea태그를 제거(수정하기위한 입력창)
+				$(this).remove();
+			})
+			
+			//등록된 댓글 내용을 가져옴(수정 전) => textarea안에 넣어주기위해
+			var contents = $(this).siblings('.co_contents').text();
+			//textarea태그를 꾸며주기위한 html
+			var str = '<div class="form-group co_contents2 mt-2">'+
+			'<textarea class=" form-control">'+contents+'</textarea>'+
+			'</div>';
+			
+			//등록 버튼을 위한 html(수정 완료를 위한 버튼)
+			var btnStr = '<button class=" btn btn-mod-comment2 btn-outline-success ml-2">등록</button>';
+			//기존 댓글을 감춤
+			$(this).siblings('.co_contents').hide();
+			//답글, 수정, 삭제버튼을 감춤
+			$(this).parent().children('button').hide();
+			//textarea태그를 id(co_me_id)밑에 배치
+			$(this).siblings('.co_me_id').after(str);
+			//등록버튼을 날짜(co_reg_date) 밑에 배치
+			$(this).siblings('.co_reg_date').after(btnStr);
+		});
+		
+		
+		//수정버튼 눌렀을 때 생기는 등록버튼 클릭 이벤트
+		$(document).on('click', '.comment-list .btn_mod_comment2', function(){
+			//수정된 댓글 내용
+			var co_contents = $(this).siblings('.co_contents2').children().val();
+			
+			//수정할 댓글 번호
+			var co_num = $(this).siblings('[name=co_num]').val();
+			//수정된 내용, 번호를 이용하여 객체를 생성 => 서버로 전송해야하니까
+			var comment={
+					co_num : co_num,
+					co_contents :  co_contents
+			}
+			$.ajax({
+				async :true, 
+			    type:'POST',
+			    data:JSON.stringify(comment),
+			    url:"<%=request.getContextPath()%>/comment/modify",
+			    dataType : "json",
+			    contentType:"application/json; charset=UTF-8",
+			    success : function(res){
+			    	//수정에 성공하면
+			    	if(res){
+			    		var page = $('.comment-pagination .active').text();
+				    	var co_bd_num = '${board.bd_num}';
+				    	//현재 페이지와 게시글 번호에 맞게 댓글을 새로고침
+						readComment(co_bd_num, page);
+						}else{
+							alert("댓글 수정에 실패했습니다.")
+						}
+			    	}
+			    });
+			
+		});
 		
 		
 		//화면 로딩 후 댓글과 댓글 페이지네이션 배치
@@ -172,40 +264,65 @@
 			return year+"-"+month+"-"+day+" "+hour+":"+minute;
 			
 		}
-		function createCommentStr(co_me_id, co_contents, co_reg_date, co_num){
+		function createCommentStr(comment, co_reg_date){
 			var str=
 			'<div class="comment-box">'+
-				'<div class="co_me_id">'+co_me_id+'</div>'+
-				'<div class="co_contents">'+co_contents+'</div>'+
+				'<input type="hidden" name="co_num" value="'+comment.co_num+'">'+
+				'<div class="co_me_id">'+comment.co_me_id+'</div>'+
+				'<div class="co_contents">'+comment.co_contents+'</div>'+
 				'<div class="co_reg_date">'+co_reg_date+'</div>'+
 				'<button class=" btn btn_reply_comment btn-outline-success">답글</button>';
 				//수정,삭제의 조건 => 작성자==로그인한아이디 인 경우에만 보여야함
-				if('${user.me_id}' == co_me_id){
-					str += '<button class=" btn btn_mod_comment btn-outline-warning ml-2" data-num="'+co_num+'">수정</button>'+
-					'<button class=" btn btn-del-comment btn-outline-danger ml-2" data-num="'+co_num+'">삭제</button>';
+				if('${user.me_id}' == comment.co_me_id){
+					str += '<button class=" btn btn_mod_comment btn-outline-warning ml-2" data-num="'+comment.co_num+'">수정</button>'+
+					'<button class=" btn btn-del-comment btn-outline-danger ml-2" data-num="'+comment.co_num+'">삭제</button>';
 				}
 				
 				str += 	'<hr>'+	'</div>';
 				
 				return str;
 		}
+		
+		//게시글에 댓글 중 pag번호에 맞는 댓글을 가져와서 화면에 배치하는 함수
 		function readComment(co_bd_num, page){
+			//게시글 번호가 없으면 가져올 게시글이 없어서 작업하지 않음
 			if(co_bd_num != ''){
 				$.ajax({
-					async :false, // 딱히 완료 안되어도 다른거ajax 실행 ㄱ
+					async :false,
+					//get방식으로 url에 정보를 다 포함해서 전송
 				    type:'get',
 				    url:"<%=request.getContextPath()%>/comment/list?co_bd_num="+co_bd_num + '&page='+page,
-				    dataType:"json",
-				    success : function(res){
-				    	var str = '';
-				    	for(tmp of res.list){
-				    		//그냥 콘솔 찍으면 날짜가 1642989793000 이딴식으로 나와서 변형해줘야함
-							var date = new Date(tmp.co_reg_date);//날짜형태로 바꿔주고
-							str += createCommentStr(tmp.co_me_id, tmp.co_contents, getDateStr(date), tmp.co_num);
+				    //server에서 보낸 data의 type
+				    //http://localhost:8080/comment/list?bd_num=38&page=1 <-이런거 입력하면 json형태 볼수있음!!!
+				    //구성형태 : 
+				    /*
+				    {
+				    	"list" : [].
+				    	"pm" : {
+				    		"totalCount" : 8,
+				    		"startPage" : 1
 				    	}
-				    	
+				    }
+				    */
+				    dataType:"json",
+				  //ajax가 성공적으로 완료되면 server에서 보낸 댓글 리스트와 PageMaker(pm)를 res에 담음
+				    success : function(res){
+				    	//res.list : 페이지번호에 맞는 댓글리스트
+				    	//res.pm : 댓글의 페이지메이커
+				    	var str = '';
+				    	//댓글을 하나씩 가져와서 html로 이루어진 문자열을 만든 후 이어붙임
+				    	for(tmp of res.list){
+				    		//정수로 넘어온 댓글 날짜를 날짜타입으로 형변환
+				    		//그냥 콘솔 찍으면 날짜가 1642989793000 이딴식으로 나와서 변형해줘야함
+							var date = new Date(tmp.co_reg_date);
+							//댓글 정보를 html 문자열로 만든 후 이어붙임
+							str += createCommentStr(tmp, getDateStr(date));
+				    	}
+				    	//html로 된 댓글들을 지정된 위치에 배치
 				    	$('.comment-list').html(str);
+				    	//서버에서 보낸 PageMaker를 이용하여 html로 이루어진 pagination을 만듦
 				    	var paginationStr = createCommentPagination(res.pm);
+				    	//만들어진 html pagination을 배치
 				    	$('.comment-pagination').html(paginationStr);
 				    	}
 				    
@@ -224,7 +341,6 @@
 			for(i = pm.startPage; i<=pm.endPage;i++){
 				var currentActive = pm.criteria.page == i ? ' active' : '';
 				str += '<li class="page-item '+currentActive+'"><a class="page-link" href="javascript:void(0);" data-page="' +i + '">'+i+'</a></li>';
-				console.log("i : "+i)
 			}
 			str += '<li class="page-item '+endDisabled+'"><a class="page-link" href="javascript:void(0);" data-page="' + (pm.criteria.page+1) +'">다음</a></li>'+
 			'</ul>';

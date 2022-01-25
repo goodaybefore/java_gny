@@ -50,7 +50,7 @@ public class CommentController {
 		return map;
 	}
 	
-	
+	//댓글 삭제
 	@RequestMapping(value ="/comment/delete")
 	//매개변수 안에 @RequestBody를 붙이는 이유? 
 	public String commentDelete(Integer co_num, HttpServletRequest request){
@@ -58,4 +58,14 @@ public class CommentController {
 		return commentService.deleteComment(co_num, user);
 	}
 	
+	
+	//댓글 수정
+	@RequestMapping(value ="/comment/modify")
+	//매개변수 안에 @RequestBody를 붙이는 이유? 
+	public String commentModify(@RequestBody CommentVO comment, HttpServletRequest request){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		System.out.println(user);
+		System.out.println(comment);
+		return commentService.updateComment(comment, user);
+	}
 }

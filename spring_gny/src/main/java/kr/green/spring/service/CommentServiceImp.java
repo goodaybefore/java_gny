@@ -44,4 +44,15 @@ public class CommentServiceImp implements CommentService{
 		return "true";
 	}
 
+	@Override
+	public String updateComment(CommentVO comment, MemberVO user) {
+		if(user == null || comment==null)
+			return "false";
+		CommentVO dbComment = commentDao.selectComment(comment.getCo_num());
+		if(dbComment == null || !dbComment.getCo_me_id().equals(user.getMe_id())) return "false";
+		
+		commentDao.updateComment(comment);
+		return "true";
+	}
+
 }

@@ -16,5 +16,7 @@ public interface CommentService {
 
 	String deleteComment(Integer co_num, MemberVO user);
 
+	String updateComment(CommentVO comment, MemberVO user);
+
 
 }
