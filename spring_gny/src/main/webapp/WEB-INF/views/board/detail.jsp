@@ -358,7 +358,7 @@
 				if(comment.co_num == comment.co_ori_num)
 					str += '<div class="co_contents">'+comment.co_contents+'</div>';
 				else
-					str += '<div class="co_contents"> └ : '+comment.co_contents+'</div>';
+					str += '<span class="co_contents mt-2"> '+comment.co_contents+'</span>';
 				
 				
 				str += '<div class="co_reg_date">'+co_reg_date+'</div>';
