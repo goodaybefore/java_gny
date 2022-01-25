@@ -346,9 +346,13 @@
 			
 		}
 		function createCommentStr(comment, co_reg_date){
-			var str=
-			'<div class="comment-box">'+
-				'<input type="hidden" name="co_num" value="'+comment.co_num+'">'+
+			var str='';
+			if(comment.co_num == comment.co_ori_num){
+				str += '<div class="comment-box">';
+			}
+			else{ str += '<div class="comment-box" style="margin-left : 30px;">'}
+				
+			str += '<input type="hidden" name="co_num" value="'+comment.co_num+'">'+
 				'<div class="co_me_id">'+comment.co_me_id+'</div>';
 				
 				if(comment.co_num == comment.co_ori_num)
