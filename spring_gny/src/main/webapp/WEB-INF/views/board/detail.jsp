@@ -175,7 +175,7 @@
 		
 		
 		//댓글 수정
-		$(document).on('click', '.comment-list .btn_mod_comment', function(){
+		$(document).on('click', '.comment-list .btn-mod-comment', function(){
 			// 이전에 댓글 수정버튼을 클릭해서 생긴 textarea태그와 등록button을 제거하고, 감춰뒀던 답글, 수정,삭제button을 추가
 			//.co_contents2가 있으면 걔 형제중에 co_contents2를 다시 보여주고, 자기자신을 지움
 			//수정할때 하나만 선택되도록 하는 기능
@@ -186,6 +186,10 @@
 				$(this).parent().children('button').show();
 				//댓글수정을 위한 등록버튼을 없앰
 				$(this).siblings('.btn-mod-comment2').remove();//remove()본인 포함해서 자식들까지 삭제. empty()본인 제외하고 자식들만 삭제
+				
+				//답글 등록버튼 없애기
+				$(this).siblings('.btn-reply-comment2').remove();
+				
 				//textarea태그를 제거(수정하기위한 입력창)
 				$(this).remove();
 			})
@@ -198,7 +202,7 @@
 			'</div>';
 			
 			//등록 버튼을 위한 html(수정 완료를 위한 버튼)
-			var btnStr = '<button class=" btn btn-mod-comment2 btn-outline-success ml-2">등록</button>';
+			var btnStr = '<button class=" btn btn-mod-comment2 btn-outline-success ml-2">수정등록</button>';
 			//기존 댓글을 감춤
 			$(this).siblings('.co_contents').hide();
 			//답글, 수정, 삭제버튼을 감춤
@@ -207,11 +211,13 @@
 			$(this).siblings('.co_me_id').after(str);
 			//등록버튼을 날짜(co_reg_date) 밑에 배치
 			$(this).siblings('.co_reg_date').after(btnStr);
+			
+			
 		});
 		
 		
 		//수정버튼 눌렀을 때 생기는 등록버튼 클릭 이벤트
-		$(document).on('click', '.comment-list .btn_mod_comment2', function(){
+		$(document).on('click', '.comment-list .btn-mod-comment2', function(){
 			//수정된 댓글 내용
 			var co_contents = $(this).siblings('.co_contents2').children().val();
 			
@@ -245,6 +251,81 @@
 		});
 		
 		
+		
+		//답글버튼 클릭
+		$(document).on('click', '.btn-reply-comment', function(){
+			//답글을 달려는 원본댓글
+			var co_num = $(this).data('num');
+			//로그인한 아이디를 가져옴
+			var id = '${user.me_id}';//${user.me_id}에 ''를 붙인거랑 안ㅇ붙인거랑 차이?
+					//''를 안쓰면 로그인한 회원이 없을 때 코드가 id = ;가 됨(문법에 안맞음)
+					
+			//로그인안하면 답글을 못달게함
+			if(id == ''){
+				alert('답글은 로그인한 회원만 작성가능합니다.');
+				return;
+			}
+			//이전 답글창 제거
+			$('.co_contents2').each(function(){
+				$(this).siblings('.btn-reply-comment2').remove();
+				$(this).parent().children('button').show();//답글 삭제 수정버튼
+				
+				$(this).siblings('.co_contents').show();
+				$(this).siblings('.btn-mod-comment2').remove();
+				
+				$(this).remove();
+			})
+			//답글창 추가
+			//textarea태그를 꾸며주기위한 html
+			var str = '<div class="form-group co_contents2 mt-2">'+
+			'<textarea class=" form-control"></textarea>'+
+			'</div>';
+			//답글 등록을 위한 html 버튼
+			var btnStr = '<button class=" btn btn-reply-comment2 btn-outline-success ml-2">답글등록</button>';
+			
+			//textarea태그를 id(co_me_id)밑에 배치
+			$(this).siblings('.co_reg_date').after(str);
+			//등록버튼을 날짜(co_reg_date) 밑에 배치
+			$(this).siblings('hr').before(btnStr);
+			//답글, (수정, 삭제)버튼을 감춤
+			$('.btn-reply-comment2').siblings('button').hide();
+			
+		});
+		
+		//답글 등록 버튼 클릭
+		$(document).on('click', '.btn-reply-comment2', function(){
+			//원래 댓글 번호(여기서는 co_num), 내용, 게시글 번호
+			var co_contents = $('.co_contents2 textarea').val();
+			var co_ori_num = $(this).siblings('.btn-reply-comment').data('num');
+			var co_bd_num = '${board.bd_num}';
+			
+			var comment = {
+					co_contents : co_contents,
+					co_ori_num : co_ori_num,
+					co_bd_num : co_bd_num
+			}
+			$.ajax({
+				async :true, 
+			    type:'POST',
+			    data:JSON.stringify(comment),
+			    url:"<%=request.getContextPath()%>/comment/insert",
+			    dataType : "json",
+			    contentType:"application/json; charset=UTF-8",
+			    success : function(res){
+			    	//답글 달기에 성공하면
+			    	if(res){
+			    		var page = $('.comment-pagination .active').text();
+				    	var co_bd_num = '${board.bd_num}';
+				    	//현재 페이지와 게시글 번호에 맞게 댓글을 새로고침
+						readComment(co_bd_num, page);
+						}else{
+							alert("답글 달기에 실패했습니다.")
+						}
+			    	}
+			    });
+		})
+		
+		
 		//화면 로딩 후 댓글과 댓글 페이지네이션 배치
 		var co_bd_num = '${board.bd_num}';
 		readComment(co_bd_num, 1);
@@ -268,13 +349,23 @@
 			var str=
 			'<div class="comment-box">'+
 				'<input type="hidden" name="co_num" value="'+comment.co_num+'">'+
-				'<div class="co_me_id">'+comment.co_me_id+'</div>'+
-				'<div class="co_contents">'+comment.co_contents+'</div>'+
-				'<div class="co_reg_date">'+co_reg_date+'</div>'+
-				'<button class=" btn btn_reply_comment btn-outline-success">답글</button>';
+				'<div class="co_me_id">'+comment.co_me_id+'</div>';
+				
+				if(comment.co_num == comment.co_ori_num)
+					str += '<div class="co_contents">'+comment.co_contents+'</div>';
+				else
+					str += '<div class="co_contents"> └ : '+comment.co_contents+'</div>';
+				
+				
+				str += '<div class="co_reg_date">'+co_reg_date+'</div>';
+				
+				//co_num으로 해도되는이유 : 답글버튼은 항상 댓글한테만 있을수있고 댓댓글에는 없어야함
+				if(comment.co_num == comment.co_ori_num)
+					str += '<button class=" btn btn-reply-comment btn-outline-success" data-num="'+comment.co_num+'">답글</button>';
+				
 				//수정,삭제의 조건 => 작성자==로그인한아이디 인 경우에만 보여야함
 				if('${user.me_id}' == comment.co_me_id){
-					str += '<button class=" btn btn_mod_comment btn-outline-warning ml-2" data-num="'+comment.co_num+'">수정</button>'+
+					str += '<button class=" btn btn-mod-comment btn-outline-warning ml-2" data-num="'+comment.co_num+'">수정</button>'+
 					'<button class=" btn btn-del-comment btn-outline-danger ml-2" data-num="'+comment.co_num+'">삭제</button>';
 				}
 				

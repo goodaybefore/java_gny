@@ -64,8 +64,8 @@ public class CommentController {
 	//매개변수 안에 @RequestBody를 붙이는 이유? 
 	public String commentModify(@RequestBody CommentVO comment, HttpServletRequest request){
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-		System.out.println(user);
-		System.out.println(comment);
 		return commentService.updateComment(comment, user);
 	}
+	
+	
 }
