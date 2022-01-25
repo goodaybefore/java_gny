@@ -4,9 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="shortcut icon" href="#">
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="shortcut icon" href="#">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/comment.js"></script>
 </head>
 <body>
 	<div class="body container">
@@ -78,6 +79,9 @@
 		</div>
 	</div>
 	<script>
+		commentService.setContextPath('<%=request.getContextPath()%>');
+		console.log(commentService);
+		
 		$(function(){
 			//댓글 등록 버튼 클릭
 			$('.btn-comment').click(function(){
@@ -105,34 +109,22 @@
 						co_contents : co_contents,
 						co_bd_num : co_bd_num
 						};
-				$.ajax({
-					//동기화 : 다 끝날때까지 기다림
-					async :false, 
-				    type:'POST',
-				    //서버로 보낸 객체가 VO에 잘 담기기 위하 변형
-				    data:JSON.stringify(comment),
-				    url:"<%=request.getContextPath()%>/comment/insert",
-				    //서버에서 보낸 데이터의 타입
-				    dataType : "json",
-				    //화면이 서버로 보낸 데이터의 타입
-				    contentType:"application/json; charset=UTF-8",
-				    //ajax성공시
-				    success : function(res){
-				    	//댓글 등록에 성공하면
-				    	if(res==true){
-				    		//입력한 댓글을 지워줌
-				    		$('.text-comment').val('');
-				    		alert("댓글 등록이 완료되었습니다");
-				    		//새로고침을 해서(전체가 아닌 댓글부분만) 1페이지에 맞는 댓글을 새로 가져옴
-				    		readComment(co_bd_num, 1);
-				    		
-				    	}else{
-				    		alert("댓글 등록에 실패했습니다.");
-				    	}
-					}
+				
+				
+				//댓글을 등록하기위해 ajax로 서버에 데이터를전송
+				commentService.insert('/comment/insert', comment, function(res){
+					if(res==true){
+			    		//입력한 댓글을 지워줌
+			    		$('.text-comment').val('');
+			    		alert("댓글 등록이 완료되었습니다");
+			    		//새로고침을 해서(전체가 아닌 댓글부분만) 1페이지에 맞는 댓글을 새로 가져옴
+			    		readComment(co_bd_num, 1);
+			    		
+			    	}else{
+			    		alert("댓글 등록에 실패했습니다.");
+			    	}
 				});
 				
-				//
 			})
 		});
 		
@@ -156,20 +148,10 @@
 			
 			//삭제할 댓글 번호가 있는 경우만 삭제
 			if(co_num != ''){
-				$.ajax({
-					async :false,
-					//삭제할 댓글 번호는 노출되어도 상관없기 때문에 get으로 보냄
-				    type:'get',
-				    url:"<%=request.getContextPath()%>/comment/delete?co_num="+co_num,
-				    dataType:"json",
-				    success : function(res){
-				    	//삭제가 완료되면 댓글을 새로고침(1페이지)
-				    	var co_bd_num = '${board.bd_num}';
-				    	//1page 기준으로 
-						readComment(co_bd_num, 1);
-				    	}
-				    
-				    });
+				commentService.delete('/comment/delete?co_num='+co_num, function(res){
+					var co_bd_num = '${board.bd_num}';
+					readComment(co_bd_num, 1);
+				})
 			}
 		});
 		
@@ -228,26 +210,17 @@
 					co_num : co_num,
 					co_contents :  co_contents
 			}
-			$.ajax({
-				async :true, 
-			    type:'POST',
-			    data:JSON.stringify(comment),
-			    url:"<%=request.getContextPath()%>/comment/modify",
-			    dataType : "json",
-			    contentType:"application/json; charset=UTF-8",
-			    success : function(res){
-			    	//수정에 성공하면
-			    	if(res){
-			    		var page = $('.comment-pagination .active').text();
-				    	var co_bd_num = '${board.bd_num}';
-				    	//현재 페이지와 게시글 번호에 맞게 댓글을 새로고침
-						readComment(co_bd_num, page);
-						}else{
-							alert("댓글 수정에 실패했습니다.")
-						}
-			    	}
-			    });
-			
+			commentService.modify('/comment/modify', comment, function(res){
+				//수정에 성공하면
+		    	if(res){
+		    		var page = $('.comment-pagination .active').text();
+			    	var co_bd_num = '${board.bd_num}';
+			    	//현재 페이지와 게시글 번호에 맞게 댓글을 새로고침
+					readComment(co_bd_num, page);
+					}else{
+						alert("댓글 수정에 실패했습니다.")
+					}
+			})			
 		});
 		
 		
@@ -304,26 +277,18 @@
 					co_ori_num : co_ori_num,
 					co_bd_num : co_bd_num
 			}
-			$.ajax({
-				async :true, 
-			    type:'POST',
-			    data:JSON.stringify(comment),
-			    url:"<%=request.getContextPath()%>/comment/insert",
-			    dataType : "json",
-			    contentType:"application/json; charset=UTF-8",
-			    success : function(res){
-			    	//답글 달기에 성공하면
-			    	if(res){
-			    		var page = $('.comment-pagination .active').text();
-				    	var co_bd_num = '${board.bd_num}';
-				    	//현재 페이지와 게시글 번호에 맞게 댓글을 새로고침
-						readComment(co_bd_num, page);
-						}else{
-							alert("답글 달기에 실패했습니다.")
-						}
-			    	}
-			    });
-		})
+			commentService.insert('/comment/insert', comment, function(res){
+				//답글 달기에 성공하면
+		    	if(res){
+		    		var page = $('.comment-pagination .active').text();
+			    	var co_bd_num = '${board.bd_num}';
+			    	//현재 페이지와 게시글 번호에 맞게 댓글을 새로고침
+					readComment(co_bd_num, page);
+					}else{
+						alert("답글 달기에 실패했습니다.")
+					}
+			});
+		});
 		
 		
 		//화면 로딩 후 댓글과 댓글 페이지네이션 배치
@@ -382,46 +347,27 @@
 		function readComment(co_bd_num, page){
 			//게시글 번호가 없으면 가져올 게시글이 없어서 작업하지 않음
 			if(co_bd_num != ''){
-				$.ajax({
-					async :false,
-					//get방식으로 url에 정보를 다 포함해서 전송
-				    type:'get',
-				    url:"<%=request.getContextPath()%>/comment/list?co_bd_num="+co_bd_num + '&page='+page,
-				    //server에서 보낸 data의 type
-				    //http://localhost:8080/comment/list?bd_num=38&page=1 <-이런거 입력하면 json형태 볼수있음!!!
-				    //구성형태 : 
-				    /*
-				    {
-				    	"list" : [].
-				    	"pm" : {
-				    		"totalCount" : 8,
-				    		"startPage" : 1
-				    	}
-				    }
-				    */
-				    dataType:"json",
-				  //ajax가 성공적으로 완료되면 server에서 보낸 댓글 리스트와 PageMaker(pm)를 res에 담음
-				    success : function(res){
-				    	//res.list : 페이지번호에 맞는 댓글리스트
-				    	//res.pm : 댓글의 페이지메이커
-				    	var str = '';
-				    	//댓글을 하나씩 가져와서 html로 이루어진 문자열을 만든 후 이어붙임
-				    	for(tmp of res.list){
-				    		//정수로 넘어온 댓글 날짜를 날짜타입으로 형변환
-				    		//그냥 콘솔 찍으면 날짜가 1642989793000 이딴식으로 나와서 변형해줘야함
-							var date = new Date(tmp.co_reg_date);
-							//댓글 정보를 html 문자열로 만든 후 이어붙임
-							str += createCommentStr(tmp, getDateStr(date));
-				    	}
-				    	//html로 된 댓글들을 지정된 위치에 배치
-				    	$('.comment-list').html(str);
-				    	//서버에서 보낸 PageMaker를 이용하여 html로 이루어진 pagination을 만듦
-				    	var paginationStr = createCommentPagination(res.pm);
-				    	//만들어진 html pagination을 배치
-				    	$('.comment-pagination').html(paginationStr);
-				    	}
-				    
-				    });
+				var  url = '/comment/list?co_bd_num='+co_bd_num + '&page='+page;
+				commentService.list(url, function(res){
+					//res.list : 페이지번호에 맞는 댓글리스트
+			    	//res.pm : 댓글의 페이지메이커
+			    	var str = '';
+			    	//댓글을 하나씩 가져와서 html로 이루어진 문자열을 만든 후 이어붙임
+			    	for(tmp of res.list){
+			    		//정수로 넘어온 댓글 날짜를 날짜타입으로 형변환
+			    		//그냥 콘솔 찍으면 날짜가 1642989793000 이딴식으로 나와서 변형해줘야함
+						var date = new Date(tmp.co_reg_date);
+						//댓글 정보를 html 문자열로 만든 후 이어붙임
+						str += createCommentStr(tmp, getDateStr(date));
+			    	}
+			    	//html로 된 댓글들을 지정된 위치에 배치
+			    	$('.comment-list').html(str);
+			    	//서버에서 보낸 PageMaker를 이용하여 html로 이루어진 pagination을 만듦
+			    	var paginationStr = createCommentPagination(res.pm);
+			    	//만들어진 html pagination을 배치
+			    	$('.comment-pagination').html(paginationStr);
+					
+				})
 			}
 		}
 		function createCommentPagination(pm){
@@ -442,9 +388,9 @@
 			return str;
 				
 		}
-		
+
 		//
-		function commentService(){
+		/*function commentService(){
 			var commentSerivce={
 					insert : function(){
 						
@@ -456,9 +402,7 @@
 						
 					}
 			};
-			
-			
-		}
+		}*/
 	</script>
 </body>
 </html>
