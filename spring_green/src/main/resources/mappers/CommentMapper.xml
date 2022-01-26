@@ -16,4 +16,9 @@
 		ifnull(max(co_num), 0)+1
 	FROM comment
 	</insert>
+	<select id="selectAllComment" resultType="kr.green.green.vo.CommentVO">
+	SELECT * FROM comment
+	WHERE
+		co_bd_num = #{co_bd_num};
+	</select>
 </mapper>

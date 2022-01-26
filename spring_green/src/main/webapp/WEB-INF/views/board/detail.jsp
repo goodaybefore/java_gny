@@ -63,6 +63,12 @@
 		</c:if>
 		<!-- 댓글 -->
 		<hr class="mt-3">
+		<div class="comment-list">
+			
+		</div>
+		<div class="comment-pageination"></div>
+		
+		
 		<div class="comment-box">
 			<div class="input-group mb-3 mt-3">
 				<textarea class="form-control text-comment" rows="3" placeholder="Comment"></textarea>
@@ -73,23 +79,23 @@
 		</div>
 	</div>
 	<script>
-	//문서가 로딩이 되면 이벤트를 등록해
+	
 	var contextPath = '<%=request.getContextPath()%>'
 	
 	commentService.setContextPath(contextPath);
 	console.log(commentService.contextPath)
+	
+	//문서가 로딩이 되면 이벤트를 등록해
 	$(function(){
-		
+		var co_contents = $('.text-comment').val();
+		var co_bd_num = '${board.bd_num}';
+		let co_me_id = '${user.me_id}';
 		$('.btn-comment').click(function(){
-			let co_me_id = '${user.me_id}';
 			if(co_me_id=='') {
 				alert('로그인 후 시도하세요');
 				return;
 			}
-			var co_contents = $('.text-comment').val();
-			console.log(co_contents);
-			var co_bd_num = '${board.bd_num}';
-			console.log(co_bd_num)
+			
 			
 			if(co_contents==""){
 				alert('내용을 입력하세요');
@@ -100,6 +106,8 @@
 					co_contents : co_contents,
 					co_bd_num : co_bd_num
 			};
+			
+			//댓글 삽입
 			//ajax
 			var url = '/comment/insert';
 			commentService.insert(url, comment, function(res){
@@ -109,10 +117,54 @@
 					alert('댓글 등록에 실패하였습니다');
 				}
 			})
-			
 		})
 		
+		$.ajax({
+	        async:false,
+	        type:'GET',
+	        url:contextPath + "/comment/list?page=1&bd_num="+'${board.bd_num}',
+	        dataType:"json",
+	        success : function(res){
+	            console.log(res);
+	        }
+	    });
 	});
+	
+	function getDateStr(date){
+		var year = date.getFullYear();
+		var month = date.getMonth()+1;
+		var day = date.getDate();
+		var hour = date.getHours();
+		var minute = date.getMinutes();
+		return year+"-"+month+"-"+day+" "+hour+":"+minute;
+	}
+	function creatComment(comment, me_id){
+		var str = '';
+		str += '<div class="comment-box clearfix">'
+		if(comment.co_ori_num != comment.co_num){//대댓인경우
+		str += 	'<div class="float-left" style="width:24px;">ㄴ</div>'
+		str += 	'<div class="float-left" style="width:calc(100% - 24px);">'
+		}else{
+		str += 	'<div class="float-left" style="width:calc(100%);">'
+		}
+		str += 		'<div class="co_me_id" style="font-size:12px; font-weight:bold;">'+comment.co_me_id+'</div>'
+		str += 		'<div class="co_contents">'+comment.co_contents+'</div>'
+		str += 		'<div class="co_reg_date" style="font-size:11px; color:grey;">'+comment.co_reg_date+'</div>'
+		
+		if(comment.co_ori_num == comment.co_num){
+		str += 		'<button class="btn btn-success btn-rep-comment">답글</button>'	
+		}
+		
+		if(comment.co_me_id == me_id){
+		str += 		'<button class="btn btn-warning btn-mod-comment">수정</button>'
+		str += 		'<button class="btn btn-danger btn-del-comment">삭제</button>'
+		}
+		
+		str += 	'</div>'
+		str += 	'<hr class="mt-3">'
+		str += '</div>';
+		return str;
+	}
 	</script>
 </body>
 </html>

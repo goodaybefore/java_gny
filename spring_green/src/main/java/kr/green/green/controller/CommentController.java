@@ -1,6 +1,9 @@
 package kr.green.green.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,5 +31,15 @@ public class CommentController {
 		return commentService.insertComment(comment, user);
 	}
 	
-	
+	//comment list
+	@RequestMapping(value = "/comment/list", method=RequestMethod.GET)
+	public Map<String, Object> commentList(Integer page, Integer bd_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<CommentVO> list = new ArrayList<CommentVO>();
+		CommentVO c = new CommentVO();
+		list.add(c);
+		map.put("list", list);
+//		return commentService.selectAllComment(co_bd_num);
+		return map;
+	}
 }
