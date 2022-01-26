@@ -37,12 +37,24 @@
 			
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control" placeholder="아이디" name="me_id" value="${user.me_id}">
-			<input type="password" class="form-control" placeholder="비밀번호" name="me_pw" value="${user.me_pw}">
-			<input type="password" class="form-control" placeholder="비밀번호확인" name="pw2"">
-			<input type="text" class="form-control" placeholder="이름" name="me_name" value="${user.me_name}">
-			<input type="text" class="form-control" placeholder="생년월일" name="me_birth" id="birth" value="${user.me_birth}">
-			
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="아이디" name="me_id" value="${user.me_id}">
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-info form-control" id="idcheck">중복확인</button>
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="비밀번호" name="me_pw" value="${user.me_pw}">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="비밀번호확인" name="pw2"">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="이름" name="me_name" value="${user.me_name}">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="생년월일" name="me_birth" id="birth" value="${user.me_birth}">
+			</div>			
 			<div class="form-group">
 				<!-- 성별 -->
 				<div class="form-check-inline">
@@ -73,10 +85,42 @@
 	
 	<script>
 		$(function(){
-			//생년월일
+			//datepicker
 			$( "#birth" ).datepicker();
 			$( "#birth" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 
+			let idCheck = false;
+			//아이디 중복 체크
+			$('#idcheck').click(function(){
+				var id = $('[name=me_id]').val();
+				$.ajax({
+			        async : false,//다끝날때까지 기다령
+			        type:'GET',
+			      //url은 대문자 안ㅆ느ㅡㄴ게 좋대
+			        url:'<%=request.getContextPath()%>/idcheck?me_id='+id,
+			        dataType:"json",
+			        //contentType:"application/json; charset=UTF-8",//보낼때 쓰는거라 필요없음
+			        success : function(res){
+			            console.log(res);
+			            if(res == true){
+			            	alert('사용가능한 아이디');
+			            	idCheck = true;
+			            	//console.log('사용가능한 아이디');
+			            }else{
+			            	alert('이미 가입된 아이디입니다.')
+			            	idCheck = false;
+			            	//console.log('이미 가입된 아이디입니다.');
+			            }
+			            	
+			        }
+			    });
+			})
+			
+			$('[name=me_id]').change(function(){
+				idCheck = false;
+			})
+
+			
 			//항목 기입
 			let id, pw, pw2, name, gender, birth, phone;
 			let warnings = '';
@@ -93,10 +137,16 @@
 				gender = genderObj.length == 0 ? '' : genderObj.val();
 
 				let isAgree = $('[name=agree]').is(':checked');
-				// console.log(isAgree);
+				
+				
+				
 				if(!isAgree){
 					alert('동의에 체크해야합니다.');
 					$('[name=agree]').focus();
+					return false;
+				}
+				if(!idCheck){
+					alert('아이디 중복체크를 하세요');
 					return false;
 				}
 				if(id==''){alert('아이디를 입력하세요'); $('[name=me_id]').focus(); return false;}
@@ -111,10 +161,10 @@
 				let address = $('#address').val() + ' ' +$('#detailAddress').val();
 				$('[name=me_address]').val(address);
 				
+				
 			})
 		});
-			
-
+		
 //address
 function execDaumPostcode() {
 	new daum.Postcode({

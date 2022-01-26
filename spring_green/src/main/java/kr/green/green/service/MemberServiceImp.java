@@ -64,5 +64,12 @@ public class MemberServiceImp implements MemberService{
 		if(!passwordEncoder.matches(user.getMe_pw(), dbuser.getMe_pw())) return null;
 		return dbuser;
 	}
+
+	@Override
+	public String idCheck(String me_id) {
+		MemberVO user = memberDao.selectMember(me_id);
+		if(user==null) return "true";
+		else return "false";
+	}
 	
 }

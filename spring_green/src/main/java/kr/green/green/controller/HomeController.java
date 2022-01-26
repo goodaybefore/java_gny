@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.green.service.MemberService;
@@ -84,5 +85,13 @@ public class HomeController {
 		request.getSession().removeAttribute("user");
 		mv.setViewName("redirect:/");
 		return mv;
+	}
+	
+	//idcheck
+	@ResponseBody
+	@RequestMapping(value = "/idcheck", method=RequestMethod.GET)
+	public String idcheck(String me_id){
+		System.out.println(me_id);
+		return memberService.idCheck(me_id);
 	}
 }
