@@ -1,5 +1,7 @@
 package kr.green.green.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,14 @@ import kr.green.green.vo.MemberVO;
 public class CommentController {
 	@Autowired
 	CommentService commentService;
+	
 	//ajax에서 json으로 넘겨줄떄(post방식으로) 서버에서 받으려먼 @RequestBody 쓰기
 	@RequestMapping(value = "/comment/insert", method=RequestMethod.POST)
-	public boolean commentList(@RequestBody CommentVO comment, HttpServletRequest request){
+	public boolean commentInsert(@RequestBody CommentVO comment, HttpServletRequest request){
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		
 		return commentService.insertComment(comment, user);
 	}
+	
+	
 }

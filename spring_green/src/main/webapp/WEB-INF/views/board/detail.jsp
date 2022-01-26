@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 상세</title>
+<!-- title태그 없어두댄ㄷㅐㅇ -->
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/comment.js"></script>
 </head>
 <body>
 	<div class="body container">
@@ -74,6 +75,9 @@
 	<script>
 	//문서가 로딩이 되면 이벤트를 등록해
 	var contextPath = '<%=request.getContextPath()%>'
+	
+	commentService.setContextPath(contextPath);
+	console.log(commentService.contextPath)
 	$(function(){
 		
 		$('.btn-comment').click(function(){
@@ -96,22 +100,15 @@
 					co_contents : co_contents,
 					co_bd_num : co_bd_num
 			};
-			
-			$.ajax({
-		        async : false,
-		        type:'POST',
-		        url:contextPath+'/comment/insert',
-		        data:JSON.stringify(comment),
-		        //화면이 서버로 보낸 데이터의 타입
-		        contentType:"application/json; charset=UTF-8",
-		        success : function(res){
-					if(res){
-						alert('댓글 등록이 완료되었습니다');
-						$('.co_contents').val();//기존에 입력한 댓글을 지워줌
-					}
-		            	
-		        }
-		    });
+			//ajax
+			var url = '/comment/insert';
+			commentService.insert(url, comment, function(res){
+				if(res){
+					$('.text-comment').val('');//기존에 입력한 댓글을 지워줌
+				}else{
+					alert('댓글 등록에 실패하였습니다');
+				}
+			})
 			
 		})
 		
