@@ -120,6 +120,9 @@
 		
 		//pagination의 번호를 클릭했을때의 댓글 새로고침
 		$(document).on('click', '.comment-pagination .page-item', function(){
+			//disabled를 포함하고있으면 동작하지않도록
+			if($(this).hasClass('disabled')) return;
+			
 			var page = $(this).data('page');//클릭하면 여기까진 정삭적으로 들어오는것같습니다
 			//댓글 새로고침
 			var listUrl = '/comment/list?page='+page+'&bd_num='+'${board.bd_num}';
