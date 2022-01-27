@@ -70,7 +70,6 @@
 			
 		</div>
 		
-		
 		<div class="comment-box">
 			<div class="input-group mb-3 mt-3">
 				<textarea class="form-control text-comment" rows="3" placeholder="Comment"></textarea>
@@ -93,6 +92,7 @@
 		var co_bd_num = '${board.bd_num}';
 		var co_me_id = '${user.me_id}';
 		
+		//댓글 등록버튼을 누르면
 		$('.btn-comment').click(function(){
 			var co_contents = $('.text-comment').val();
 			
@@ -138,6 +138,37 @@
 			var deleteUrl = '/comment/delete?co_num='+co_num;
 			commentService.delete(deleteUrl, deleteSuccess);
 		});
+		
+		//댓글 수정
+		$(document).on('click', '.btn-mod-comment', function(){
+			//댓글 초기화
+			$('.mod-before').each(function(){
+				$(this).parents().children('button').show();
+				$(this).siblings('.co_contents').show();
+				$(this).siblings('.btn-mod-after').remove();
+				$(this).siblings('.mod-before').remove();
+				$(this).remove();
+			})
+			//댓글번호
+			var co_num = $(this).data('num');
+			//댓글내용
+			var modBefore = $(this).siblings('.co_contents').text();
+			var modAfterLetters = '새댓글 ㅎ';
+			//끼워넣을 textarea
+			var str = '<div class="form-group mod-before mt-2"><textarea class="form-control">'+modBefore+'</textarea></div>';
+			//등록버튼
+			var modBtnStr = '<button type="submit" class="btn btn-outline-success btn-mod-after">수정등록</button>'
+			
+			$(this).siblings('.co_me_id').after(str);
+			$(this).siblings('.co_contents').hide();
+			$(this).parents().children('button').hide();
+			$(this).siblings('.co_reg_date').after(modBtnStr);
+			
+			
+			//var test = $(this).parents().html();
+			//console.log("test : "+test);
+			
+		})
 		
 	});
 	
@@ -196,16 +227,18 @@
 	
 	
 	
-	function getDateStr(date){
-		var year = date.getFullYear();
-		var month = date.getMonth()+1;
-		var day = date.getDate();
-		var hour = date.getHours();
-		var minute = date.getMinutes();
-		return year+"-"+month+"-"+day+" "+hour+":"+minute;
+	function getDateToString(date){
+		return ""+ date.getFullYear() + "-" +
+					(date.getMonth()+1) + "-" +
+					date.getDate() + " "+
+					date.getHours()+ " : "+
+					date.getMinutes();
 	}
 	
 	function createComment(comment, me_id){
+		//숫자로 나열된 날짜를 제대로 나오게 ㄷ바꿔주기
+		var co_reg_date = getDateToString(new Date(comment.co_reg_date));
+		
 		var str = '';
 		str += '<div class="comment-box clearfix">'
 		if(comment.co_ori_num != comment.co_num){//대댓인경우
@@ -216,7 +249,7 @@
 		}
 		str += 		'<div class="co_me_id" style="font-size:12px; font-weight:bold;">'+comment.co_me_id+'</div>'
 		str += 		'<div class="co_contents">'+comment.co_contents+'</div>'
-		str += 		'<div class="co_reg_date" style="font-size:11px; color:grey;">'+comment.co_reg_date+'</div>'
+		str += 		'<div class="co_reg_date" style="font-size:11px; color:grey;">'+co_reg_date+'</div>'
 		
 		if(comment.co_ori_num == comment.co_num){
 		str += 		'<button class="btn btn-success btn-rep-comment mr-2">답글</button>'	
