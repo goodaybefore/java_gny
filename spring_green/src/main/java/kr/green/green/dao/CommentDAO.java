@@ -12,4 +12,6 @@ public interface CommentDAO {
 
 	List<CommentVO> selectAllComment(@Param("co_bd_num")Integer co_bd_num);
 
+	List<CommentVO> selectCommentList(@Param("bd_num")Integer bd_num);
+
 }

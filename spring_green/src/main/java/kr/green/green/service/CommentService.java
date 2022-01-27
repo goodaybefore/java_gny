@@ -11,4 +11,6 @@ public interface CommentService {
 
 	List<CommentVO> selectAllComment(Integer co_bd_num);
 
+	List<CommentVO> selectCommentList(Integer bd_num);
+
 }

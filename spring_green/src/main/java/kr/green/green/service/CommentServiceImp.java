@@ -33,4 +33,11 @@ public class CommentServiceImp implements CommentService {
 		if(co_bd_num<0) return null;
 		return commentDao.selectAllComment(co_bd_num);
 	}
+
+	@Override
+	public List<CommentVO> selectCommentList(Integer bd_num) {
+		if(bd_num<=0 || bd_num==null) return null;
+		
+		return commentDao.selectCommentList(bd_num);
+	}
 }

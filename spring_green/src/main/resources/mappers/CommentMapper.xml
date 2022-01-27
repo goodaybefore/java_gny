@@ -21,4 +21,11 @@
 	WHERE
 		co_bd_num = #{co_bd_num};
 	</select>
+	<select id="selectCommentList" resultType="kr.green.green.vo.CommentVO">
+	SELECT * FROM comment
+	WHERE
+		co_bd_num = #{bd_num}
+	AND
+		co_del='N';
+	</select>
 </mapper>

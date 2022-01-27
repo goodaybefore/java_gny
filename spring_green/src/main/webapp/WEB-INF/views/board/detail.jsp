@@ -125,7 +125,11 @@
 	        url:contextPath + "/comment/list?page=1&bd_num="+'${board.bd_num}',
 	        dataType:"json",
 	        success : function(res){
-	            console.log(res);
+	            var str ='';
+	            for(tmp of res.list){//res는 Map이라서 여러개가 들어가있음. 그중에서  list를 가져오겠다는 뜻...
+	            	str += createComment(tmp, co_me_id);
+	            }
+	            $('.comment-list').html(str);
 	        }
 	    });
 	});
@@ -138,7 +142,8 @@
 		var minute = date.getMinutes();
 		return year+"-"+month+"-"+day+" "+hour+":"+minute;
 	}
-	function creatComment(comment, me_id){
+	
+	function createComment(comment, me_id){
 		var str = '';
 		str += '<div class="comment-box clearfix">'
 		if(comment.co_ori_num != comment.co_num){//대댓인경우
@@ -152,12 +157,12 @@
 		str += 		'<div class="co_reg_date" style="font-size:11px; color:grey;">'+comment.co_reg_date+'</div>'
 		
 		if(comment.co_ori_num == comment.co_num){
-		str += 		'<button class="btn btn-success btn-rep-comment">답글</button>'	
+		str += 		'<button class="btn btn-success btn-rep-comment mr-2">답글</button>'	
 		}
 		
 		if(comment.co_me_id == me_id){
-		str += 		'<button class="btn btn-warning btn-mod-comment">수정</button>'
-		str += 		'<button class="btn btn-danger btn-del-comment">삭제</button>'
+		str += 		'<button class="btn btn-warning btn-mod-comment mr-2">수정</button>'
+		str += 		'<button class="btn btn-danger btn-del-comment mr-2">삭제</button>'
 		}
 		
 		str += 	'</div>'
