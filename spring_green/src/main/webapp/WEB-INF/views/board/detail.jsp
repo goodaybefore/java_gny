@@ -66,7 +66,9 @@
 		<div class="comment-list">
 			
 		</div>
-		<div class="comment-pageination"></div>
+		<div class="comment-pagination">
+			
+		</div>
 		
 		
 		<div class="comment-box">
@@ -87,52 +89,74 @@
 	
 	//문서가 로딩이 되면 이벤트를 등록해
 	$(function(){
-		var co_contents = $('.text-comment').val();
+		
 		var co_bd_num = '${board.bd_num}';
-		let co_me_id = '${user.me_id}';
+		var co_me_id = '${user.me_id}';
+		
 		$('.btn-comment').click(function(){
+			var co_contents = $('.text-comment').val();
+			
 			if(co_me_id=='') {
 				alert('로그인 후 시도하세요');
 				return;
 			}
-			
-			
-			if(co_contents==""){
+
+			if(co_contents==''){
 				alert('내용을 입력하세요');
 				return;
 			}
-			let comment = {
+			
+			var comment = {
 					co_me_id : co_me_id,
 					co_contents : co_contents,
 					co_bd_num : co_bd_num
 			};
-			
 			//댓글 삽입
 			//ajax
 			var url = '/comment/insert';
-			commentService.insert(url, comment, function(res){
-				if(res){
-					$('.text-comment').val('');//기존에 입력한 댓글을 지워줌
-				}else{
-					alert('댓글 등록에 실패하였습니다');
-				}
-			})
+			commentService.insert(url, comment, insertSuccess);
 		})
 		
-		$.ajax({
-	        async:false,
-	        type:'GET',
-	        url:contextPath + "/comment/list?page=1&bd_num="+'${board.bd_num}',
-	        dataType:"json",
-	        success : function(res){
-	            var str ='';
-	            for(tmp of res.list){//res는 Map이라서 여러개가 들어가있음. 그중에서  list를 가져오겠다는 뜻...
-	            	str += createComment(tmp, co_me_id);
-	            }
-	            $('.comment-list').html(str);
-	        }
-	    });
+		
+		//pagination의 번호를 클릭했을때의 댓글 새로고침
+		$(document).on('click', '.comment-pagination .page-item', function(){
+			console.log("hi");
+			var page = $(this).data('page');
+			//댓글 새로고침
+			var listUrl = '/comment/list?page='+page+'&bd_num='+'${board.bd_num}';
+			//commentService.list(listUrl, listSuccess);
+			
+		});
+		
+		var listUrl = '/comment/list?page=1&bd_num='+'${board.bd_num}';
+		commentService.list(listUrl, listSuccess);
+		
+		
 	});
+	
+	//리스트 불러오는 함수
+	function listSuccess(res){
+		var str ='';
+		var co_me_id ='${user.me_id}';
+        for(tmp of res.list){//res는 Map이라서 여러개가 들어가있음. 그중에서  list를 가져오겠다는 뜻...
+        	str += createComment(tmp, co_me_id);
+        }
+        $('.comment-list').html(str);
+        var paginationStr = creatPagination(res.pm);
+        $('.comment-pagination').html(paginationStr);
+	}
+	
+	//댓글 등록하기 함수
+	function insertSuccess(res){
+		if(res){
+			$('.text-comment').val('');//기존에 입력한 댓글을 지워줌
+			//댓글등록시 댓글목록 새로고침
+			var listUrl = '/comment/list?page=1&bd_num='+'${board.bd_num}';
+			commentService.list(listUrl, listSuccess);
+		}else{
+			alert('댓글 등록에 실패하였습니다');
+		}
+	}
 	
 	function getDateStr(date){
 		var year = date.getFullYear();
@@ -169,6 +193,29 @@
 		str += 	'<hr class="mt-3">'
 		str += '</div>';
 		return str;
+	}
+	
+	//pagenaition하는 str을 만드는 함수
+	function creatPagination(pm){
+		str = '';
+		//prev, next버튼 활성화결정
+		var prevDisabled = pm.prev ? '' : 'disabled';
+		var nextDisabled = pm.next  ? '' : 'disabled';
+		var page = pm.criteria.page;
+		//prev출력
+		//for문으로 pagination추가
+		str += '<ul class="pagination justify-content-center">'+
+		    '<li class="page-item '+prevDisabled+'" data-page="'+(pm.startPage-1)+'"><a class="page-link " href="javascript:; ">이전</a></li>';
+		for(i = pm.startPage; i<=pm.endPage;i++){
+			var currentActive = page == i ? 'active' : '';
+			str += '<li class="page-item '+currentActive+'" data-page="'+i+'"><a class="page-link " href="javascript:;">'+i+'</a></li>';
+		}
+		    
+		    str += '<li class="page-item '+nextDisabled+'" data-page="'+(pm.endPage+1)+'"><a class="page-link " href="javascript:;" >다음</a></li>'+
+		  '</ul>';
+		//next출력
+		return str;
+		
 	}
 	</script>
 </body>

@@ -19,24 +19,25 @@ let commentService = (function(){
 	        }
 		});
 	}
-	function ajaxGetJson(url, success){
+	function ajaxGet(url, success){
 		$.ajax({
-	    	async : false,
+	        async:false,
 	        type:'GET',
-	        url:this.contextPath+url,
-	        dataType : "json",
+	        url:contextPath + url,
+	        dataType:"json",
 	        success : function(res){
-				success(res);
+	            success(res);
 	        }
-		});
+	    });
 	}
+	
 	
 	return{
 		name : 'CommentService',
 		contextPath : '',
 		setContextPath : setContextPath,
 		insert : ajaxPost,
-		list : ajaxGetJson,
+		list : ajaxGet,
 	}
 	
 })();

@@ -26,6 +26,17 @@
 	WHERE
 		co_bd_num = #{bd_num}
 	AND
+		co_del='N'
+	ORDER BY
+		co_ori_num DESC,
+		co_num ASC
+	LIMIT #{cri.pageStart}, #{cri.perPageNum};
+	</select>
+	<select id="selectTotalCnt" resultType="int">
+	SELECT COUNT(*) FROM comment
+	WHERE
+		co_bd_num = #{bd_num}
+	AND
 		co_del='N';
 	</select>
 </mapper>

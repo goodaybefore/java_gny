@@ -1,6 +1,5 @@
 package kr.green.green.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.green.green.pagination.Criteria;
+import kr.green.green.pagination.PageMaker;
 import kr.green.green.service.CommentService;
 import kr.green.green.vo.CommentVO;
 import kr.green.green.vo.MemberVO;
@@ -34,10 +35,25 @@ public class CommentController {
 	//comment list
 	@RequestMapping(value = "/comment/list", method=RequestMethod.GET)
 	public Map<String, Object> commentList(Integer page, Integer bd_num){
+		
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<CommentVO> list = commentService.selectCommentList(bd_num);
 		
+		//Page Maker:전체 컨텐츠 개수(DB)
+		//			 페이지네이션에서 보여지는 페이지 숫자 최대 개수(displayPageNum)(개발자가 설정)
+		//			 현재 페이지 정보(현재 페이지, 한페이지에서 보여지는 컨텐츠 최대 개수)
+		int totalCnt = commentService.selectTotalCnt(bd_num); // db에서 가져올 예정
+		int displayPageNum = 2;
+		Criteria cri = new Criteria(page, 3);//1페이지, 한 페이지에 3개씩
+		
+		List<CommentVO> list = commentService.selectCommentList(bd_num, cri);
+		PageMaker pm = new PageMaker(totalCnt, displayPageNum, cri);
+		
+		
+		System.out.println("pm : "+pm);
+		
+		map.put("pm", pm);
 		map.put("list", list);
 //		return commentService.selectAllComment(co_bd_num);
 		return map;
