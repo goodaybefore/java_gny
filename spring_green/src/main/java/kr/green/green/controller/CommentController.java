@@ -36,9 +36,7 @@ public class CommentController {
 	@RequestMapping(value = "/comment/list", method=RequestMethod.GET)
 	public Map<String, Object> commentList(Integer page, Integer bd_num){
 		
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		
 		//Page Maker:전체 컨텐츠 개수(DB)
 		//			 페이지네이션에서 보여지는 페이지 숫자 최대 개수(displayPageNum)(개발자가 설정)
@@ -51,11 +49,21 @@ public class CommentController {
 		PageMaker pm = new PageMaker(totalCnt, displayPageNum, cri);
 		
 		
-		System.out.println("pm : "+pm);
+		//System.out.println("pm : "+pm);
 		
 		map.put("pm", pm);
 		map.put("list", list);
 //		return commentService.selectAllComment(co_bd_num);
 		return map;
+	}
+	
+	//댓글 삭제
+	@RequestMapping(value = "/comment/delete", method=RequestMethod.GET)
+	public boolean commentDelete(Integer co_num, HttpServletRequest request){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		System.out.println("user : "+user);
+		System.out.println("co_num : "+co_num);
+		
+		return commentService.deleteComment(user, co_num);
 	}
 }

@@ -39,4 +39,15 @@
 	AND
 		co_del='N';
 	</select>
+	<select id="selectComment" resultType="kr.green.green.vo.CommentVO">
+	SELECT * FROM comment
+	WHERE co_num = #{co_num} and co_del='N';
+	</select>
+	<update id="deleteComment">
+	UPDATE comment
+	SET
+		co_del = 'Y'
+	WHERE
+		co_num = #{co_num};
+	</update>
 </mapper>

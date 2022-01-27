@@ -120,33 +120,55 @@
 		
 		//pagination의 번호를 클릭했을때의 댓글 새로고침
 		$(document).on('click', '.comment-pagination .page-item', function(){
-			console.log("hi");
-			var page = $(this).data('page');
+			var page = $(this).data('page');//클릭하면 여기까진 정삭적으로 들어오는것같습니다
 			//댓글 새로고침
 			var listUrl = '/comment/list?page='+page+'&bd_num='+'${board.bd_num}';
-			//commentService.list(listUrl, listSuccess);
-			
+			commentService.list(listUrl, listSuccess);
 		});
 		
+		//화면 로딩 준비가 끝나면 댓글 1페이지 출력
 		var listUrl = '/comment/list?page=1&bd_num='+'${board.bd_num}';
 		commentService.list(listUrl, listSuccess);
 		
+		//댓글 삭제
+		$(document).on('click', '.btn-del-comment', function(){
+			var co_num = $(this).data('num');
+			//var co_num = $(this).attr('data-num'); //랑 같음
+			console.log(co_num);
+			var deleteUrl = '/comment/delete?co_num='+co_num;
+			commentService.delete(deleteUrl, deleteSuccess);
+		});
 		
 	});
 	
-	//리스트 불러오는 함수
+	
+	
+	
+	// ================= 함수리스트 =================
+	//댓글 리스트 불러오기 성공시 불러올 함수
 	function listSuccess(res){
 		var str ='';
 		var co_me_id ='${user.me_id}';
+		
+		//댓글이 없으면 페이지네이션의 이전/다음을 지워줌... 이라는데 난왜 보이는거지?ㅠ
+		if(res.list.length == 0){
+			$('.comment-list').html('');
+			$('.comment-pagination').html('');
+		}
+		
         for(tmp of res.list){//res는 Map이라서 여러개가 들어가있음. 그중에서  list를 가져오겠다는 뜻...
         	str += createComment(tmp, co_me_id);
         }
+        
+        //댓글리스트 불러오기
         $('.comment-list').html(str);
+        
+        //페이지네이션리스트 불러오기
         var paginationStr = creatPagination(res.pm);
         $('.comment-pagination').html(paginationStr);
 	}
 	
-	//댓글 등록하기 함수
+	//댓글 등록 성공시 실행될 함수
 	function insertSuccess(res){
 		if(res){
 			$('.text-comment').val('');//기존에 입력한 댓글을 지워줌
@@ -157,6 +179,22 @@
 			alert('댓글 등록에 실패하였습니다');
 		}
 	}
+	
+	//댓글 삭제 성공시 실행될 함수
+	function deleteSuccess(res){
+		if(res){
+			console.log('댓글 삭제 완료');
+			var listUrl = '/comment/list?page=1&bd_num='+'${board.bd_num}';
+			commentService.list(listUrl, listSuccess);
+		}else{
+			alert('댓글 삭제 실패');
+		}
+	}
+	
+	
+	
+	
+	
 	
 	function getDateStr(date){
 		var year = date.getFullYear();
@@ -185,8 +223,8 @@
 		}
 		
 		if(comment.co_me_id == me_id){
-		str += 		'<button class="btn btn-warning btn-mod-comment mr-2">수정</button>'
-		str += 		'<button class="btn btn-danger btn-del-comment mr-2">삭제</button>'
+		str += 		'<button class="btn btn-warning btn-mod-comment mr-2" data-num="'+comment.co_num+'">수정</button>'
+		str += 		'<button class="btn btn-danger btn-del-comment mr-2" data-num="'+comment.co_num+'">삭제</button>'
 		}
 		
 		str += 	'</div>'
@@ -208,7 +246,7 @@
 		    '<li class="page-item '+prevDisabled+'" data-page="'+(pm.startPage-1)+'"><a class="page-link " href="javascript:; ">이전</a></li>';
 		for(i = pm.startPage; i<=pm.endPage;i++){
 			var currentActive = page == i ? 'active' : '';
-			str += '<li class="page-item '+currentActive+'" data-page="'+i+'"><a class="page-link " href="javascript:;">'+i+'</a></li>';
+			str += '<li class="page-item '+currentActive+'" data-page='+i+'><a class="page-link " href="javascript:;">'+i+'</a></li>';
 		}
 		    
 		    str += '<li class="page-item '+nextDisabled+'" data-page="'+(pm.endPage+1)+'"><a class="page-link " href="javascript:;" >다음</a></li>'+
