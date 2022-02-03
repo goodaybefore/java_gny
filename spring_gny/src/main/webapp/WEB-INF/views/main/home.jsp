@@ -12,10 +12,23 @@
 <body>
 	<div class="body">
 		<h1>Main Page</h1>
-		
+		<input type="text" id="input">
+		<button id="btn">확인</button>
 	</div>
 	
 	<script>
+	
+	var idRegex = /^[A-z]\w{4,7}$/g;
+	//g나 gi 씀
+	//gi => 대소문자 구분안함
+	$('#btn').click(function(){
+		var id = $('#input').val();
+		if(idRegex.test(id)){
+			alert('정규표현식에 맞음')
+		}else{
+			alert('정규표현식에 맞지 않음')
+		}
+	})
 	$(function(){
 		$.ajax({
 			/*{속성명 : 값, 속성명 : 값}*/
