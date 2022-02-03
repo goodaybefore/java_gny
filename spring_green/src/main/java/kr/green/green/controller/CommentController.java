@@ -28,6 +28,7 @@ public class CommentController {
 	@RequestMapping(value = "/comment/insert", method=RequestMethod.POST)
 	public boolean commentInsert(@RequestBody CommentVO comment, HttpServletRequest request){
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		System.out.println("comment : "+comment);
 		
 		return commentService.insertComment(comment, user);
 	}
@@ -66,4 +67,14 @@ public class CommentController {
 		
 		return commentService.deleteComment(user, co_num);
 	}
+	
+	//댓글 수정
+	@RequestMapping(value = "/comment/modify", method=RequestMethod.POST)
+	public boolean commentModify(@RequestBody CommentVO comment, HttpServletRequest request){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		
+		return commentService.modifyComment(user, comment);
+	}
+	
+
 }

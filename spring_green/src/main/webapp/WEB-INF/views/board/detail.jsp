@@ -145,22 +145,15 @@
 		//댓글 수정
 		$(document).on('click', '.btn-mod-comment', function(){
 			//댓글 초기화
-			$('.mod-before').each(function(){
-				$(this).parents().children('button').show();
-				$(this).siblings('.co_contents').show();
-				$(this).siblings('.btn-mod-after').remove();
-				$(this).siblings('.mod-before').remove();
-				$(this).remove();
-			})
+			commentInit();
 			//댓글번호
 			var co_num = $(this).data('num');
 			//댓글내용
 			var modBefore = $(this).siblings('.co_contents').text();
-			var modAfterLetters = '새댓글 ㅎ';
 			//끼워넣을 textarea
-			var str = '<div class="form-group mod-before mt-2"><textarea class="form-control">'+modBefore+'</textarea></div>';
+			var str = '<div class="form-group mod-textarea mt-2"><textarea class="form-control co_contents" name="co_contents">'+modBefore+'</textarea></div>';
 			//등록버튼
-			var modBtnStr = '<button type="submit" class="btn btn-outline-success btn-mod-after">수정등록</button>'
+			var modBtnStr = '<button type="submit" class="btn btn-outline-success btn-mod-after" data-num="'+co_num+'">수정등록</button>'
 			
 			$(this).siblings('.co_me_id').after(str);
 			$(this).siblings('.co_contents').hide();
@@ -172,6 +165,73 @@
 			//console.log("test : "+test);
 			
 		})
+		
+		$(document).on('click', '.btn-mod-after', function(){
+			//co_num을 받아옴
+			var co_num = $(this).data('num');
+			var co_contents=$(this).siblings('.mod-textarea').children('.co_contents').val();
+			var co_bd_num = '${board.bd_num}';
+			var co_me_id = '${user.me_id}';
+			
+			var modUrl = '/comment/modify';
+			var comment = {
+					co_num : co_num,
+					co_contents : co_contents,
+					co_bd_num : co_bd_num,
+					co_me_id : co_me_id
+			};
+			
+			commentService.modify(modUrl, comment, modifySuccess);
+			
+		});
+		
+		
+		//댓글창의 답글 버튼 클릭
+		$(document).on('click', '.btn-rep-comment', function(){
+			commentInit();
+			var str = '';
+			var buttonStr = '';
+			var co_num = $(this).data('num');
+			console.log(co_num)
+			
+			$(this).parent().children('button').hide();
+			$(this).parent().append(str);
+			$(this).parent().append(buttonStr);
+			
+			
+			/* commentInit()에 $(this).siblings('.rep-box').remove(); 한줄 추가해서 이건 없어도됨 
+			$('.rep-comment').each(function(){
+				$(this).siblings('.rep-box').remove();
+				$(this).remove();
+			})
+			*/
+			
+			str += 
+				'<div class="input-group mb-3 mt-3 rep-box">'+
+					'<textarea class="form-control rep-comment" rows="3" placeholder="Comment"></textarea>'+
+					'<div class="input-group-append">'+
+						'<button class="btn btn-success btn-rep-confirm" data-orinum='+co_num+'>답글등록</button>'+
+					'</div>'+
+				'</div>';
+			//console.log("co_num : "+$(this).data('num'));
+			$(this).parents('.comment-box').after(str);
+		})
+		
+		//답글 등록 버튼 클릭
+		$(document).on('click', '.btn-rep-confirm', function(){
+			var co_contents= $(this).parent().siblings('.rep-comment').val();
+			var co_ori_num = $(this).data('orinum');
+			var co_bd_num = '${board.bd_num}';
+
+			var comment ={
+				co_contents : co_contents,
+				co_ori_num : co_ori_num,
+				co_bd_num : co_bd_num
+			};
+			
+			commentService.insert('/comment/insert', comment, insertSuccess);
+		})
+		
 		
 	});
 	
@@ -225,7 +285,21 @@
 		}
 	}
 	
-	
+	//댓글 수정 성공시 실행될 함수
+	function modifySuccess(res){
+		if(res){
+			
+			//~강사님 추가~
+			//수정후 댓글 pagination유지
+			var page = $('.comment-pagination .active').data('page');
+			//~강사님추가끝
+			var listUrl = '/comment/list?page='+page+'&bd_num='+'${board.bd_num}';
+			commentService.list(listUrl, listSuccess);
+			console.log("수정 완료");
+		}else{
+			console.log("수정 실패");
+		}
+	}
 	
 	
 	
@@ -236,6 +310,17 @@
 					date.getDate() + " "+
 					date.getHours()+ " : "+
 					date.getMinutes();
+	}
+	
+	function commentInit(){
+		$('.comment-box').each(function(){
+			$(this).find('.mod-textarea').remove();
+			$(this).find('.btn-mod-after').remove();
+			$(this).siblings('.rep-box').remove();
+			$(this).find('button').show();
+			$(this).find('.co_contents').show();
+			
+		});
 	}
 	
 	function createComment(comment, me_id){
@@ -255,7 +340,7 @@
 		str += 		'<div class="co_reg_date" style="font-size:11px; color:grey;">'+co_reg_date+'</div>'
 		
 		if(comment.co_ori_num == comment.co_num){
-		str += 		'<button class="btn btn-success btn-rep-comment mr-2">답글</button>'	
+		str += 		'<button class="btn btn-success btn-rep-comment mr-2" data-num="'+comment.co_num+'">답글</button>'	
 		}
 		
 		if(comment.co_me_id == me_id){

@@ -9,13 +9,24 @@
 		co_me_id,
 		co_contents,
 		co_ori_num)
-	SELECT
-		#{comment.co_bd_num},
-		#{comment.co_me_id},
-		#{comment.co_contents},
-		ifnull(max(co_num), 0)+1
-	FROM comment
+	<if test="comment.co_ori_num == 0">
+		SELECT
+			#{comment.co_bd_num},
+			#{comment.co_me_id},
+			#{comment.co_contents},
+			ifnull(max(co_num), 0)+1
+		FROM comment
+	</if>
+	<if test="comment.co_ori_num != 0">
+		VALUES(
+			#{comment.co_bd_num},
+			#{comment.co_me_id},
+			#{comment.co_contents},
+			#{comment.co_ori_num}
+		);
+	</if>
 	</insert>
+	
 	<select id="selectAllComment" resultType="kr.green.green.vo.CommentVO">
 	SELECT * FROM comment
 	WHERE
@@ -49,5 +60,12 @@
 		co_del = 'Y'
 	WHERE
 		co_num = #{co_num};
+	</update>
+	<update id="updateComment">
+	UPDATE comment
+	SET
+		co_contents=#{comment.co_contents}
+	WHERE
+		co_num = #{comment.co_num};
 	</update>
 </mapper>

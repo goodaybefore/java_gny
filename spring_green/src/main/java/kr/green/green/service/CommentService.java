@@ -18,4 +18,6 @@ public interface CommentService {
 
 	boolean deleteComment(MemberVO user, Integer co_num);
 
+	boolean modifyComment(MemberVO user, CommentVO comment);
+
 }

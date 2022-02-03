@@ -21,4 +21,6 @@ public interface CommentDAO {
 
 	void deleteComment(@Param("co_num")Integer co_num);
 
+	void updateComment(@Param("comment")CommentVO comment);
+
 }
