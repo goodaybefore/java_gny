@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -93,24 +94,57 @@ public class HomeController {
 	}
 	
 	//logout
-		@RequestMapping(value = "/logout", method = RequestMethod.GET)
-		public ModelAndView logoutGet(ModelAndView mv, HttpServletRequest request) {
-			//System.out.println("/logout");
-			//세션에 있는 유저 정보를 삭제
-			request.getSession().removeAttribute("user");
-			mv.setViewName("redirect:/");
-			return mv;
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logoutGet(ModelAndView mv, HttpServletRequest request) {
+		//System.out.println("/logout");
+		//세션에 있는 유저 정보를 삭제
+		request.getSession().removeAttribute("user");
+		mv.setViewName("redirect:/");
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value ="/idcheck")
+	public String ajaxTest1(String id){//String xxx <- ajax의 data이름과 맞추면됨
+		if(!memberService.idDuplicated(id))
+			return "ok";
+		else
+			return "no";
+	}
+	
+	//마이페이지
+	//GET이 특별히 하는게 없는 경우, Get과 Post를 함께 써주기도 함.
+	@RequestMapping(value = "/mypage")
+	public ModelAndView mypageGet(ModelAndView mv, HttpServletRequest request, MemberVO input) {
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		MemberVO modUser = memberService.updateMember(input, user);
+		//회원정보를 수정했다면
+		if(modUser != null) {
+			//Session Update
+			//안해주면 회원정보 재확인 할 때 logout했다가 다시 login해서 확인해야함
+			request.getSession().setAttribute("user", modUser);
 		}
+		mv.setViewName("/member/mypage");
+		return mv;
+	}
+	
+	
+	//아이디,비밀번호 찾기
+	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	public ModelAndView memberFind(ModelAndView mv) {
 		
-		@ResponseBody
-		@RequestMapping(value ="/idcheck")
-		public String ajaxTest1(String id){//String xxx <- ajax의 data이름과 맞추면됨
-			if(!memberService.idDuplicated(id))
-				return "ok";
-			else
-				return "no";
-		}
+		mv.setViewName("/member/find");
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/find/id", method = RequestMethod.POST)
+	public String memberFindId(@RequestBody MemberVO member) {
 		
+		
+		return memberService.findId(member);
+	}
+	
 }
 
 

@@ -68,9 +68,11 @@
 	    
 	    <interceptor>
 	    <!-- 요거 실행시 동작하게 할것  -->
+	    <!-- member만 접근할 수 있는 페이지 -->
 	        <mapping path="/board/register"/>
 	        <mapping path="/board/modify"/>
 	        <mapping path="/board/delete"/>
+	        <mapping path="/mypage"/>
 	        <beans:ref bean="memberInterceptor"/>
 	    </interceptor>
 	    

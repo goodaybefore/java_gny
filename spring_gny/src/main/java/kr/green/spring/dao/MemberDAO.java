@@ -10,4 +10,7 @@ public interface MemberDAO {
 	//회원가입
 	//검색같은거 딱히 안하니가 리턴타입이 void
 	void insertMember(@Param("user")MemberVO user);
+	//회원정보수정(/mypage)
+	void updateMember(@Param("user")MemberVO user);
+	MemberVO findMember(@Param("user")MemberVO member);
 }

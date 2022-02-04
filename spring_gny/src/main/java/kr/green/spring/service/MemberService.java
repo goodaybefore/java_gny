@@ -10,4 +10,10 @@ public interface MemberService {
 	boolean signUp(MemberVO user);
 	boolean idDuplicated(String id);
 	
+	//회원정보수정(/mypage)
+	MemberVO updateMember(MemberVO input, MemberVO user);
+	
+	//회원정보 찾기
+	String findId(MemberVO member);
+	
 }
