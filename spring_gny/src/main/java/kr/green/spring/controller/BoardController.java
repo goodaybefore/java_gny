@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,7 @@ import kr.green.spring.pagination.PageMaker;
 import kr.green.spring.service.BoardService;
 import kr.green.spring.vo.BoardVO;
 import kr.green.spring.vo.FileVO;
+import kr.green.spring.vo.LikesVO;
 import kr.green.spring.vo.MemberVO;
 
 //게시글 url을 담당하는 커느롤러. /board/xxx을 담당
@@ -177,9 +179,6 @@ public class BoardController {
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
 	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board,
 			List<MultipartFile> files2, Integer [] fileNums) {
-		//기존 첨부파일 번호인 fileNums확인	
-		System.out.println("modify Post");
-		System.out.println("fileNums" + fileNums);//번호이렇게 넘어오게하면 안뜨나요?
 		if(fileNums != null) {
 			for(Integer tmp : fileNums)
 				System.out.println(tmp);
@@ -225,5 +224,24 @@ public class BoardController {
 	    return entity;
 	}
 	
+	//좋아요 누르기
+	@ResponseBody//그냥 controller에 ajax를 이용하는 경우 추가해줘야함
+	@RequestMapping(value ="/likes")
+	//매개변수 안에 @RequestBody를 붙이는 이유? 
+	public String boardLikes(@RequestBody LikesVO likes, HttpServletRequest request){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		
+		return boardService.likes(likes, user);
+	}
+	
+	//좋아요 표시
+	@ResponseBody//그냥 controller에 ajax를 이용하는 경우 추가해줘야함
+	@RequestMapping(value ="/view/likes")
+	//매개변수 안에 @RequestBody를 붙이는 이유? 
+	public String boardViewLikes(@RequestBody LikesVO likes, HttpServletRequest request){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		
+		return boardService.viewLikes(likes, user);
+	}
 	
 }

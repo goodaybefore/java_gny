@@ -181,7 +181,7 @@
 			}
 		}).open();
 		}
-		
+	
 	//validate : submit 되기전에 check한다는 뜻 : true면 전송, false면 전송아님
 	$("form").validate({
 	    rules: {

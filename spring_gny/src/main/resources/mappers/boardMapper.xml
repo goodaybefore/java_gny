@@ -69,4 +69,41 @@
 			bd_views = bd_views+1
 		WHERE bd_num = #{bd_num};
 	</update>
+	<select id="selectLikes" resultType="kr.green.spring.vo.LikesVO">
+	SELECT * FROM likes
+	WHERE
+		li_bd_num = #{likes.li_bd_num}
+	AND
+		li_me_id = #{likes.li_me_id};
+		
+	</select>
+	<insert id="insertLikes">
+	INSERT INTO likes
+		(li_bd_num, li_me_id, li_state)
+	VALUES
+		(#{likes.li_bd_num}, #{likes.li_me_id}, #{likes.li_state})
+	</insert>
+	
+	<update id="updateBoardLikes">
+	UPDATE board
+	SET
+		bd_up = 
+			(SELECT COUNT(*) FROM likes WHERE li_bd_num = #{likes.li_bd_num} AND li_state = 1),
+		bd_down =
+			(SELECT COUNT(*) FROM likes WHERE li_bd_num = #{likes.li_bd_num} AND li_state = -1) 
+	WHERE
+		bd_num = #{likes.li_bd_num};
+	
+	</update>
+	
+	<update id="updateLikes">
+	UPDATE likes
+	SET
+		li_state = #{likes.li_state}
+	WHERE
+		li_bd_num = #{likes.li_bd_num}
+	AND
+		li_me_id = #{likes.li_me_id}
+		
+	</update>
 </mapper>

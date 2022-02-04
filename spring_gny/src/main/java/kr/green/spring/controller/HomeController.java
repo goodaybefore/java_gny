@@ -47,7 +47,7 @@ public class HomeController {
 	//login
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(ModelAndView mv) {
-		System.out.println("/login:get");
+		//System.out.println("/login:get");
 		mv.setViewName("/member/login");
 		return mv;
 	}
@@ -55,9 +55,9 @@ public class HomeController {
 	//login
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView loginPost(ModelAndView mv, MemberVO user) {
-		System.out.println("/login:post :" + user);
+		//System.out.println("/login:post :" + user);
 		MemberVO loginUser = memberService.login(user);
-		System.out.println("loginUser : "+loginUser);
+		//System.out.println("loginUser : "+loginUser);
 		
 		if(loginUser == null) {
 			mv.setViewName("redirect:/login");
@@ -73,7 +73,7 @@ public class HomeController {
 	//signup
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public ModelAndView signupGet(ModelAndView mv,  MemberVO user) {
-		System.out.println("/signup");
+		//System.out.println("/signup");
 		mv.setViewName("/member/signup");
 //		mv.addObject("user", user);//이거그대로 놔두면 signup눌러도 login한거처럼 header가 출력됨
 		return mv;
@@ -84,8 +84,6 @@ public class HomeController {
 		//name에 일치하는 변수가 있으면 setter가 호출됨
 		//MemberVo user = new MemberVO();
 		//
-		System.out.println("/signup:POST");
-		System.out.println("회원가입으로 받은 정보 : "+user);
 		if(memberService.signUp(user)) {
 			mv.setViewName("redirect:/");
 		}else {//회원가입에 실패하면 signUp으로 재등장
@@ -97,7 +95,7 @@ public class HomeController {
 	//logout
 		@RequestMapping(value = "/logout", method = RequestMethod.GET)
 		public ModelAndView logoutGet(ModelAndView mv, HttpServletRequest request) {
-			System.out.println("/logout");
+			//System.out.println("/logout");
 			//세션에 있는 유저 정보를 삭제
 			request.getSession().removeAttribute("user");
 			mv.setViewName("redirect:/");

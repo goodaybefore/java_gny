@@ -47,6 +47,11 @@
 					<button class="btn btn-outline-danger">삭제</button>
 				</a>
 			</c:if>
+			<!-- 추천 비추천 -->
+			<div class="justify-content-center likes-btn-box" style="display : flex;">
+				<button class="btn btn-outline-primary btn-up" data-state="1">추천</button>
+				<button class="btn btn-outline-primary btn-down ml-2" data-state="-1">비추천</button>
+			</div>
 			<!-- 공지에 답변 안들어가도록 수정 -->
 			<c:if test="${board.bd_type!='공지' && user != null && board.bd_ori_num == board.bd_num }">
 				<a href="<%= request.getContextPath()%>/board/register?bd_ori_num=${board.bd_num}">
@@ -57,6 +62,8 @@
 		<c:if test="${board == null}">
 			<h1>없는게시글이거나 삭제된 게시글입니다</h1>
 		</c:if>
+		
+		
 		<hr class="mt-3">
 		<div class="comment-list mt-3">
 			
@@ -288,13 +295,61 @@
 						alert("답글 달기에 실패했습니다.")
 					}
 			});
+			
 		});
+		
+		
+		
+		
+		
+		$('.btn-up, .btn-down').click(function(){
+			var li_state = $(this).data('state');
+			var li_bd_num = '${board.bd_num}';
+			var li_me_id = '${user.me_id}';
+			
+			var likes = {
+					li_state: li_state,
+					li_bd_num : li_bd_num,
+					li_me_id : li_me_id
+			}
+			console.log(likes);
+			
+			if(li_me_id == '') {
+				alert('로그인한 회원만 추천/비추천이 가능합니다');
+				return;
+			}
+			$.ajax({
+				async :false, 
+			    type:'POST',
+			    data:JSON.stringify(likes),
+			    url: '<%=request.getContextPath()%>/board/likes',
+			    dataType : "json",
+			    contentType:"application/json; charset=UTF-8",
+			    success : function(res){
+			    	if(res == 1){
+			    		alert('추천했습니다');
+			    	}else if(res == -1){
+			    		alert('비추천했습니다')
+			    	}else if(res != 'fail'){
+			    		var str = li_state == 1 ? '추천' : '비추천';
+			    		alert(str+'을 취소했습니다')
+			    		
+			    	}
+			    	viewLikes(likes);
+				}
+			});
+		});
+		
 		
 		
 		//화면 로딩 후 댓글과 댓글 페이지네이션 배치
 		var co_bd_num = '${board.bd_num}';
 		readComment(co_bd_num, 1);
 		
+		viewLikes({
+			li_bd_num : '${board.bd_num}',
+			li_me_id : '${user.me_id}'
+		});
 		
 		
 		
@@ -388,7 +443,27 @@
 			return str;
 				
 		}
-
+		
+		function viewLikes(likes){
+			
+			$.ajax({
+				async :false, 
+			    type:'POST',
+			    data:JSON.stringify(likes),
+			    url: '<%=request.getContextPath()%>/board/view/likes',
+			    dataType : "json",
+			    contentType:"application/json; charset=UTF-8",
+			    success : function(res){
+			    	$('.likes-btn-box .btn').removeClass('btn-primary').addClass('btn-outline-primary');
+			    	$('.likes-btn-box .btn').each(function(){
+			    		if($(this).data('state') == res){
+			    			$(this).removeClass('btn-outline-primary').addClass('btn-primary');
+			    		}
+			    	})
+				}
+			});
+			
+		}
 		//
 		/*function commentService(){
 			var commentSerivce={

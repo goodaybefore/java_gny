@@ -33,6 +33,7 @@
 			        <th>작성자</th>
 			        <th>작성날짜</th>
 			        <th>조회수</th>
+			        <th>추천/비추천</th>
 				</tr>
 		    </thead>
 			<tbody>
@@ -54,6 +55,7 @@
 			        <!-- 이런 bd_reg_date_str이라는 이름의 메소드를 찾음 -->
 			        <td>${board.bd_reg_date_str}</td>
 			        <td>${board.bd_views}</td>
+			        <td>${board.bd_up}/${board.bd_down}</td>
 			      </tr>
 				</c:forEach>
 			</tbody>
