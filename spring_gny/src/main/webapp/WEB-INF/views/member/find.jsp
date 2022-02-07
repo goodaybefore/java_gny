@@ -101,8 +101,10 @@
 		    success : function(res){
 		    	if(res == 'true') {
 		    		alert("새 비밀번호가 발급되었습니다. 이메일에서 확인하세요");
-		    	}else {
+		    	}else if(res == 'false') {
 		    		alert('입력한 정보가 잘못되었습니다.')
+		    	}else if(res == 'error'){
+		    		alert('메일 전송에 실패하였습니다. 관리자에게 문의하세요.')
 		    	}
 		    	
 			}
