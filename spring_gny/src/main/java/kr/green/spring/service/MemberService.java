@@ -15,5 +15,6 @@ public interface MemberService {
 	
 	//회원정보 찾기
 	String findId(MemberVO member);
+	String findPW(MemberVO member);
 	
 }

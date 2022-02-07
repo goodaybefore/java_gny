@@ -137,12 +137,22 @@ public class HomeController {
 		return mv;
 	}
 	
+	//아이디찾기
 	@ResponseBody
 	@RequestMapping(value = "/find/id", method = RequestMethod.POST)
 	public String memberFindId(@RequestBody MemberVO member) {
-		
-		
 		return memberService.findId(member);
+	}
+	
+	//비밀번호찾기
+	@ResponseBody
+	@RequestMapping(value = "/find/pw", method = RequestMethod.POST)
+	public String memberFindPw(@RequestBody MemberVO member) {
+		//임시 비번 생성
+		//생성된 임시 비번을 DB에 저장
+		//이메일로 새 비번 전송
+		//=>이걸 ServiceImp에 구현
+		return memberService.findPW(member);
 	}
 	
 }

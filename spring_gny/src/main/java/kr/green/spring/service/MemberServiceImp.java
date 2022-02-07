@@ -1,8 +1,13 @@
 package kr.green.spring.service;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import kr.green.spring.dao.MemberDAO;
 import kr.green.spring.vo.MemberVO;
 
@@ -14,6 +19,9 @@ public class MemberServiceImp implements MemberService{
 	//암호화를 위한 객체
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Override
 	public MemberVO login(MemberVO member) {
@@ -93,6 +101,76 @@ public class MemberServiceImp implements MemberService{
 		if(user == null) return "";
 		return user.getMe_id();
 		
+	}
+
+	@Override
+	public String findPW(MemberVO member) {
+		//예외처리
+		if(member == null) return "false";
+		//회원정보 가져옴
+		MemberVO user = memberDao.getMember(member.getMe_id());
+		//회원정보 없으면 종료
+		if(user == null || !user.getMe_email().equals(member.getMe_email())) {
+			System.out.println("user.getMe_email() : "+user.getMe_email());
+			System.out.println("member.getMe_email() : "+member.getMe_email());
+			return "false";
+		}
+		
+		//임시 비번 생성 - n자리의 숫자만큼의 랜덤한 비밀번호를 생성해주겠다
+		String newPw = createRandomPw(6);
+		String encPw = passwordEncoder.encode(newPw);
+		//생성된 임시 비번을 DB에 저장
+		user.setMe_pw(encPw);
+		memberDao.updateMember(user);
+		
+		//이메일로 새 비번 전송(암호화되지않은 비번 전송)
+		String setfrom = "stajun@naver.com";         
+	    String tomail  = member.getMe_email();     // 받는 사람 이메일
+	    String title   = "새 비밀번호";      // 제목
+	    String content = "새 비밀번호는 "+newPw+ "입니다.";    // 내용
+
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper 
+	            = new MimeMessageHelper(message, true, "UTF-8");
+
+	        messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	        messageHelper.setTo(tomail);     // 받는사람 이메일
+	        messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	        messageHelper.setText(content);  // 메일 내용
+
+	        mailSender.send(message);
+	    } catch(Exception e){
+	        System.out.println(e);
+	    }
+		
+		return "true";
+	}
+
+	private String createRandomPw(int maxSize) {
+		String newPw = "";
+		//maxSize 개수로 이루어진 비번을, 영어와 숫자로 이루어짐
+		//a~z, A~Z, 0~9 : 62개
+		//0~61사이의 랜덤한 수를 maxsize개수만큼 생성
+		for(int i=0;i<maxSize;i++) {
+			int max = 61, min = 0;
+			int rand = (int)(Math.random()*(max-min+1)+min);
+			//int rand = (int)(Math.random()*62);
+			
+			//랜덤 수가 0~9이면 문자 0~9
+			if(rand>=0 && rand<=9) {
+				newPw += (char)('0' + rand);
+			}else if(rand <= 35) {
+				newPw += (char)('a'+(rand - 10));
+			}else if(rand <= 61) {
+				newPw += (char)('A'+(rand - 36));
+			}
+		}
+		
+		
+		//랜덤 수가 10~35이면 문자 a~z
+		//랜덤 수가 36~61이면 문자 A~Z
+		return newPw;
 	}
 	
 }

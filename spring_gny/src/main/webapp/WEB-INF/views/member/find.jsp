@@ -85,8 +85,28 @@
 	});
 	
 	$('.btn-find-pw').click(function(){
-		var me_email;
-		var me_id;
+		var me_email = $(this).parents('li').find('[name=me_email]').val();;
+		var me_id =  $(this).parents('li').find('[name=me_id]').val();;
+		var member = {
+				me_email : me_email,
+				me_id : me_id
+		};
+		
+		$.ajax({
+			async :false, 
+		    type:'POST',
+		    data:JSON.stringify(member),
+		    url: '<%= request.getContextPath()%>/find/pw',
+		    contentType:"application/json; charset=UTF-8",
+		    success : function(res){
+		    	if(res == 'true') {
+		    		alert("새 비밀번호가 발급되었습니다. 이메일에서 확인하세요");
+		    	}else {
+		    		alert('입력한 정보가 잘못되었습니다.')
+		    	}
+		    	
+			}
+		});
 	})
 	$('.find .nav-tabs a').first().click();
 	</script>
