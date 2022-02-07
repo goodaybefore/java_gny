@@ -1,6 +1,10 @@
 package kr.green.spring.controller;
 
+import java.util.Date;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import kr.green.spring.service.MemberService;
 import kr.green.spring.vo.MemberVO;
@@ -63,6 +68,11 @@ public class HomeController {
 		if(loginUser == null) {
 			mv.setViewName("redirect:/login");
 		}else {
+			//loginUser는 DB에서 아이디 비번과 일치하는 회원 정보를 가져온 것이기 때문에
+			//login화면에서 선택한 자동 로그인 체크 유무를 알 수 없다. but user는 알고있다.
+			//화면에서 전달한 user에 있는 자동로그인체크유무를 loginUser에 설정한다.
+			loginUser.setMe_auto_login(user.getMe_auto_login());
+			
 			mv.addObject("user", loginUser);
 			mv.setViewName("redirect:/");
 		}
@@ -95,10 +105,30 @@ public class HomeController {
 	
 	//logout
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ModelAndView logoutGet(ModelAndView mv, HttpServletRequest request) {
-		//System.out.println("/logout");
-		//세션에 있는 유저 정보를 삭제
-		request.getSession().removeAttribute("user");
+	public ModelAndView logoutGet(ModelAndView mv, HttpServletRequest request,
+			HttpServletResponse response) {
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		if(user != null) {
+			//세션에 있는 유저 정보를 삭제
+			request.getSession().removeAttribute("user");
+			
+			// + 로그인 유지를 해제
+			//request 요청정보에 있는 쿠키들 중에서  loginCookie를 가져옴
+			Cookie cookie = WebUtils.getCookie(request, "loginCookie");
+			//loginCookie정보가 있으면 (= 자동 로그인상태에서 로그아웃 하는 경우)
+			if(cookie != null) {
+				//쿠키 해제해주기
+				cookie.setMaxAge(0);
+				//
+				//자동 로그인 해제를 위해 세션 아이디에 none을 저장하고 만료시간을 현재시간으로 설정
+				user.setMe_session_id("none");
+				user.setMe_session_limit(new Date());
+				memberService.updateAutoLogin(user);
+				
+			}
+			
+		}
+		
 		mv.setViewName("redirect:/");
 		return mv;
 	}
@@ -154,6 +184,7 @@ public class HomeController {
 		//=>이걸 ServiceImp에 구현
 		return memberService.findPW(member);
 	}
+	
 	
 }
 

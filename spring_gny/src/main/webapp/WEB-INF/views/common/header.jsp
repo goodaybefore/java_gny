@@ -40,6 +40,11 @@
 		  <li class="nav-item">
 		      <a class="nav-link" href="<%= request.getContextPath()%>/board/list">board</a>
 		  </li>
+		  <c:if test="${user.me_authority == '슈퍼 관리자'}">>
+		   <li class="nav-item">
+		      <a class="nav-link" href="<%= request.getContextPath()%>/admin/member/list">user manage</a>
+		  </li>
+		  </c:if>
 		    
 	  </ul>
 	</nav>

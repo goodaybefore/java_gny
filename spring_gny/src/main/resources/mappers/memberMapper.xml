@@ -23,7 +23,8 @@
 		me_birth = #{user.me_birth},
 		me_gender = #{user.me_gender},
 		me_address = #{user.me_address},
-		me_phone = #{user.me_phone}
+		me_phone = #{user.me_phone},
+		me_authority = #{user.me_authority}
 	WHERE
 		me_id = #{user.me_id};
 	</update>
@@ -34,5 +35,39 @@
 	AND
 		me_name=#{user.me_name}
 	LIMIT 1;
+	</select>
+	<select id="selectMemberList" resultType="kr.green.spring.vo.MemberVO">
+	SELECT * FROM member
+	WHERE
+		me_authority != '슈퍼 관리자';
+	</select>
+	<update id="updateAutoLogin">
+	UPDATE member
+	SET
+		me_session_id = #{user.me_session_id},
+		me_session_limit = #{user.me_session_limit}
+	WHERE
+		me_id = #{user.me_id}
+	</update>
+	<select id="selectMemberBySessionId" resultType="kr.green.spring.vo.MemberVO">
+	SELECT * FROM member
+	WHERE
+		me_session_id = #{me_session_id}
+	AND
+		me_session_limit >= now();
+	</select>
+	
+	
+	
+	<select id="ParamTest1" resultType="kr.green.spring.vo.MemberVO">
+	SELECT * FROM member
+	WHERE
+		me_id=#{user.me_id}
+	</select>
+	
+	<select id="ParamTest2" resultType="kr.green.spring.vo.MemberVO">
+	SELECT * FROM member
+	WHERE
+		me_id=#{me_id}
 	</select>
 </mapper>

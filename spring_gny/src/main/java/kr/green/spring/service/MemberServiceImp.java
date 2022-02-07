@@ -173,5 +173,19 @@ public class MemberServiceImp implements MemberService{
 		//랜덤 수가 36~61이면 문자 A~Z
 		return newPw;
 	}
+
+	@Override
+	public void updateAutoLogin(MemberVO user) {
+		if(user == null) return;
+		memberDao.updateAutoLogin(user);
+		
+	}
+
+	@Override
+	public MemberVO selectMemberBySessionId(String me_session_id) {
+		
+		return memberDao.selectMemberBySessionId(me_session_id);
+	}
+
 	
 }

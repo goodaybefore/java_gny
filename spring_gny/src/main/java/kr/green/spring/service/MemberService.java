@@ -17,4 +17,10 @@ public interface MemberService {
 	String findId(MemberVO member);
 	String findPW(MemberVO member);
 	
+	//자동로그인
+	void updateAutoLogin(MemberVO user);
+	MemberVO selectMemberBySessionId(String value);
+	
+	
+	
 }

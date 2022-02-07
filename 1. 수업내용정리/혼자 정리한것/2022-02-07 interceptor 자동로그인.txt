@@ -1,0 +1,26 @@
+세션 : 서버에 저장된 정보
+쿠키 : 클라이언트에 저장된 정보
+
+★ member Table에 me_session_id, me_session_limit 추가했음
+
+loginpost화면 넘어가기 전에 자동로그인에 체크하는 interceptor 만들기
+
+
+- 자동로그인하면 어느 링크로 오든 바로 로그인된 상태여야함.
+- interceptor만들기
+
+
+DAO에서 @Param 차이 :  String일때는 Parame을 붙인것과 아닌것과 차이가 없음
+근데 VO류는 붙인거랑 아닌거랑 차이가 있음
+VO류는 하나만 들어가면 Param 안붙이는게 편하긴 한데
+매개변수가 두개 이상이면 무조건 Param을 붙여야함 !! 아니면 에러남
+
+★ 카테고리를 위한 테이블 생성했음
+mainCategory - 번호, 대분류명
+middleCategory - 번호, 대분류번호, 중분류명
+subCategory - 번호, 중분류번호, 소분류명
+
+category - 번호, 대분류명, 중분류명, 소분류명
+
+어떤 제품은 대 중 소로 구분
+어떤 제품은 대 중으로 구분

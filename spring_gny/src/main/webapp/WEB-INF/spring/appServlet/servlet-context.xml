@@ -56,6 +56,10 @@
 	<beans:bean id="guestInterceptor" 
 	class="kr.green.spring.interceptor.GuestInterceptor"></beans:bean>
 	
+	<!-- AutoLoginInterceptor-->
+	<beans:bean id="autologinInterceptor" 
+	class="kr.green.spring.interceptor.AutoLoginInterceptor"></beans:bean>
+	
 	<!-- 등록된 Interceptor가 어떤 url에 동작할 지 설정해주는 태그 -->
 	<interceptors>
 	    <interceptor>
@@ -80,6 +84,12 @@
 	        <mapping path="/login"/>
 	        <mapping path="/signup"/>
 	        <beans:ref bean="guestInterceptor"/>
+	    </interceptor>
+	    
+	     <interceptor>
+	     	<!-- 모든 url대상으로 허용이라는 뜻...?! -->
+	        <mapping path="/**/"/>
+	        <beans:ref bean="autologinInterceptor"/>
 	    </interceptor>
 	    
 	</interceptors>

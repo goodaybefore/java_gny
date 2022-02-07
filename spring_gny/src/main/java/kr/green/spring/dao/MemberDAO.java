@@ -1,5 +1,7 @@
 package kr.green.spring.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import kr.green.spring.vo.MemberVO;
 
@@ -13,4 +15,17 @@ public interface MemberDAO {
 	//회원정보수정(/mypage)
 	void updateMember(@Param("user")MemberVO user);
 	MemberVO findMember(@Param("user")MemberVO member);
+	
+	//AdminController
+	//전체 회원 불러오기
+	List<MemberVO> selectMemberList();
+	
+	//자동로그인 session저장
+	void updateAutoLogin(@Param("user")MemberVO user);
+	MemberVO selectMemberBySessionId(@Param("me_session_id")String me_session_id);
+	
+	
+	//Param Test
+	MemberVO ParamTest1(@Param("user")MemberVO user);
+	MemberVO ParamTest2(MemberVO user);
 }
