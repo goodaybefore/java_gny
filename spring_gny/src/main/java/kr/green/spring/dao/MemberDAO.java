@@ -3,7 +3,11 @@ package kr.green.spring.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+
+import kr.green.spring.vo.MainCategoryVO;
 import kr.green.spring.vo.MemberVO;
+import kr.green.spring.vo.MiddleCategoryVO;
+import kr.green.spring.vo.SubCategoryVO;
 
 public interface MemberDAO {
 	//@Param("me_id")를 붙여줘야함
@@ -28,4 +32,9 @@ public interface MemberDAO {
 	//Param Test
 	MemberVO ParamTest1(@Param("user")MemberVO user);
 	MemberVO ParamTest2(MemberVO user);
+	
+	//대중소분류
+	List<MainCategoryVO> selectMainCategory();
+	List<MiddleCategoryVO> selectMiddleCategory(@Param("mi_ma_num")Integer mi_ma_num);
+	List<SubCategoryVO> selectSubCategory(@Param("su_mi_num")Integer su_mi_num);
 }

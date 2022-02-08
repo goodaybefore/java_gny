@@ -70,4 +70,16 @@
 	WHERE
 		me_id=#{me_id}
 	</select>
+	
+	<select id="selectMainCategory" resultType="kr.green.spring.vo.MainCategoryVO">
+	SELECT * FROM maincategory;
+	</select>
+	
+	<select id="selectMiddleCategory" resultType="kr.green.spring.vo.MiddleCategoryVO">
+	SELECT * FROM middlecategory
+	WHERE mi_ma_num = #{mi_ma_num};
+	</select>
+	<select id="selectSubCategory" resultType="kr.green.spring.vo.SubCategoryVO">
+	SELECT * FROM subcategory WHERE su_mi_num = #{su_mi_num};
+	</select>
 </mapper>
