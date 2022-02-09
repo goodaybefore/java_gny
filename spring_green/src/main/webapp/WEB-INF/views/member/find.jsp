@@ -69,8 +69,37 @@
 					}
 		        }
 			});
-		})
-	})
+		});
+		$('.btn-find-pw').click(function(){
+			var me_email = $(this).siblings().find('[name=me_email]').val();
+			var me_id= $(this).siblings().find('[name=me_id]').val();
+			var member ={
+					me_email : me_email,
+					me_id : me_id
+			};
+			
+			$.ajax({
+		    	async : false,
+		        type:'POST',
+		        url:'<%=request.getContextPath()%>/member/find/pw',
+		        data:JSON.stringify(member),
+		        //화면이 서버로 보낸 데이터의 타입
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(res){
+					if(res == 'true'){
+						alert('등록된 이메일로 비밀번호를 전송하였습니다.');
+					}else if(res == 'false'){
+						alert('비밀번호 전송에 실패하였습니다. 다시 시도해주세요.');
+					}
+					else if(res == 'error'){
+						alert('비밀번호 전송에 실패하였습니다. 관리자에게 문의해주세요.');
+					}
+		        }
+			});
+			
+		});
+		
+	});
 	</script>
 </body>
 </html>

@@ -122,4 +122,12 @@ public class HomeController {
 	public String findIdPost(@RequestBody MemberVO member){
 		return memberService.findId(member);
 	}
+	//pw찾기
+	@ResponseBody
+	@RequestMapping(value = "/member/find/pw", method=RequestMethod.POST)
+	public String findPwPost(@RequestBody MemberVO member){
+		
+		return memberService.findPw(member);
+	}
+	
 }

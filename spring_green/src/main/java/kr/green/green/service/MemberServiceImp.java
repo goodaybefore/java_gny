@@ -1,6 +1,10 @@
 package kr.green.green.service;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +15,10 @@ import kr.green.green.vo.MemberVO;
 public class MemberServiceImp implements MemberService{
 	@Autowired
 	MemberDAO memberDao;
-	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private JavaMailSender mailSender;
 
 	@Override
 	public MemberVO testSQL(String id) {
@@ -112,6 +117,60 @@ public class MemberServiceImp implements MemberService{
 		MemberVO findUser = memberDao.selectMemberByEmail(member);
 		if(findUser == null) return null;
 		return findUser.getMe_id();
+	}
+
+	@Override
+	public String findPw(MemberVO member) {
+		if(member == null || member.getMe_email() == null || member.getMe_id()==null) return "false";
+		MemberVO dbuser = memberDao.selectMember(member.getMe_id());
+		if(dbuser == null || !dbuser.getMe_email().equals(member.getMe_email())) return "false";
+		
+		//랜덤한 n자리 숫자 만들기
+		String newPw = createRandom(6);
+		//비번 암호화해서 DB에 저장
+		String encPw = passwordEncoder.encode(newPw);
+		dbuser.setMe_pw(encPw);
+		memberDao.updateMember(dbuser);
+		
+		//변경된 비밀번호를 이메일로 보내주기
+		String setfrom = "goodaybefore@gmail.com";         
+	    String tomail  = member.getMe_email();     // 받는 사람 이메일
+	    String title   = "변경된 비밀번호 안내";      // 제목
+	    String content = "변경된 비밀번호는 "+newPw+" 입니다.";    // 내용
+
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper 
+	            = new MimeMessageHelper(message, true, "UTF-8");
+
+	        messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	        messageHelper.setTo(tomail);     // 받는사람 이메일
+	        messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	        messageHelper.setText(content);  // 메일 내용
+	        mailSender.send(message);
+	    } catch(Exception e){
+	        System.out.println(e);
+	        return "errer";
+	    }
+		
+		return "true";
+	}
+
+	private String createRandom(int size) {
+		String newPw = "";
+		//size 길이만큼 만들어야하니까 반복
+		for(int i=0;i<size;i++) {
+			int max = 61, min = 0;
+			int rand = (int)(Math.random()*(max - min + 1)+min);
+			if(rand>=0 && rand <=9) {
+				newPw += (char)('0' + rand);//'0'으로부터 rand번째에 있는 char
+			}else if(rand<=35) {
+				newPw += (char)('a' + (rand-10));
+			}else if(rand<=61) {
+				newPw += (char)('A' + (rand-36));
+			}
+		}
+		return newPw;
 	}
 	
 }
