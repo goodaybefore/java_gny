@@ -63,7 +63,7 @@
 		</c:if>
 		<div class="justify-content-center like-box" style="display : flex;">
 			<button class="btn btn-outline-primary btn-like-up" data-like="1">추천</button>
-			<button class="btn btn-outline-primary btn-like-down" data-like="-1">비추천</button>
+			<button class="btn btn-outline-danger btn-like-down" data-like="-1">비추천</button>
 		</div>
 		<!-- 댓글 -->
 		<hr class="mt-3">
@@ -295,14 +295,15 @@
 	        data:JSON.stringify(likes),
 	        contentType:"application/json; charset=UTF-8",
 	        success : function(res){
-	        	$('.like-box .btn').removeClass('btn-primary').addClass('btn-outline-primary');
+	        	$('.btn-like-up').removeClass('btn-primary').addClass('btn-outline-primary');
+	        	$('.btn-like-down').removeClass('btn-danger').addClass('btn-outline-danger');
 	        	//$('.like-box .btn').each(function(){
 	        		//if($(this).data('like') == res){
 	        			//$(this).removeClass('btn-outline-primary').addClass('btn-primary');
 	        		//}
 	        	//})
 	        	if(res == -1){
-	        		$('.btn-like-down').removeClass('btn-outline-primary').addClass('btn-primary');
+	        		$('.btn-like-down').removeClass('btn-outline-danger').addClass('btn-danger');
 	        	}else if(res == 1){
 	        		$('.btn-like-up').removeClass('btn-outline-primary').addClass('btn-primary');
 	        	}
