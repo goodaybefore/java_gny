@@ -103,5 +103,15 @@ public class MemberServiceImp implements MemberService{
 		
 		return input;
 	}
+
+	@Override
+	public String findId(MemberVO member) {
+		if(member == null || member.getMe_email() == null || member.getMe_name() == null) return null;
+		//이메일, 이름으로 아이디 찾기
+		//mapper에서 limit 1 해주기 => 1개만 선택되도록
+		MemberVO findUser = memberDao.selectMemberByEmail(member);
+		if(findUser == null) return null;
+		return findUser.getMe_id();
+	}
 	
 }

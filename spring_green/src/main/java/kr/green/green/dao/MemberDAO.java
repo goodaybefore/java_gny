@@ -13,4 +13,6 @@ public interface MemberDAO {
 	MemberVO selectMember(@Param("me_id")String me_id);
 	//회원 정보 수정
 	void updateMember(@Param("user")MemberVO input);
+	//회원 ID 찾기
+	MemberVO selectMemberByEmail(@Param("user")MemberVO member);
 }

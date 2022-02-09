@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -106,5 +107,19 @@ public class HomeController {
 		}
 		mv.setViewName("/member/mypage");
 		return mv;
+	}
+	
+	
+	//find
+	@RequestMapping(value = "/member/find", method=RequestMethod.GET)
+	public ModelAndView findGet(ModelAndView mv){
+		mv.setViewName("/member/find");
+		return mv;
+	}
+	//id찾기
+	@ResponseBody
+	@RequestMapping(value = "/member/find/id", method=RequestMethod.POST)
+	public String findIdPost(@RequestBody MemberVO member){
+		return memberService.findId(member);
 	}
 }

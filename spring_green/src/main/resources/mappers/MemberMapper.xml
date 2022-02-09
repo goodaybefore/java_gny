@@ -15,17 +15,25 @@
   </select>
   
   <update id="updateMember">
-  UPDATE member
-  SET
-  	me_pw = #{user.me_pw},
-  	me_name = #{user.me_name},
-  	me_birth = #{user.me_birth},
-  	me_gender = #{user.me_gender},
-  	me_address = #{user.me_address},
-  	me_phone = #{user.me_phone},
-  	me_authority= #{user.me_authority}
-  WHERE
-  	me_id = #{user.me_id};
-  	
+	  UPDATE member
+	  SET
+	  	me_pw = #{user.me_pw},
+	  	me_name = #{user.me_name},
+	  	me_birth = #{user.me_birth},
+	  	me_gender = #{user.me_gender},
+	  	me_address = #{user.me_address},
+	  	me_phone = #{user.me_phone},
+	  	me_authority= #{user.me_authority}
+	  WHERE
+	  	me_id = #{user.me_id};
   </update>
+  
+  <select id="selectMemberByEmail" resultType="kr.green.green.vo.MemberVO">
+	  SELECT * FROM member
+	  WHERE
+	  	me_email = #{user.me_email}
+	  AND
+	  	me_name = #{user.me_name}
+	  LIMIT 1;
+  </select>
 </mapper>
