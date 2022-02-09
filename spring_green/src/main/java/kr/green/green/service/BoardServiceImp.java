@@ -13,6 +13,7 @@ import kr.green.green.pagination.Criteria;
 import kr.green.green.utils.UploadFileUtils;
 import kr.green.green.vo.BoardVO;
 import kr.green.green.vo.FileVO;
+import kr.green.green.vo.LikesVO;
 import kr.green.green.vo.MemberVO;
 
 @Service
@@ -231,4 +232,39 @@ public class BoardServiceImp implements BoardService{
 	public void updateViews(Integer bd_num) {
 		boardDao.updateViews(bd_num);
 	}
+	
+	@Override
+	public String setLikes(LikesVO likes, MemberVO user) {
+		if(user == null || likes==null) return "fail";
+		if(likes.getLi_me_id() == null || !likes.getLi_me_id().equals(user.getMe_id())) return "fail";
+		LikesVO dbLikes = boardDao.selectLikes(likes);
+		
+		//좋아요 누른적 없으면
+		if(dbLikes == null) {
+			boardDao.insertLikes(likes);
+			return ""+likes.getLi_state();
+		}
+		//누른적있으면
+		//취소하는경우(지금누른거랑 같은경우)
+		if(dbLikes.getLi_state() == likes.getLi_state()) {
+			likes.setLi_state(0);
+			boardDao.updateLikes(likes);
+			return "0";
+		}
+		//변경하는경우(지금 누른거랑 다른 경우)
+		boardDao.updateLikes(likes);
+		boardDao.updateBoardLikes(likes);
+		return ""+likes.getLi_state();
+	}
+	
+	@Override
+	public String viewLikes(LikesVO likes, MemberVO user) {
+		if(likes==null || user == null) return "0";
+		//likes.setLi_me_id(user.getMe_id()); //script에서 like 보내줄 때 li_bd_num만 보내줬다면 이 문장이 필요
+		LikesVO dbLikes = boardDao.selectLikes(likes);
+		if(dbLikes == null) return "0";
+		return ""+dbLikes.getLi_state();
+	}
+
+	
 }

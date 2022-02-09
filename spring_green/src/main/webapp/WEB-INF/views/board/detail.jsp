@@ -61,6 +61,10 @@
 				<button class="btn btn-outline-warning">답변</button>
 			</a>
 		</c:if>
+		<div class="justify-content-center like-box" style="display : flex;">
+			<button class="btn btn-outline-primary btn-like-up" data-like="1">추천</button>
+			<button class="btn btn-outline-primary btn-like-down" data-like="-1">비추천</button>
+		</div>
 		<!-- 댓글 -->
 		<hr class="mt-3">
 		<div class="comment-list">
@@ -233,12 +237,80 @@
 		})
 		
 		
+		
+		$('.like-box .btn').click(function(){
+			var li_state = $(this).data('like');
+			var li_bd_num = '${board.bd_num}';
+			var li_me_id = '${user.me_id}';
+			var likes = {
+					li_state : li_state,
+					li_bd_num : li_bd_num,
+					li_me_id : li_me_id
+			};
+			if(li_me_id==''){
+				alert('로그인한 회원만 추천/비추천이 가능합니다.')
+				return;
+			}
+			
+			$.ajax({
+		    	async : false,
+		        type:'POST',
+		        url:'<%=request.getContextPath()%>/board/likes',
+		        data:JSON.stringify(likes),
+		        //화면이 서버로 보낸 데이터의 타입
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(res){
+		        	if(res == 1){
+		        		alert('추천했습니다')
+		        	}else if(res == -1){
+		        		alert('비추천했습니다')
+		        	}else if(res != 'fail'){
+		        		var str = li_state == 1 ?'추천':'비추천';
+		        		alert(str+'을 취소하였습니다.')
+		        	}
+		        	viewLikes(likes);
+		        }
+			});
+		})
+		
 	});
+	
+	var likes = {
+			li_bd_num : '${board.bd_num}',
+			li_me_id : '${user.me_id}'
+		}
+	viewLikes(likes);
+		
 	
 	
 	
 	
 	// ================= 함수리스트 =================
+	
+	function viewLikes(likes){
+		$.ajax({
+	    	async : false,
+	        type:'POST',
+	        url:'<%=request.getContextPath()%>/board/view/likes',
+	        data:JSON.stringify(likes),
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(res){
+	        	$('.like-box .btn').removeClass('btn-primary').addClass('btn-outline-primary');
+	        	//$('.like-box .btn').each(function(){
+	        		//if($(this).data('like') == res){
+	        			//$(this).removeClass('btn-outline-primary').addClass('btn-primary');
+	        		//}
+	        	//})
+	        	if(res == -1){
+	        		$('.btn-like-down').removeClass('btn-outline-primary').addClass('btn-primary');
+	        	}else if(res == 1){
+	        		$('.btn-like-up').removeClass('btn-outline-primary').addClass('btn-primary');
+	        	}
+	        }
+		});
+	}
+		
+		
 	//댓글 리스트 불러오기 성공시 불러올 함수
 	function listSuccess(res){
 		var str ='';

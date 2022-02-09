@@ -2,7 +2,6 @@ package kr.green.green.controller;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +25,7 @@ import kr.green.green.pagination.PageMaker;
 import kr.green.green.service.BoardService;
 import kr.green.green.vo.BoardVO;
 import kr.green.green.vo.FileVO;
+import kr.green.green.vo.LikesVO;
 import kr.green.green.vo.MemberVO;
 
 @Controller
@@ -188,5 +189,23 @@ public class BoardController {
 	        in.close();
 	    }
 	    return entity;
+	}
+	
+	//좋아요 눌렀을떄
+	@ResponseBody
+	@RequestMapping(value="/likes")
+	public String BoardLikes(HttpServletRequest request,@RequestBody LikesVO likes) {
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		
+		return boardService.setLikes(likes, user);
+	} 
+	
+	//좋아요 표시할떄
+	@ResponseBody
+	@RequestMapping(value="/view/likes")
+	public String BoardViewLikes(HttpServletRequest request,@RequestBody LikesVO likes) {
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		
+		return boardService.viewLikes(likes, user);
 	}
 }
