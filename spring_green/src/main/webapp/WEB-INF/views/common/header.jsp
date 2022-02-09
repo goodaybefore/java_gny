@@ -28,6 +28,9 @@
 		  	<li class="nav-item">
 		      <a class="nav-link" href="<%= request.getContextPath()%>/logout">logout</a>
 		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link" href="<%= request.getContextPath()%>/mypage">mypage</a>
+		    </li>
 		  </c:if>
 		  <li class="nav-item">
 		      <a class="nav-link" href="<%= request.getContextPath()%>/board/list?type=공지">notice</a>

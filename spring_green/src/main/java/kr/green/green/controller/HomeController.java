@@ -94,4 +94,17 @@ public class HomeController {
 		System.out.println(me_id);
 		return memberService.idCheck(me_id);
 	}
+	
+	
+	//mypage
+	@RequestMapping(value = "/mypage")
+	public ModelAndView mypage(ModelAndView mv, HttpServletRequest request, MemberVO input){
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		MemberVO modUser = memberService.updateMember(input, user);
+		if(modUser != null) {
+			request.getSession().setAttribute("user", input);
+		}
+		mv.setViewName("/member/mypage");
+		return mv;
+	}
 }

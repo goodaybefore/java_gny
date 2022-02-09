@@ -71,5 +71,37 @@ public class MemberServiceImp implements MemberService{
 		if(user==null) return "true";
 		else return "false";
 	}
+
+	@Override
+	public MemberVO updateMember(MemberVO input, MemberVO user) {
+		if(user == null || input == null || input.getMe_id() == null || input.getMe_id().length()==0) return null;
+		if(input.getMe_name()==null || input.getMe_birth()==null||input.getMe_gender()==null) return null;
+		
+		//아이디 덮어쓰기
+		input.setMe_id(user.getMe_id());
+		//권한 덮어쓰기
+		input.setMe_authority(user.getMe_authority());
+		System.out.println("input : "+input);
+		//비번입력 안한경우
+		if(input.getMe_pw() == null || input.getMe_pw().length() == 0) {
+			input.setMe_pw(user.getMe_pw());
+		}else {
+		//비번입력을 한 경우
+			String encPw = passwordEncoder.encode(input.getMe_pw());
+			input.setMe_pw(encPw);
+		}
+		//주소입력 안한경우
+		if(input.getMe_address() == null || input.getMe_address().length()==0) {
+			input.setMe_address(user.getMe_address());
+		}
+		//폰번호 입력 안한경우
+		if(input.getMe_phone()== null)
+			input.setMe_phone(user.getMe_phone());
+		
+		//변경사항 반영
+		memberDao.updateMember(input);
+		
+		return input;
+	}
 	
 }

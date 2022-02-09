@@ -11,6 +11,10 @@ public interface MemberService {
 
 	String idCheck(String me_id);
 
+	//회원 정보 수정
+	MemberVO updateMember(MemberVO input, MemberVO user);
+	
+
 
 
 }

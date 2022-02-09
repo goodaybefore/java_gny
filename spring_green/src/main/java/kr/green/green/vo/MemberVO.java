@@ -27,6 +27,11 @@ public class MemberVO {
 	private String me_phone;
 	private String me_authority;
 	
+	
+	public String getMe_birth_str() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return format.format(me_birth);
+	}
 	/*
 	//birth Date 처리
 	//java day18 Date클래스 - ExbDateEx1

@@ -11,4 +11,6 @@ public interface MemberDAO {
 	MemberVO getMember(@Param("me_id")String me_id);
 	void insertMember(@Param("user")MemberVO user);
 	MemberVO selectMember(@Param("me_id")String me_id);
+	//회원 정보 수정
+	void updateMember(@Param("user")MemberVO input);
 }
