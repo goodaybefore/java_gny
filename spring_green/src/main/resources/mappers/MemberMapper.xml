@@ -36,4 +36,14 @@
 	  	me_name = #{user.me_name}
 	  LIMIT 1;
   </select>
+  <select id="selectAllMember" resultType="kr.green.green.vo.MemberVO">
+  SELECT * FROM member WHERE me_authority != '슈퍼 관리자';
+  </select>
+  <update id="updateAuthority">
+  UPDATE member
+  SET
+  	me_authority = #{user.me_authority}
+  WHERE
+  	me_id = #{user.me_id};
+  </update>
 </mapper>

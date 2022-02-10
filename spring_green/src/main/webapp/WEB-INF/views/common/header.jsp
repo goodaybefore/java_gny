@@ -41,6 +41,11 @@
 		  <li class="nav-item">
 		      <a class="nav-link" href="<%= request.getContextPath()%>/board/list?type=qna">QnA</a>
 		  </li>
+		  <c:if test="${user.me_authority == '슈퍼 관리자' }">
+		  	<li class="nav-item">
+		      <a class="nav-link" href="<%= request.getContextPath()%>/admin/member/modify">manage</a>
+		  	</li>
+		  </c:if>
 		    
 	  </ul>
 	</nav>

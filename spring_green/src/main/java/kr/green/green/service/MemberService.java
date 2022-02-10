@@ -1,5 +1,7 @@
 package kr.green.green.service;
 
+import java.util.List;
+
 import kr.green.green.vo.MemberVO;
 
 public interface MemberService {
@@ -19,6 +21,11 @@ public interface MemberService {
 	String findId(MemberVO member);
 	//비번찾기
 	String findPw(MemberVO member);
+	
+	//회원관리
+	List<MemberVO> getAllMember();
+	//회원 권한 수정
+	String updateAuthority(MemberVO member, MemberVO user);
 	
 
 

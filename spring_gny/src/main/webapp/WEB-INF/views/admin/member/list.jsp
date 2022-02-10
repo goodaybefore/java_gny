@@ -47,7 +47,7 @@
 		$.ajax({
 			async :false, 
 		    type:'POST',
-		    data:JSON.stringify(member),어
+		    data:JSON.stringify(member),
 		    url: '<%= request.getContextPath()%>/admin/update/authority',
 		    contentType:"application/json; charset=UTF-8",
 		    success : function(res){
