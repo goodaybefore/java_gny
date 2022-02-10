@@ -1,8 +1,10 @@
 package kr.green.green.controller;
 
-import java.util.Map;
+
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,11 +71,9 @@ public class HomeController {
 		
 		if(loginUser==null) {
 			mv.setViewName("redirect:/login");
-			
-//			mv.setViewName("member/login");//은 안되나범
 		}else {
+			loginUser.setMe_auto_login(user.getMe_auto_login());//로그인되면 로그인된 유저한테 me_auto_login 넘겨줌
 			mv.setViewName("redirect:/");
-			//인터셉터한테 정보 주는 역할
 			mv.addObject("user",loginUser);
 			
 		}
@@ -82,10 +82,17 @@ public class HomeController {
 	
 	//로그아웃get
 	@RequestMapping(value = "/logout", method=RequestMethod.GET)
-	public ModelAndView logoutGet(ModelAndView mv, HttpServletRequest request){
-		System.out.println("/logout");
-		//세션에 있는 유저정보를 삭제
-		request.getSession().removeAttribute("user");
+	public ModelAndView logoutGet(ModelAndView mv, HttpSession session){
+		
+		//세션에 있는 유저정보/자동로그인 정보를 삭제
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		session.removeAttribute("user");
+		
+		user.setMe_session_limit(new Date());
+		user.setMe_session_id("none");
+		memberService.updateAutologin(user);
+		
+		
 		mv.setViewName("redirect:/");
 		return mv;
 	}

@@ -47,6 +47,9 @@
 	<!-- 멤버인터셉터 -->
 	<beans:bean id="memberInterceptor" 
 	class="kr.green.green.interceptor.MemberInterceptor"></beans:bean>
+	<!-- 로그인유지기능 -->
+	<beans:bean id="autoInterceptor" 
+	class="kr.green.green.interceptor.AutoLoginInterceptor"></beans:bean>
 	
 	<interceptors>
 	    <interceptor>
@@ -64,6 +67,10 @@
 	    	<mapping path="/board/modify"/>
 	    	<mapping path="/mypage"/>
 	        <beans:ref bean="memberInterceptor"/>
+		</interceptor>
+		<interceptor>
+	    	<mapping path="/**"/>
+	        <beans:ref bean="autoInterceptor"/>
 		</interceptor>
 	</interceptors>
 	

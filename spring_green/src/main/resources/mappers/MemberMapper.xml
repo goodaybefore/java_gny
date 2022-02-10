@@ -46,4 +46,22 @@
   WHERE
   	me_id = #{user.me_id};
   </update>
+  
+  <update id="updateSession">
+  	UPDATE member
+  	SET
+  		me_session_id = #{user.me_session_id},
+  		me_session_limit = #{user.me_session_limit}
+  	WHERE
+  		me_id = #{user.me_id};
+  		
+  </update>
+  
+  <select id="selectMemberBySessionId" resultType="kr.green.green.vo.MemberVO">
+	  SELECT * FROM member
+	  WHERE
+	  	me_session_id = #{me_session_id}
+	  AND
+	  	me_session_limit >= now();
+  </select>
 </mapper>

@@ -26,6 +26,11 @@ public interface MemberService {
 	List<MemberVO> getAllMember();
 	//회원 권한 수정
 	String updateAuthority(MemberVO member, MemberVO user);
+
+	void updateAutologin(MemberVO user);
+	
+	//로그인 유지 기능
+	MemberVO selectMemberBySessionId(String value);
 	
 
 

@@ -193,5 +193,19 @@ public class MemberServiceImp implements MemberService{
 		memberDao.updateAuthority(member);
 		return "true";
 	}
+
+	@Override
+	public void updateAutologin(MemberVO user) {
+		if(user == null) return;
+		memberDao.updateSession(user);
+		
+		
+	}
+
+	@Override
+	public MemberVO selectMemberBySessionId(String me_session_id) {
+		
+		return memberDao.selectMemberBySessionId(me_session_id);
+	}
 	
 }

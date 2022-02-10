@@ -22,4 +22,8 @@ public interface MemberDAO {
 	List<MemberVO> selectAllMember();
 	//회원 권한 변경
 	void updateAuthority(@Param("user")MemberVO member);
+	
+	//로그인유지
+	void updateSession(@Param("user")MemberVO user);
+	MemberVO selectMemberBySessionId(@Param("me_session_id")String me_session_id);
 }

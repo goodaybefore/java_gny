@@ -25,11 +25,25 @@
 			</div>
 			<div class="form-group">
 				<a href="<%=request.getContextPath()%>/member/find">아이디/비밀번호 찾기</a>
+				<div class="" style="float:right;">
+					<input type="checkbox" class="form-check-input" name="me_auto_login" value="true"> 자동로그인
+				</div>
 			</div>
+			
 			<button class="btn btn-outline-success col-12">로그인</button>
 			</form>
 		</div>
 	</div>
+	<script>
+	$(function(){
+		
+		$('.auto-login').on('click', function(){
+			
+			var check = $(this).is('checked');
+			console.log(check);	
+		})
+	})
+	</script>
 </body>
 </html>
 
