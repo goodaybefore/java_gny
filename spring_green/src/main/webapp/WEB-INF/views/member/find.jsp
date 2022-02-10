@@ -5,6 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.spinner-box{
+		position : absolute; top : calc(50vh - 16px);
+		left : calc(50vw - 16px); width : 32px; height : 32px;
+		display : none; 
+		}
+</style>
 </head>
 <body>
 	<div class="container body">
@@ -45,7 +52,11 @@
 		    <button class="btn btn-outline-success btn-find-pw col-12">비밀번호 찾기</button>
 		  </div>
 		</div>
+		<div class="spinner-box">
+			<div class="spinner-border"></div>
+		</div>
 	</div>
+	
 	<script>
 	$(function(){
 		$('.btn-find-id').click(function(){
@@ -77,25 +88,29 @@
 					me_email : me_email,
 					me_id : me_id
 			};
+			$('.spinner-box').show();
+			setTimeout(()=> {
+				$.ajax({
+			    	async : false,
+			        type:'POST',
+			        url:'<%=request.getContextPath()%>/member/find/pw',
+			        data:JSON.stringify(member),
+			        //화면이 서버로 보낸 데이터의 타입
+			        contentType:"application/json; charset=UTF-8",
+			        success : function(res){
+						if(res == 'true'){
+							alert('등록된 이메일로 비밀번호를 전송하였습니다.');
+						}else if(res == 'false'){
+							alert('비밀번호 전송에 실패하였습니다. 다시 시도해주세요.');
+						}
+						else if(res == 'error'){
+							alert('비밀번호 전송에 실패하였습니다. 관리자에게 문의해주세요.');
+						}
+						$('.spinner-box').hide();
+			        }
+				});
+			},100)
 			
-			$.ajax({
-		    	async : false,
-		        type:'POST',
-		        url:'<%=request.getContextPath()%>/member/find/pw',
-		        data:JSON.stringify(member),
-		        //화면이 서버로 보낸 데이터의 타입
-		        contentType:"application/json; charset=UTF-8",
-		        success : function(res){
-					if(res == 'true'){
-						alert('등록된 이메일로 비밀번호를 전송하였습니다.');
-					}else if(res == 'false'){
-						alert('비밀번호 전송에 실패하였습니다. 다시 시도해주세요.');
-					}
-					else if(res == 'error'){
-						alert('비밀번호 전송에 실패하였습니다. 관리자에게 문의해주세요.');
-					}
-		        }
-			});
 			
 		});
 		

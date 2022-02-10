@@ -159,15 +159,17 @@ public class MemberServiceImp implements MemberService{
 	private String createRandom(int size) {
 		String newPw = "";
 		//size 길이만큼 만들어야하니까 반복
-		for(int i=0;i<size;i++) {
-			int max = 61, min = 0;
-			int rand = (int)(Math.random()*(max - min + 1)+min);
-			if(rand>=0 && rand <=9) {
+		for(int i=1;i<=size;i++) {
+			int max = 62, min = 1;
+			//int rand = (int)(Math.random()*(max - min + 1)+min);
+			int rand = (int)(Math.random()*62);
+			
+			if(rand>=0 && rand <10) {
 				newPw += (char)('0' + rand);//'0'으로부터 rand번째에 있는 char
-			}else if(rand<=35) {
-				newPw += (char)('a' + (rand-10));
-			}else if(rand<=61) {
-				newPw += (char)('A' + (rand-36));
+			}else if(rand < 36) {
+				newPw += (char)('a' + (rand - 10));
+			}else if(rand < 62) {
+				newPw += (char)('A' + (rand - 36));
 			}
 		}
 		return newPw;
