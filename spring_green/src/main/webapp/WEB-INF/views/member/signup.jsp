@@ -17,9 +17,15 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<!-- datapicker -->
 	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-
+	
+	<!-- 정규표현식 -->
+	<script src="<%=request.getContextPath()%>//resources/js/jquery.validate.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/additional-methods.js"></script>
 	<style>
 
+	</style>
+	<style>
+		.error{ color : red; }
 	</style>
 </head>
 <body>
@@ -44,10 +50,10 @@
 				<button type="button" class="btn btn-info form-control" id="idcheck">중복확인</button>
 			</div>
 			<div class="form-group">
-				<input type="password" class="form-control" placeholder="비밀번호" name="me_pw" value="${user.me_pw}">
+				<input type="password" class="form-control" placeholder="비밀번호" name="me_pw" id="pw" value="${user.me_pw}">
 			</div>
 			<div class="form-group">
-				<input type="password" class="form-control" placeholder="비밀번호확인" name="pw2"">
+				<input type="password" class="form-control" placeholder="비밀번호확인" name="pw2">
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control" placeholder="이름" name="me_name" value="${user.me_name}">
@@ -66,6 +72,9 @@
 					<label class="form-check-label">
 						<input type="radio" class="form-check-input" name="me_gender" value="male">남성
 					</label>
+				</div>
+				<div>
+					<label class="error" id="me_gender-error" for="me_gender"></label>
 				</div>
 			</div>
 			<div class="form-group">
@@ -126,16 +135,7 @@
 			let warnings = '';
 
 			$('form').submit(function(){
-				id = $('[name=me_id]').val();
-				pw = $('[name=me_pw]').val();
-				pw2 = $('[name=pw2]').val();
-				name = $('[name=me_name]').val();
-				birth = $('[name=me_birth]').val();
-				phone = $('[name=me_phone]').val();
-				let genderObj = $('[name=me_gender]:checked');
-				//선택된 성별이 없으면 체크된 내용의 길이가 0일것이므로 ''을 반환
-				gender = genderObj.length == 0 ? '' : genderObj.val();
-
+				
 				let isAgree = $('[name=agree]').is(':checked');
 				
 				
@@ -149,15 +149,7 @@
 					alert('아이디 중복체크를 하세요');
 					return false;
 				}
-				if(id==''){alert('아이디를 입력하세요'); $('[name=me_id]').focus(); return false;}
-				if(pw==''){alert('비밀번호를 입력하세요'); $('[name=me_pw]').focus(); return false;}
-				if(pw2!=pw){alert('비밀번호가 일치하지않습니다.'); $('[name=pw2]').focus(); return false;}
-				if(name==''){alert('이름을 입력하세요'); $('[name=me_name]').focus(); return false;}
-				if(birth==''){alert('생년월일을 입력하세요'); $('[name=me_birth]').focus(); return false;}
-				if(gender==''){alert('성별을 선택하세요'); $('[name=me_gender]').focus(); return false;}
-				if(phone==''){alert('핸드폰번호를 입력하하세요'); $('[name=me_phone]').focus(); return false;}
-				console.log('end!');
-
+				
 				let address = $('#address').val() + ' ' +$('#detailAddress').val();
 				$('[name=me_address]').val(address);
 				
@@ -165,6 +157,93 @@
 			})
 		});
 		
+		$(function(){
+			/* $("form").validate({
+				rules : {
+					//A : input, select, textarea 태그의 name을 써야함
+					//옵션 : required, minlength와 같은 지정된 속성
+					//옵션이 equalTo인 경우, 값으로 태그의 아이디가 와야함
+					A:{
+						옵션1 : 값,
+						옵션2 : 값
+					}
+				},
+				messages : {
+					A : {
+						옵션1 : 메세지,
+						옵션2 : 메세지
+					}
+				}
+			}); */
+			
+		    $("form").validate({
+		        rules: {
+		            me_id: {
+		                required : true,//필수항목인지 아닌지
+		                regex : /^[A-Za-z0-9][A-z0-9_-]{4,19}$/
+		            },
+		            me_pw: {//8~16자 영문 대소문자, 숫자, 특수문자를 사용
+		            	required : true,
+		                regex : /^[A-Za-z0-9-_!@#$%^&*]{8,16}$/
+		            },
+		            me_pw2: {
+		            	//require : true,
+		            	equalTo : pw
+		            },
+		            me_name: {
+		            	required : true
+		            },
+		            me_birth: {
+		            	required : true,
+		            	regex : /^\d{4}-\d{2}-\d{2}$/
+		            },
+		            me_phone: {
+		            	required : true,
+		            	regex : /^\d{3}-\d{4}-\d{4}$/
+		            },
+		            me_gender: {
+		            	required : true
+		            }
+		        },
+		        //규칙체크 실패시 출력될 메시지
+		        messages : {
+		        	 me_id: {
+			                required : "필수로 입력하세요",
+			                regex : "5~20자의 영문또는 소문자, 특수기호(-, _)fmf tkdydgktpdy"
+			            },
+			            me_pw: {//8~16자 영문 대소문자, 숫자, 특수문자를 사용
+			            	required : "필수로 입력하세요",
+			                regex : "8~16자의 영문 대소문자, 숫자, 특수문자를 사용하세요"
+			            },
+			            me_pw2: {
+			            	//require : true,
+			            	equalTo : '비밀번호와 일치하지 않습니다.'
+			            },
+			            me_name: {
+			            	required : "필수로 입력하세요",
+			            },
+			            me_birth: {
+			            	required : "필수로 입력하세요",
+			            	regex : 'yyyy-mm-dd형태로 입력하세요'
+			            },
+			            me_phone: {
+			            	required : "필수로 입력하세요",
+			            	regex : '000-0000-000 형태로 입력하세요.'
+			            },
+			            me_gender : {
+			            	required : '필수로 입력하세요.'
+			            }
+		        }
+		    });
+		})
+		$.validator.addMethod(
+		    "regex",
+		    function(value, element, regexp) {
+		        var re = new RegExp(regexp);
+		        return this.optional(element) || re.test(value);
+		    },
+		    "Please check your input."
+		);
 //address
 function execDaumPostcode() {
 	new daum.Postcode({
