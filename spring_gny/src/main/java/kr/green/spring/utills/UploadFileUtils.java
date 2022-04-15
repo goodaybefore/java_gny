@@ -50,6 +50,19 @@ public class UploadFileUtils {
 		return uploadFileName;
 	}
 	
+	
+	
+	
+	public static String calcPath(String uploadPath, String me_id) {
+		String idPath = File.separator+me_id;
+		//년도정보
+		//separator : 파일 경로 구분자. 파일 경로 구분시 /, \ 사용에 따라 넣어줌.
+		//uploadPath에 me_id로 된 폴더가 없으면 만들어줌 만들어줌. 있으면 그대로씀
+		makeIdDir(uploadPath, idPath);
+		return idPath;
+	}
+	
+	//trip 파일
 	//uploadPath를 기준으로 현재 날짜 경로를 알려주는 메소드
 	//이 때, 현재 날짜 경로에 맞는 폴더가 없으면 폴더를 생성
 	public static String calcPath(String uploadPath) {
@@ -70,8 +83,22 @@ public class UploadFileUtils {
 		makeDir(uploadPath, yearPath, monthPath, datePath);
 		
 		return datePath;
- 
 	}
+	
+	//프로필사진
+	public static void makeIdDir(String uploadPath, String paths) {
+		//paths[paths.length-1] : 마지막에 입력된 datePath
+		//해당된 폴더를 만들어서 폴더가 있는지 없는지 체크
+		if(new File(uploadPath + paths).exists())
+			return;
+		File dirPath = new File(uploadPath + paths);
+		//해당 경로에 임시 폴더와 같은 폴더가 없으면
+		if( !dirPath.exists())
+			//해당 폴더를 실제로 만듦
+			dirPath.mkdir();
+	}
+	
+	//trip 파일 저장
 	public static void makeDir(String uploadPath, String... paths) {
 		//paths[paths.length-1] : 마지막에 입력된 datePath
 		//해당된 폴더를 만들어서 폴더가 있는지 없는지 체크

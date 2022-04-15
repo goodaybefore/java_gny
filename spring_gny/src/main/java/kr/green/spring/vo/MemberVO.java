@@ -16,11 +16,11 @@ public class MemberVO {
 	private Date me_birth;
 	private String me_address;
 	private String me_phone;
+	private String me_ori_photo_name;
 	private String me_authority;
 	private String me_email;
 	private String me_session_id;
 	private Date me_session_limit;
-	
 	private String me_auto_login;
 	
 	
