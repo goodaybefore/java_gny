@@ -108,7 +108,7 @@
 			    	idCheck = res == 'ok' ? true : false;
 			    	
 			    	if(idCheck) alert('사용가능한 아이디');
-			    	else alert('이미 존재하는 아이디입니다.')
+			    	else alert('사용할 수 없는 아이디입니다.')
 			    	}
 			    });
 		})
